@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">Aflo</string>
+
+    <string name="login">Login</string>
+    <string name="signup">Create an account</string>
+    <string name="or">or</string>
+    <string name="guest">Guest</string>
+    <string name="continue_as">Continue as</string>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
