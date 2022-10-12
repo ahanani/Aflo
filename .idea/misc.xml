@@ -3,10 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/jalfo/OneDrive/Documents/CSTTerm3/COMP3717/Aflo/app/src/main/res/layout/activity_flight_departing_selection.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/jalfo/OneDrive/Documents/CSTTerm3/COMP3717/Aflo/app/src/main/res/layout/activity_landing.xml" value="0.33" />
-        <entry key="..\:/Users/jalfo/OneDrive/Documents/CSTTerm3/COMP3717/Aflo/app/src/main/res/layout/activity_login.xml" value="0.33" />
-        <entry key="..\:/Users/jalfo/OneDrive/Documents/CSTTerm3/COMP3717/Aflo/app/src/main/res/layout/activity_main.xml" value="0.33695652173913043" />
+        <entry key="app/src/main/res/layout/activity_flight_departing_selection.xml" value="0.21822916666666667" />
       </map>
     </option>
   </component>
