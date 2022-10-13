@@ -8,7 +8,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/logoLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="50dp"
@@ -30,7 +30,7 @@
             android:text="@string/email_login" />
 
         <EditText
-            android:id="@+id/editTextTextEmailAddress"
+            android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -41,7 +41,7 @@
             android:autofillHints="" />
 
         <EditText
-            android:id="@+id/editTextTextPassword"
+            android:id="@+id/loginPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
@@ -67,7 +67,7 @@
                 android:text="@string/forgot_password" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/forgotPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -84,20 +84,20 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/loginUsingGoogle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/google" />
 
         <Button
-            android:id="@+id/button7"
+            android:id="@+id/loginUsingFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/facebook" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/loginSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login" />
