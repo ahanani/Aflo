@@ -3,6 +3,7 @@
 
     <string name="login">Login</string>
     <string name="signup">Create an account</string>
+    <string name="signup2">Sign up</string>
     <string name="or">or</string>
     <string name="guest">Guest</string>
     <string name="continue_as">Continue as</string>
@@ -14,6 +15,7 @@
     <string name="facebook">Continue with Facebook</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="click_here">Click Here</string>
+    <string name="email_signup">Sign up using email</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
