@@ -17,7 +17,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void createButtons() {
-        Button loginBtn = findViewById(R.id.login);
+        Button loginBtn = findViewById(R.id.loginSubmit);
         loginBtn.setOnClickListener(view -> {
             Intent loginAndRedirectToHome = new Intent(view.getContext(), Landing.class);
             startActivity(loginAndRedirectToHome);

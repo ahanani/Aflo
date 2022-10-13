@@ -22,5 +22,11 @@ public class Landing extends AppCompatActivity {
             Intent goToLogin = new Intent(view.getContext(), Login.class);
             startActivity(goToLogin);
         });
+
+        Button signupBtn = findViewById(R.id.signup);
+        signupBtn.setOnClickListener(view -> {
+            Intent goToSignup = new Intent(view.getContext(), Signup.class);
+            startActivity(goToSignup);
+        });
     }
 }
