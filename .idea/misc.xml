@@ -3,7 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/custom_progress_bar.xml" value="0.284" />
+        <entry key="app/src/main/res/drawable/ic_baseline_airplanemode_active_24.xml" value="0.2205" />
+        <entry key="app/src/main/res/drawable/ic_suitcase.xml" value="0.2205" />
+        <entry key="app/src/main/res/drawable/ic_united_airlines.xml" value="0.1675" />
+        <entry key="app/src/main/res/drawable/roundstyle.xml" value="0.2205" />
         <entry key="app/src/main/res/layout/activity_flight_departing_selection.xml" value="0.21822916666666667" />
+        <entry key="app/src/main/res/layout/activity_flight_type_selection.xml" value="0.23125" />
+        <entry key="app/src/main/res/layout/flight_row_layout.xml" value="0.2947916666666667" />
+        <entry key="app/src/main/res/layout/fragment_flight_departing_selection.xml" value="0.2796875" />
+        <entry key="app/src/main/res/layout/fragment_flight_departing_selection_details.xml" value="0.23125" />
       </map>
     </option>
   </component>
