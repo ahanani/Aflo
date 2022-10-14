@@ -1,4 +1,4 @@
-package com.example.project;
+package com.example.aflo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
