@@ -19,7 +19,7 @@ public class Signup extends AppCompatActivity {
     public void createButtons() {
         Button signupBtn = findViewById(R.id.signupSubmit);
         signupBtn.setOnClickListener(view -> {
-            Intent signupAndRedirectToHome = new Intent(view.getContext(), Landing.class);
+            Intent signupAndRedirectToHome = new Intent(view.getContext(), MainMenu.class);
             startActivity(signupAndRedirectToHome);
         });
     }
