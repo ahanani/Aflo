@@ -16,7 +16,25 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="click_here">Click Here</string>
     <string name="email_signup">Sign up using email</string>
+    <string name="hotel">Select Your Hotel</string>
+    <string name="back">Back</string>
+    <string name="imageOfHotel">Image of a hotel</string>
+    <string name="hotelHeader">Hotel</string>
+    <string name="detail">detail</string>
 
+    <string-array name="listOfHotels">
+        <item>Hotel 1</item>
+        <item>Hotel 2</item>
+        <item>Hotel 3</item>
+        <item>Hotel 4</item>
+        <item>Hotel 5</item>
+        <item>Hotel 6</item>
+        <item>Hotel 7</item>
+        <item>Hotel 8</item>
+        <item>Hotel 9</item>
+        <item>Hotel 10</item>
+        <item>Hotel 11</item>
+    </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
