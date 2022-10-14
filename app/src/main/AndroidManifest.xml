@@ -20,7 +20,7 @@
             android:name=".FlightDepartingSelection"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".HotelInformation"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

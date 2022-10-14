@@ -9,7 +9,7 @@
     android:columnCount="1"
     android:layout_margin="20dp"
     android:layout_gravity="center"
-    tools:context=".MainActivity">
+    tools:context=".HotelInformation">
 
     <TextView
         android:layout_marginBottom="30dp"
