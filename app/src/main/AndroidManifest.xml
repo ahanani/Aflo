@@ -22,6 +22,21 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
+        <activity
+            android:name=".DateSelection"
+            android:exported="false" />
+        <activity
+            android:name=".DestinationSelection"
+            android:exported="false" />
+        <activity
+            android:name=".OriginSelection"
+            android:exported="false" />
+        <activity
+            android:name=".BudgetSelection"
+            android:exported="false" />
+        <activity
+            android:name=".MainMenu"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
