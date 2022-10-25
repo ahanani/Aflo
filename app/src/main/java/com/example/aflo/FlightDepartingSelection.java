@@ -41,14 +41,11 @@ public class FlightDepartingSelection extends AppCompatActivity {
         fragmentTransaction.commit();
 
 
-//        ConstraintLayout firstSelection = findViewById(R.id.firstChoice);
-//        firstSelection.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
-//                fragmentTransaction2.replace(R.id.fragment, details);
-//                fragmentTransaction2.commit();
-//            }
+        ConstraintLayout firstSelection = findViewById(R.id.firstChoice);
+//        firstSelection.setOnClickListener(view -> {
+//            FragmentTransaction fragmentTransaction2 = fragmentManager.beginTransaction();
+//            fragmentTransaction2.replace(R.id.fragment, details);
+//            fragmentTransaction2.commit();
 //        });
 
 

@@ -11,7 +11,7 @@
         <entry key="app/src/main/res/layout/activity_flight_departing_selection.xml" value="0.21822916666666667" />
         <entry key="app/src/main/res/layout/activity_flight_type_selection.xml" value="0.23125" />
         <entry key="app/src/main/res/layout/flight_row_layout.xml" value="0.2947916666666667" />
-        <entry key="app/src/main/res/layout/fragment_flight_departing_selection.xml" value="0.2796875" />
+        <entry key="app/src/main/res/layout/fragment_flight_departing_selection.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_flight_departing_selection_details.xml" value="0.23125" />
       </map>
     </option>
