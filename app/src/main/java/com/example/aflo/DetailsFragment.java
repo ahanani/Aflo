@@ -20,7 +20,7 @@ public class DetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_details, container, false);
+        View view = inflater.inflate(R.layout.activity_hotel_details, container, false);
         TextView name = view.findViewById(R.id.name);
         ImageView imageView = view.findViewById(R.id.imageView);
         assert getArguments() != null;

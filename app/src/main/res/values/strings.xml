@@ -20,7 +20,10 @@
     <string name="back">Back</string>
     <string name="imageOfHotel">Image of a hotel</string>
     <string name="hotelHeader">Hotel</string>
-    <string name="detail">detail</string>
+    <string name="rating_num">4.1</string>
+    <string name="hotel_price">$250/night</string>
+    <string name="see_hotel_details">See Details</string>
+    <string name="select">Select</string>
 
     <string-array name="listOfHotels">
         <item>Hotel 1</item>
