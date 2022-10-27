@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/aflo_blue"
     android:columnCount="1"
-    android:rowCount="2">
+    android:rowCount="3">
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainerView"
+        android:layout_width="match_parent"
+        android:layout_column="0"
+        android:layout_row="0"
+        android:layout_height="wrap_content"
+        android:name="com.example.aflo.BudgetProgress"
+        tools:layout="@layout/fragment_progress_bar" />
 
     <TextView
         android:id="@+id/textView"
@@ -17,7 +26,7 @@
         android:text="@string/hotel"
         android:textSize="40sp"
         android:layout_column="0"
-        android:layout_row="0"
+        android:layout_row="1"
         android:layout_marginStart="10dp"/>
 
     <androidx.fragment.app.FragmentContainerView
@@ -25,7 +34,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_row="1"
+        android:layout_row="2"
+        android:name="com.example.aflo.HotelsFragment"
+        tools:layout="@layout/activity_hotels"
         android:layout_marginBottom="80dp">
     </androidx.fragment.app.FragmentContainerView>
 
