@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@drawable/background"
+    android:background="@drawable/backgroundnoheader"
     android:orientation="vertical">
 
 
@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="50dp"
-        app:srcCompat="@drawable/logo"
+        app:srcCompat="@drawable/logonobg"
         android:contentDescription="@string/app_name" />
 
     <LinearLayout
@@ -91,6 +91,7 @@
             android:id="@+id/signupUsingFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:fontFamily="@font/nunito_bold"
             android:backgroundTint="#00FFFFFF"
             android:outlineSpotShadowColor="#00FFFFFF"
