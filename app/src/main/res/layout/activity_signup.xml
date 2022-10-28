@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
 
@@ -27,6 +28,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:layout_marginBottom="5dp"
+            android:fontFamily="@font/nunito"
             android:text="@string/email_signup" />
 
         <EditText
@@ -37,8 +39,9 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            android:textColorHint="#757575"
-            android:autofillHints="" />
+            android:autofillHints=""
+            android:fontFamily="@font/nunito_light"
+            android:textColorHint="#FFFFFF" />
 
         <EditText
             android:id="@+id/signupPassword"
@@ -49,7 +52,8 @@
             android:hint="@string/password"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:textColorHint="#757575" />
+            android:fontFamily="@font/nunito_light"
+            android:textColorHint="#FFFFFF" />
 
         <EditText
             android:id="@+id/signupConfirmPassword"
@@ -60,7 +64,8 @@
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:textColorHint="#757575" />
+            android:fontFamily="@font/nunito_light"
+            android:textColorHint="#FFFFFF" />
 
     </LinearLayout>
 
@@ -74,12 +79,24 @@
             android:id="@+id/signupUsingGoogle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_bold"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            app:cornerRadius="60dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp"
             android:text="@string/google" />
 
         <Button
             android:id="@+id/signupUsingFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_bold"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            app:cornerRadius="60dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp"
             android:text="@string/facebook" />
     </LinearLayout>
 
@@ -87,5 +104,12 @@
         android:id="@+id/signupSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/signup2" />
+        android:text="@string/signup2"
+        android:backgroundTint="@color/light_brown"
+        android:fontFamily="@font/nunito_bold"
+        android:outlineSpotShadowColor="#00FFFFFF"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="60dp"
+        app:strokeColor="#FFFFFF"
+        app:strokeWidth="2dp" />
 </LinearLayout>
