@@ -64,7 +64,7 @@
             android:width="280dp"
             android:paddingHorizontal="10dp"
             android:text="@string/detail"
-            android:textColor="@color/yellow"
+            android:textColor="@color/progress_bar_yellow"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

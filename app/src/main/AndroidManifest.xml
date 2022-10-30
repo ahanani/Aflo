@@ -37,7 +37,7 @@
             android:name=".OriginSelection"
             android:exported="false" />
         <activity
-            android:name=".BudgetSelection"
+            android:name=".SelectionsPage"
             android:exported="false" />
         <activity
             android:name=".MainMenu"
