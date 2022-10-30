@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/backgroundnoheader"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="50dp"
-        app:srcCompat="@drawable/logo"
+        app:srcCompat="@drawable/logonobg"
         android:contentDescription="@string/app_name" />
 
     <LinearLayout
@@ -25,20 +26,22 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
             android:layout_marginBottom="5dp"
-            android:text="@string/email_login" />
+            android:text="@string/email_login"
+            android:fontFamily="@font/nunito"
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/loginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints=""
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            android:textColorHint="#757575"
-            android:autofillHints="" />
+            android:fontFamily="@font/nunito_light"
+            android:textColorHint="#FFFFFF" />
 
         <EditText
             android:id="@+id/loginPassword"
@@ -49,7 +52,8 @@
             android:hint="@string/password"
             android:inputType="textPassword"
             android:minHeight="48dp"
-            android:textColorHint="#757575" />
+            android:fontFamily="@font/nunito_light"
+            android:textColorHint="#FFFFFF" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -64,13 +68,21 @@
                 android:layout_marginStart="0dp"
                 android:layout_marginEnd="3dp"
                 android:layout_weight="3"
-                android:text="@string/forgot_password" />
+                android:text="@string/forgot_password"
+                />
 
             <Button
                 android:id="@+id/forgotPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:backgroundTint="@color/aflo_blue"
+                android:outlineSpotShadowColor="@color/aflo_blue"
+                android:gravity="center_vertical"
+                app:cornerRadius="60dp"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="0dp"
+                android:fontFamily="@font/nunito_bold"
                 android:text="@string/click_here" />
 
         </LinearLayout>
@@ -87,12 +99,24 @@
             android:id="@+id/loginUsingGoogle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_bold"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            app:cornerRadius="60dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp"
             android:text="@string/google" />
 
         <Button
             android:id="@+id/loginUsingFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/nunito_bold"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            app:cornerRadius="60dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp"
             android:text="@string/facebook" />
     </LinearLayout>
 
@@ -100,5 +124,12 @@
         android:id="@+id/loginSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login" />
+        android:text="@string/login"
+        android:backgroundTint="@color/light_brown"
+        android:fontFamily="@font/nunito_bold"
+        android:outlineSpotShadowColor="#00FFFFFF"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="60dp"
+        app:strokeColor="#FFFFFF"
+        app:strokeWidth="2dp" />
 </LinearLayout>

@@ -35,7 +35,7 @@ public class RowRecyclerView extends RecyclerView.Adapter<RowRecyclerView.RowVie
     @Override
     public void onBindViewHolder(@NonNull RowViewHolder holder, int position) {
         holder.hotel.setText(hotels[position]);
-        holder.detail.setText("Rating");
+        holder.detail.setText("4.1");
         holder.image.setImageResource(images[position]);
     }
 
