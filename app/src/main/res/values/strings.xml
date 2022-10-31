@@ -1,5 +1,58 @@
 <resources>
     <string name="app_name">Aflo</string>
+
+    <string name="login">Login</string>
+    <string name="signup">Create an account</string>
+    <string name="signup2">Sign up</string>
+    <string name="or">or</string>
+    <string name="guest"><u>Guest</u></string>
+    <string name="continue_as">Continue as</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="email_login">Login using email</string>
+    <string name="google">Continue with Google</string>
+    <string name="facebook">Continue with Facebook</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="click_here"><u>Click Here</u></string>
+    <string name="email_signup">Sign up using email</string>
+    <string name="hotel">Select Your Hotel</string>
+    <string name="back">Back</string>
+    <string name="imageOfHotel">Image of a hotel</string>
+    <string name="hotelHeader">Hotel</string>
+    <string name="rating_num">4.1</string>
+    <string name="hotel_price">$250/night</string>
+    <string name="see_hotel_details">See Details</string>
+    <string name="select">Select</string>
+
+    <string-array name="listOfHotels">
+        <item>Hotel 1</item>
+        <item>Hotel 2</item>
+        <item>Hotel 3</item>
+        <item>Hotel 4</item>
+        <item>Hotel 5</item>
+        <item>Hotel 6</item>
+        <item>Hotel 7</item>
+        <item>Hotel 8</item>
+        <item>Hotel 9</item>
+        <item>Hotel 10</item>
+        <item>Hotel 11</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="aflo">Aflo</string>
+    <string name="lets_get_started_with_your_budget">Lets get started with your budget!</string>
+    <string name="your_budget">Your Budget?</string>
+    <string name="arrow"><![CDATA[->]]></string>
+    <string name="when_would_the_trip_take_place">When would the trip take place?</string>
+    <string name="from">From?</string>
+    <string name="to">To?</string>
+    <string name="where_is_your_vacation_destination">Where is your vacation destination?</string>
+    <string name="destination">Destination?</string>
+    <string name="plan_your_trip">Plan your trip</string>
+    <string name="recent_trips">Recent trips</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="where_is_your_vacation_origin">Where is your vacation origin?</string>
+    <string name="origin">Origin?</string>
 </resources>

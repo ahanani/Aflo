@@ -20,7 +20,36 @@
             android:name=".FlightDepartingSelection"
             android:exported="true" />
         <activity
-            android:name=".MainActivity"
+            android:name=".HotelInformation"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DateSelection"
+            android:exported="false" />
+        <activity
+            android:name=".DestinationSelection"
+            android:exported="false" />
+        <activity
+            android:name=".OriginSelection"
+            android:exported="false" />
+        <activity
+            android:name=".SelectionsPage"
+            android:exported="false" />
+        <activity
+            android:name=".MainMenu"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Landing"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,6 +57,27 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Login"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Signup"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="anroid.intent.action.VIEW" />
+                <category android:name="andorid.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
     </application>
 
 </manifest>

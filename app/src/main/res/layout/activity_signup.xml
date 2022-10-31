@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/backgroundnoheader"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@drawable/backgroundnoheader"
     android:orientation="vertical">
 
 
     <ImageView
-        android:id="@+id/logoLogin"
+        android:id="@+id/logoSignup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="50dp"
@@ -24,27 +24,27 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:textSize="18sp"
             android:layout_marginBottom="5dp"
-            android:text="@string/email_login"
             android:fontFamily="@font/nunito"
-            android:textSize="18sp" />
+            android:text="@string/email_signup" />
 
         <EditText
-            android:id="@+id/loginEmail"
+            android:id="@+id/signupEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:autofillHints=""
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
+            android:autofillHints=""
             android:fontFamily="@font/nunito_light"
             android:textColorHint="#FFFFFF" />
 
         <EditText
-            android:id="@+id/loginPassword"
+            android:id="@+id/signupPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:autofillHints=""
@@ -55,37 +55,17 @@
             android:fontFamily="@font/nunito_light"
             android:textColorHint="#FFFFFF" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/signupConfirmPassword"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="5">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="3dp"
-                android:layout_weight="3"
-                android:text="@string/forgot_password"
-                />
-
-            <Button
-                android:id="@+id/forgotPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:backgroundTint="@color/aflo_blue"
-                android:outlineSpotShadowColor="@color/aflo_blue"
-                android:gravity="center_vertical"
-                app:cornerRadius="60dp"
-                app:strokeColor="#FFFFFF"
-                app:strokeWidth="0dp"
-                android:fontFamily="@font/nunito_bold"
-                android:text="@string/click_here" />
-
-        </LinearLayout>
+            android:autofillHints=""
+            android:ems="10"
+            android:hint="@string/confirm_password"
+            android:inputType="textPassword"
+            android:minHeight="48dp"
+            android:fontFamily="@font/nunito_light"
+            android:textColorHint="#FFFFFF" />
 
     </LinearLayout>
 
@@ -96,7 +76,7 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/loginUsingGoogle"
+            android:id="@+id/signupUsingGoogle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito_bold"
@@ -108,9 +88,10 @@
             android:text="@string/google" />
 
         <Button
-            android:id="@+id/loginUsingFacebook"
+            android:id="@+id/signupUsingFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:fontFamily="@font/nunito_bold"
             android:backgroundTint="#00FFFFFF"
             android:outlineSpotShadowColor="#00FFFFFF"
@@ -121,10 +102,10 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/loginSubmit"
+        android:id="@+id/signupSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login"
+        android:text="@string/signup2"
         android:backgroundTint="@color/light_brown"
         android:fontFamily="@font/nunito_bold"
         android:outlineSpotShadowColor="#00FFFFFF"
