@@ -16,7 +16,7 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void planTrip(View view) {
-        Intent intent = new Intent(this, BudgetSelection.class);
+        Intent intent = new Intent(this, SelectionsPage.class);
         startActivity(intent);
     }
 }

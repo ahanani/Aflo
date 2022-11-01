@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DateSelectionFragment">
+
+    <TextView
+        android:id="@+id/dateSelectionPrompt"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.245"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.364"
+        android:layout_width="252dp"
+        android:layout_height="80dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="@string/when_would_the_trip_take_place"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/fromSelectionInput"
+        android:layout_width="337dp"
+        android:layout_height="54dp"
+        android:background="@drawable/round_corner_edittext"
+        android:fontFamily="@font/nunito_bold"
+        android:hint="@string/from"
+        android:paddingLeft="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.53"
+        android:inputType="date"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/toSelectionInput"
+        android:layout_width="337dp"
+        android:layout_height="54dp"
+        android:background="@drawable/round_corner_edittext"
+        android:fontFamily="@font/nunito_bold"
+        android:hint="@string/to"
+        android:paddingLeft="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.626"
+        android:inputType="date" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="320dp"
+        android:layout_height="4dp"
+        android:background="@color/aflo_orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.406"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.466" />
+</androidx.constraintlayout.widget.ConstraintLayout>
