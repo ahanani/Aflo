@@ -39,6 +39,53 @@
         <item>Hotel 11</item>
     </string-array>
 
+    <string-array name="listOfDepartingFlightTimes">
+        <item>6:00AM - 12:00PM</item>
+        <item>7:00AM - 1:00PM</item>
+        <item>5:00AM - 6:00PM</item>
+        <item>6:00AM - 12:00PM</item>
+        <item>9:00PM - 6:00AM</item>
+        <item>9:00PM - 6:00AM</item>
+        <item>9:00PM - 6:00AM</item>
+        <item>9:00PM - 6:00AM</item>
+        <item>9:00PM - 6:00AM</item>
+        <item>9:00PM - 6:00AM</item>
+        <item>9:00PM - 6:00AM</item>
+    </string-array>
+
+    <string-array name="listOfDepartingFlightPrices">
+        <item>$250</item>
+        <item>$220</item>
+        <item>$240</item>
+        <item>$250</item>
+        <item>$250</item>
+        <item>$250</item>
+        <item>$250</item>
+        <item>$250</item>
+        <item>$250</item>
+        <item>$250</item>
+        <item>$250</item>
+    </string-array>
+
+
+    <string-array name="listOfDepartingFlightStops">
+        <item>Nonstop</item>
+        <item>Nonstop</item>
+        <item>1 Stop</item>
+        <item>2 Stops</item>
+        <item>Nonstop</item>
+        <item>Nonstop</item>
+        <item>1 Stop</item>
+        <item>3 Stops</item>
+        <item>Nonstop</item>
+        <item>2 Stops</item>
+        <item>Nonstop</item>
+    </string-array>
+
+
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="aflo">Aflo</string>
