@@ -13,4 +13,21 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+<!--    android:fontFamily="@font/nunito_bold"-->
+<!--    android:backgroundTint="#00FFFFFF"-->
+<!--    android:outlineSpotShadowColor="#00FFFFFF"-->
+<!--    app:cornerRadius="60dp"-->
+<!--    app:strokeColor="#FFFFFF"-->
+<!--    app:strokeWidth="2dp"-->
+    <style name="Theme.AfloButton" parent="Theme.Aflo">
+        <item name="android:fontFamily">@font/nunito_bold</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:letterSpacing">0.089</item>
+        <item name="android:backgroundTint">#00FFFFFF</item>
+        <item name="android:outlineSpotShadowColor">#00FFFFFF</item>
+        <item name="cornerRadius">60dp</item>
+        <item name="strokeColor">#FFFFFF</item>
+        <item name="strokeWidth">2dp</item>
+    </style>
 </resources>
