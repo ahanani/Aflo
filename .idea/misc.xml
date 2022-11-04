@@ -14,11 +14,13 @@
         <entry key="app/src/main/res/drawable/round_button_corner.xml" value="0.154" />
         <entry key="app/src/main/res/drawable/round_corner.xml" value="0.154" />
         <entry key="app/src/main/res/drawable/roundstyle.xml" value="0.2205" />
+        <entry key="app/src/main/res/layout/activity_date_selection.xml" value="0.15443840579710144" />
         <entry key="app/src/main/res/layout/activity_flight_departing_selection.xml" value="0.21822916666666667" />
-        <entry key="app/src/main/res/layout/activity_flight_type_selection.xml" value="0.23125" />
+        <entry key="app/src/main/res/layout/activity_flight_type_selection.xml" value="0.2485981308411215" />
         <entry key="app/src/main/res/layout/activity_flights.xml" value="0.25905797101449274" />
         <entry key="app/src/main/res/layout/activity_hotel_information.xml" value="0.16304347826086957" />
         <entry key="app/src/main/res/layout/activity_hotels.xml" value="0.16304347826086957" />
+        <entry key="app/src/main/res/layout/activity_mainmenu.xml" value="0.15443840579710144" />
         <entry key="app/src/main/res/layout/activity_row.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_row_flights_departing.xml" value="0.33" />
         <entry key="app/src/main/res/layout/flight_row_layout.xml" value="0.2947916666666667" />
