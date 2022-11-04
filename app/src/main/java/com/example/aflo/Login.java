@@ -28,10 +28,8 @@ public class Login extends AppCompatActivity {
     public void sendLoginForm() {
         EditText email = findViewById(R.id.loginEmail);
         EditText password = findViewById(R.id.loginPassword);
-
         String emailString = email.getText().toString();
         String passwordString = password.getText().toString();
-        if (emailString.isEmpty() || passwordString.isEmpty())
 
         if (validate(emailString, passwordString)) {
             Intent loginAndRedirectToHome = new Intent(this, MainMenu.class);
