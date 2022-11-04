@@ -29,7 +29,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signup"
-            app:style="@style/Theme.AfloButton"
+            android:fontFamily="@font/nunito_bold"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:letterSpacing="0.089"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            app:cornerRadius="60dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp"
             />
 
         <TextView
@@ -45,7 +53,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login"
-            app:style="@style/Theme.AfloButton"
+            android:fontFamily="@font/nunito_bold"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:letterSpacing="0.089"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            app:cornerRadius="60dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp"
             />
 
     </LinearLayout>

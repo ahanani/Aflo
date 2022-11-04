@@ -13,12 +13,6 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
-<!--    android:fontFamily="@font/nunito_bold"-->
-<!--    android:backgroundTint="#00FFFFFF"-->
-<!--    android:outlineSpotShadowColor="#00FFFFFF"-->
-<!--    app:cornerRadius="60dp"-->
-<!--    app:strokeColor="#FFFFFF"-->
-<!--    app:strokeWidth="2dp"-->
     <style name="Theme.AfloButton" parent="Theme.Aflo">
         <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="textAllCaps">true</item>

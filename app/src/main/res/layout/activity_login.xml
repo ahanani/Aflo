@@ -100,14 +100,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/google"
-            app:style="@style/Theme.AfloButton" />
+            android:fontFamily="@font/nunito_bold"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:letterSpacing="0.089"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            app:cornerRadius="60dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp" />
 
         <Button
             android:id="@+id/loginUsingFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/facebook"
-            app:style="@style/Theme.AfloButton" />
+            android:fontFamily="@font/nunito_bold"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:letterSpacing="0.089"
+            android:backgroundTint="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            app:cornerRadius="60dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp" />
     </LinearLayout>
 
     <Button
@@ -116,5 +132,12 @@
         android:layout_height="wrap_content"
         android:text="@string/login"
         android:backgroundTint="@color/light_brown"
-        app:style="@style/Theme.AfloButton" />
+        android:fontFamily="@font/nunito_bold"
+        android:textAllCaps="true"
+        android:textSize="14sp"
+        android:letterSpacing="0.089"
+        android:outlineSpotShadowColor="#00FFFFFF"
+        app:cornerRadius="60dp"
+        app:strokeColor="#FFFFFF"
+        app:strokeWidth="2dp" />
 </LinearLayout>
