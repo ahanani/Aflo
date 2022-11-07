@@ -1,23 +1,38 @@
 package com.example.aflo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.animation.ValueAnimator;
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-public class SelectionsPage extends AppCompatActivity {
+import java.text.DateFormat;
+import java.util.Calendar;
+
+public class SelectionsPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private int num_clicked = 0;
+    private boolean fromClicked = false;
+    private boolean toClicked = false;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +47,7 @@ public class SelectionsPage extends AppCompatActivity {
         fragmentTransaction.replace(R.id.selectionsContainer, budgetSelection);
         fragmentTransaction.commit();
         ImageView forward = findViewById(R.id.forwardButton);
-        Bundle bundle = new Bundle();
+        bundle = new Bundle();
 
 
         forward.setOnClickListener(view -> {
@@ -75,6 +90,32 @@ public class SelectionsPage extends AppCompatActivity {
                             fragmentTransaction1.commit();
                             num_clicked++;
                             bundle.putString("destination", destinationString);
+                            fragmentManager.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+                                @Override
+                                public void onFragmentResumed(FragmentManager fm, Fragment f) {
+                                    super.onFragmentResumed(fm, f);
+                                    EditText fromDate = findViewById(R.id.fromSelectionInput);
+                                    fromDate.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            fromClicked = true;
+                                            com.example.aflo.DatePicker mDatePickerDialogFragment;
+                                            mDatePickerDialogFragment = new com.example.aflo.DatePicker();
+                                            mDatePickerDialogFragment.show(getSupportFragmentManager(), "DATE PICK");
+                                        }
+                                    });
+                                    EditText toDate = findViewById(R.id.toSelectionInput);
+                                    toDate.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            toClicked = true;
+                                            com.example.aflo.DatePicker mDatePickerDialogFragment;
+                                            mDatePickerDialogFragment = new com.example.aflo.DatePicker();
+                                            mDatePickerDialogFragment.show(getSupportFragmentManager(), "DATE PICK");
+                                        }
+                                    });
+                                }
+                            }, true);
                         }
                         break;
                     case 3:
@@ -82,25 +123,48 @@ public class SelectionsPage extends AppCompatActivity {
                         String toDate = to.getText().toString();
                         EditText from = (EditText) findViewById(R.id.fromSelectionInput);
                         String fromDate = from.getText().toString();
-                        if (!(toDate.matches("^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\\d{2}$") && fromDate.matches("^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\\d{2}$"))) {
-                            Toast.makeText(this, "Please enter a valid to and from date (MM/DD/YYYY)", Toast.LENGTH_LONG).show();
+                        Log.d("budget", ""+bundle.getInt("budget"));
+                        Log.d("origin", ""+bundle.getString("origin"));
+                        Log.d("destination", ""+bundle.getString("destination"));
+                        Log.d("toDay", ""+bundle.getInt("toDay"));
+                        Log.d("toMonth", ""+bundle.getInt("toMonth"));
+                        Log.d("toYear", ""+bundle.getInt("toYear"));
+                        Log.d("fromDay", ""+bundle.getInt("fromDay"));
+                        Log.d("fromMonth", ""+bundle.getInt("fromMonth"));
+                        Log.d("fromYear", ""+bundle.getInt("fromYear"));
+                        if ((toDate.matches("") && fromDate.matches(""))) {
+                            Toast.makeText(this, "Please enter departing and returning date", Toast.LENGTH_LONG).show();
                         } else {
-                            bundle.putString("to", toDate);
-                            bundle.putString("from", fromDate);
                             Intent intent = new Intent(this, FlightTypeSelection.class);
-                            startActivity(intent);
+                            startActivity(intent, bundle);
                         }
                         break;
                 }
         });
     }
 
-    public void toOriginSelection(View view) {
-        TextInputEditText input = findViewById(R.id.budgetSelectionInput);
-        Bundle bundle = new Bundle();
-        Log.d("Budget", ""+Integer.parseInt(input.getText().toString()));
-        bundle.putInt("BudgetSelection",Integer.parseInt(input.getText().toString()));
-        Intent intent = new Intent(this, OriginSelection.class);
-        startActivity(intent, bundle);
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar mCalendar = Calendar.getInstance();
+        mCalendar.set(Calendar.YEAR, year);
+        mCalendar.set(Calendar.MONTH, month);
+        mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        if (fromClicked) {
+            EditText from = findViewById(R.id.fromSelectionInput);
+            String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
+            from.setText(selectedDate);
+            bundle.putInt("fromYear", year);
+            bundle.putInt("fromMonth", month + 1);
+            bundle.putInt("fromDay", dayOfMonth);
+            fromClicked = false;
+        } else if (toClicked) {
+            EditText from = findViewById(R.id.toSelectionInput);
+            String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
+            from.setText(selectedDate);
+            bundle.putInt("toYear", year);
+            bundle.putInt("toMonth", month + 1);
+            bundle.putInt("toDay", dayOfMonth);
+            toClicked = false;
+        }
     }
 }
