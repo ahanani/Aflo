@@ -58,15 +58,15 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
             expandRow(row, params);
         } else {
             if (previouslyOpenRow != null) {
-                shrinkRow(previouslyOpenRow, previouslyOpenRow.getLayoutParams());
+                collapseRow(previouslyOpenRow, previouslyOpenRow.getLayoutParams());
                 previouslyOpenRow = null;
             }
             open = true;
-            shrinkRow(row, params);
+            collapseRow(row, params);
         }
     }
 
-    public void shrinkRow(ConstraintLayout row, ViewGroup.LayoutParams params) {
+    public void collapseRow(ConstraintLayout row, ViewGroup.LayoutParams params) {
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         row.setLayoutParams(params);
         ImageView image = row.findViewById(R.id.image);
