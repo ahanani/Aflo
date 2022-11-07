@@ -55,4 +55,5 @@
     <string name="account_settings">Account Settings</string>
     <string name="where_is_your_vacation_origin">Where is your vacation origin?</string>
     <string name="origin">Origin?</string>
+    <string name="visit_site">Visit Site</string>
 </resources>
