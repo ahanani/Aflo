@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:rowCount="4"
         android:columnCount="2"
-        android:background="#2196F3"
+        android:background="@drawable/background_flight_type"
         >
 
         <androidx.fragment.app.FragmentContainerView
@@ -41,7 +41,7 @@
 
           />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/economy"
             android:text="Economy                    $"
             android:height="60dp"
@@ -52,8 +52,9 @@
             android:layout_columnSpan="2"
             android:layout_marginTop="50dp"
             android:layout_gravity="center"
-            />
-        <Button
+            app:strokeColor="@color/black"
+            app:strokeWidth="2dp"/>
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/business"
             android:text="Business                  $$"
             android:height="60dp"
@@ -63,8 +64,10 @@
             android:layout_columnWeight="1"
             android:layout_columnSpan="2"
             android:layout_gravity="center"
+            app:strokeColor="@color/black"
+            app:strokeWidth="2dp"
             />
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/FirstClass"
             android:text="First Class           $$$"
             android:height="60dp"
@@ -74,14 +77,12 @@
             android:layout_columnWeight="1"
             android:layout_columnSpan="2"
             android:layout_gravity="center"
+            app:strokeColor="@color/black"
+            app:strokeWidth="2dp"
             />
 
         <TextView
             android:layout_gravity="center"/>
-
-
-
-
 
 
     </GridLayout>
