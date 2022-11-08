@@ -2,7 +2,9 @@
 
 package com.example.aflo;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -19,5 +21,10 @@ public class FlightDepartingSelection extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.mainFragment, flightDepartingFragment).commit();
+    }
+
+    public void goToHotelSelection(View view) {
+        Intent goToHotels = new Intent(this, HotelInformation.class);
+        startActivity(goToHotels);
     }
 }

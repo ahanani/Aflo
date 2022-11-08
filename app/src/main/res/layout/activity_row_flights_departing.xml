@@ -120,6 +120,7 @@
             android:fontFamily="@font/nunito"
             android:paddingHorizontal="10dp"
             android:text="@string/select"
+            android:onClick="goToHotelSelection"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
