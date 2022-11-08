@@ -21,7 +21,7 @@
         android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <AutoCompleteTextView
         android:id="@+id/originSelectionInput"
         android:layout_width="337dp"
         android:layout_height="54dp"
@@ -46,5 +46,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.466" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

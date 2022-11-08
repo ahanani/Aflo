@@ -58,15 +58,15 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
             expandRow(row, params);
         } else {
             if (previouslyOpenRow != null) {
-                shrinkRow(previouslyOpenRow, previouslyOpenRow.getLayoutParams());
+                collapseRow(previouslyOpenRow, previouslyOpenRow.getLayoutParams());
                 previouslyOpenRow = null;
             }
             open = true;
-            shrinkRow(row, params);
+            collapseRow(row, params);
         }
     }
 
-    public void shrinkRow(ConstraintLayout row, ViewGroup.LayoutParams params) {
+    public void collapseRow(ConstraintLayout row, ViewGroup.LayoutParams params) {
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         row.setLayoutParams(params);
         ImageView image = row.findViewById(R.id.image);
@@ -77,9 +77,11 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         TextView seeDetails = row.findViewById(R.id.seeDetails);
         seeDetails.setVisibility(View.VISIBLE);
         TextView select = row.findViewById(R.id.select);
+        TextView visit = row.findViewById(R.id.visit);
         TableLayout table = row.findViewById(R.id.features);
         table.removeAllViews();
         select.setVisibility(View.INVISIBLE);
+        visit.setVisibility(View.INVISIBLE);
     }
 
     public void expandRow(ConstraintLayout row, ViewGroup.LayoutParams params) {
@@ -94,6 +96,8 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         seeDetails.setVisibility(View.INVISIBLE);
         TextView select = row.findViewById(R.id.select);
         select.setVisibility(View.VISIBLE);
+        TextView visit = row.findViewById(R.id.visit);
+        visit.setVisibility(View.VISIBLE);
         TableLayout table = row.findViewById(R.id.features);
         TableRow wifi = new TableRow(getContext());
         TextView wifiText = new TextView(getContext());

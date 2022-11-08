@@ -6,22 +6,22 @@
         android:layout_height="match_parent"
         tools:context=".DestinationSelectionFragment">
 
-        <TextView
-            android:id="@+id/destinationSelectionPrompt"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.245"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.364"
-            android:layout_width="252dp"
-            android:layout_height="80dp"
-            android:fontFamily="@font/nunito_bold"
-            android:text="@string/where_is_your_vacation_destination"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp" />
+    <TextView
+        android:id="@+id/destinationSelectionPrompt"
+        android:layout_width="337dp"
+        android:layout_height="79dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="@string/where_is_your_vacation_destination"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.378" />
 
-        <com.google.android.material.textfield.TextInputEditText
+    <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/destinationSelectionInput"
             android:layout_width="337dp"
             android:layout_height="54dp"
@@ -37,7 +37,7 @@
 
         <View
             android:id="@+id/view"
-            android:layout_width="320dp"
+            android:layout_width="340dp"
             android:layout_height="4dp"
             android:background="@color/aflo_orange"
             app:layout_constraintBottom_toBottomOf="parent"
