@@ -9,7 +9,7 @@
     android:layout_margin="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/departing_flight_row"
+        android:id="@+id/returning_flight_row"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="110dp"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/departing_flight_card"
+            android:id="@+id/returning_flight_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
@@ -31,7 +31,7 @@
             app:layout_constraintVertical_bias="0.0">
 
             <ImageView
-                android:id="@+id/flight_logo"
+                android:id="@+id/flight_logo_return"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
@@ -48,7 +48,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/flight"
+            android:id="@+id/flight_returning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
@@ -57,14 +57,14 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/price"
+            app:layout_constraintEnd_toStartOf="@+id/price_return"
             app:layout_constraintHorizontal_bias="0.084"
-            app:layout_constraintStart_toEndOf="@+id/departing_flight_card"
+            app:layout_constraintStart_toEndOf="@+id/returning_flight_card"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.158" />
 
         <TextView
-            android:id="@+id/departing_flight_stops"
+            android:id="@+id/returning_flight_stops"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
@@ -76,11 +76,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/departing_flight_card"
+            app:layout_constraintTop_toBottomOf="@+id/returning_flight_card"
             app:layout_constraintVertical_bias="0.629" />
 
         <TextView
-            android:id="@+id/price"
+            android:id="@+id/price_return"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/nunito"
@@ -88,12 +88,12 @@
             android:text="@string/hotel_price"
             android:textColor="@color/black"
             android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/select_departing_flight"
+            app:layout_constraintBottom_toTopOf="@+id/select_returning_flight"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/seeDetails_departing_flight"
+            android:id="@+id/seeDetails_returning_flight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
@@ -111,7 +111,7 @@
             tools:ignore="TextContrastCheck" />
 
         <Button
-            android:id="@+id/select_departing_flight"
+            android:id="@+id/select_returning_flight"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginBottom="10dp"
@@ -120,7 +120,7 @@
             android:fontFamily="@font/nunito"
             android:paddingHorizontal="10dp"
             android:text="@string/select"
-            android:onClick="goToReturningFlightSelection"
+            android:onClick="goToHotelSelection"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -133,15 +133,15 @@
 
 
         <TableLayout
-            android:id="@+id/features_departing_flight"
+            android:id="@+id/features_returning_flight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/seeDetails_departing_flight"
+            app:layout_constraintEnd_toStartOf="@+id/seeDetails_returning_flight"
             app:layout_constraintHorizontal_bias="0.448"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/departing_flight_card"
+            app:layout_constraintTop_toBottomOf="@+id/returning_flight_card"
             app:layout_constraintVertical_bias="0.0" />
 
 

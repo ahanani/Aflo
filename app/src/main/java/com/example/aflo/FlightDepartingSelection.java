@@ -23,8 +23,12 @@ public class FlightDepartingSelection extends AppCompatActivity {
         fragmentTransaction.replace(R.id.mainFragment, flightDepartingFragment).commit();
     }
 
-    public void goToHotelSelection(View view) {
-        Intent goToHotels = new Intent(this, HotelInformation.class);
-        startActivity(goToHotels);
+    public void goToReturningFlightSelection(View view) {
+        Intent goToReturningFlights = new Intent(this, FlightReturningSelection.class);
+        startActivity(goToReturningFlights);
     }
+//    public void goToHotelSelection(View view) {
+//        Intent goToHotels = new Intent(this, HotelInformation.class);
+//        startActivity(goToHotels);
+//    }
 }

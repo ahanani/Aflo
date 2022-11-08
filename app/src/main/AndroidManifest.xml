@@ -20,6 +20,9 @@
             android:name=".FlightDepartingSelection"
             android:exported="true" />
         <activity
+            android:name=".FlightReturningSelection"
+            android:exported="true" />
+        <activity
             android:name=".HotelInformation"
             android:exported="true">
             <intent-filter>
