@@ -9,6 +9,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Signup extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -20,9 +23,7 @@ public class Signup extends AppCompatActivity {
 
     public void createButtons() {
         Button signupBtn = findViewById(R.id.signupSubmit);
-        signupBtn.setOnClickListener(view -> {
-            sendSignupForm();
-        });
+        signupBtn.setOnClickListener(view -> sendSignupForm());
     }
 
     public void sendSignupForm() {
@@ -34,8 +35,14 @@ public class Signup extends AppCompatActivity {
         String confPasswordString = confPassword.getText().toString();
 
         if (validate(emailString, passwordString, confPasswordString)) {
-            Intent loginAndRedirectToHome = new Intent(this, MainMenu.class);
-            startActivity(loginAndRedirectToHome);
+            // Write a message to the database
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("message");
+
+            myRef.setValue("Hello, World!").addOnSuccessListener(unused -> {
+                Intent loginAndRedirectToHome = new Intent(this, MainMenu.class);
+                startActivity(loginAndRedirectToHome);
+            });
         }
 
     }
