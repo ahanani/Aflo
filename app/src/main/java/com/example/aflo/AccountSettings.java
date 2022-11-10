@@ -1,6 +1,8 @@
 package com.example.aflo;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,5 +18,11 @@ public class AccountSettings extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_settings);
         mAuth = FirebaseAuth.getInstance();
+    }
+
+    public void logout(View view) {
+        mAuth.signOut();
+        Intent leaveApp = new Intent(this, Landing.class);
+        startActivity(leaveApp);
     }
 }

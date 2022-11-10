@@ -12,7 +12,7 @@
     <TextView
         android:layout_marginTop="100dp"
         android:layout_marginBottom="20dp"
-        android:id="@+id/textView5"
+        android:id="@+id/account_settings_heading"
         android:layout_gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/button4"
+            android:onClick="logout"
+            android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
