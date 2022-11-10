@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,5 +50,23 @@ public class Landing extends AppCompatActivity {
             Intent goToSignup = new Intent(view.getContext(), Signup.class);
             startActivity(goToSignup);
         });
+
+        Button guestBtn = findViewById(R.id.guest);
+        guestBtn.setOnClickListener(view -> mAuth.signInAnonymously()
+            .addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("auth", "signInAnonymously:success");
+                    Intent guestLogin = new Intent(Landing.this,
+                            MainMenu.class);
+                    startActivity(guestLogin);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("auth", "signInAnonymously:failure",
+                            task.getException());
+                    Toast.makeText(Landing.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }));
     }
 }
