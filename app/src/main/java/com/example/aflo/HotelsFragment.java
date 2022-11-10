@@ -1,6 +1,9 @@
 package com.example.aflo;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,14 +19,37 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import okhttp3.Request;
+import okhttp3.Response;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+
 
 public class HotelsFragment extends Fragment implements ItemClickListener {
 
+    ArrayList<String> titles = new ArrayList<>();
+    ArrayList<String> prices = new ArrayList<>();
+    ArrayList<String> ids = new ArrayList<>();
+    ArrayList<Bitmap> imagesOfHotels = new ArrayList<>();
+    ArrayList<String> ratings = new ArrayList<>();
+    ArrayList<String> ratingsCount = new ArrayList<>();
+    ArrayList<String> amenitiesScreen = new ArrayList<>();
     RecyclerView recyclerView;
-    String[] hotels;
-    int[] images = {R.drawable.hotel1, R.drawable.hotel2, R.drawable.hotel3, R.drawable.hotel4,
-            R.drawable.hotel5, R.drawable.hotel6, R.drawable.hotel7, R.drawable.hotel8,
-            R.drawable.hotel9, R.drawable.hotel10, R.drawable.hotel11};
+    ViewGroup container;
+    LayoutInflater inflater;
+    Bundle bundle;
+    View view;
+    ItemClickListener itemClickListener;
+    TextView hotelTitle;
 
     ConstraintLayout row;
     boolean open = false;
@@ -32,19 +58,22 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hotels = getResources().getStringArray(R.array.listOfHotels);
+        AsyncTaskRunner runner = new AsyncTaskRunner();
+        String urlForLocations = "https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=";
+        runner.execute(urlForLocations + "Richmond");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.inflater = inflater;
+        this.container = container;
+        this.bundle = savedInstanceState;
+
+        itemClickListener = this;
+
         View view = inflater.inflate(R.layout.activity_hotels, container, false);
         recyclerView = view.findViewById(R.id.rowView);
-        hotels = getResources().getStringArray(R.array.listOfHotels);
-
-        RowRecyclerView rowRecyclerView = new RowRecyclerView(getActivity(), hotels, images);
-        rowRecyclerView.setClickListener(this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        recyclerView.setAdapter(rowRecyclerView);
+        this.view = view;
         return view;
     }
 
@@ -55,7 +84,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         if (open) {
             open = false;
             previouslyOpenRow = row;
-            expandRow(row, params);
+            expandRow(row, params, position);
         } else {
             if (previouslyOpenRow != null) {
                 collapseRow(previouslyOpenRow, previouslyOpenRow.getLayoutParams());
@@ -82,9 +111,15 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         table.removeAllViews();
         select.setVisibility(View.INVISIBLE);
         visit.setVisibility(View.INVISIBLE);
+        amenitiesScreen.clear();
+        if (hotelTitle != null) {
+            ViewGroup.LayoutParams hotelTitleParams = hotelTitle.getLayoutParams();
+            hotelTitleParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            hotelTitle.setLayoutParams(hotelTitleParams);
+        }
     }
 
-    public void expandRow(ConstraintLayout row, ViewGroup.LayoutParams params) {
+    public void expandRow(ConstraintLayout row, ViewGroup.LayoutParams params, int position) {
         params.height = 1200;
         row.setLayoutParams(params);
         ImageView image = row.findViewById(R.id.image);
@@ -98,13 +133,149 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         select.setVisibility(View.VISIBLE);
         TextView visit = row.findViewById(R.id.visit);
         visit.setVisibility(View.VISIBLE);
-        TableLayout table = row.findViewById(R.id.features);
-        TableRow wifi = new TableRow(getContext());
-        TextView wifiText = new TextView(getContext());
-        wifiText.setText("Wifi");
-        wifiText.setTextColor(Color.BLACK);
-        wifiText.setTextSize(18);
-        wifi.addView(wifiText);
-        table.addView(wifi);
+        AsyncTaskForHotelAmenities runner2 = new AsyncTaskForHotelAmenities();
+        runner2.execute(String.valueOf(ids.get(position)));
+        hotelTitle = previouslyOpenRow.findViewById(R.id.hotel);
+        ViewGroup.LayoutParams hotelTitleParams = hotelTitle.getLayoutParams();
+        hotelTitleParams.width = 380;
+        hotelTitle.setLayoutParams(hotelTitleParams);
+    }
+
+    private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPostExecute (String result) {
+            RowRecyclerView rowRecyclerView = new RowRecyclerView(getActivity(),
+                    titles, imagesOfHotels, prices, ratings, ratingsCount);
+            rowRecyclerView.setClickListener(itemClickListener);
+            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+            recyclerView.setAdapter(rowRecyclerView);
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            OkHttpClient client = new OkHttpClient();
+            String appKey = "173f756567mshbc610ecc1c79d97p185285jsn76c9fdedd129";
+            Request request = new Request.Builder()
+                    .url("https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=Richmond")
+                    .get()
+                    .addHeader("X-RapidAPI-Key", appKey)
+                    .addHeader("X-RapidAPI-Host", "tripadvisor16.p.rapidapi.com")
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                assert response.body() != null;
+                JSONObject jsonResponse = new JSONObject(response.body().string());
+                JSONArray array = jsonResponse.getJSONArray("data");
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject item = (JSONObject) array.get(i);
+                    if (item.get("secondaryText").equals("British Columbia, Canada")) {
+                        OkHttpClient client2 = new OkHttpClient();
+                        Request request2 = new Request.Builder()
+                                .url("https://tripadvisor16.p.rapidapi.com/api/v1/hotels/" +
+                                        "searchHotels?geoId=181716&checkIn=2022-11-15&checkOut" +
+                                        "=2022-11-30&pageNumber=1&currencyCode=USD")
+                                .get()
+                                .addHeader("X-RapidAPI-Key", appKey)
+                                .addHeader("X-RapidAPI-Host", "tripadvisor16.p.rapidapi.com")
+                                .build();
+                        Response response2 = client2.newCall(request2).execute();
+                        assert response2.body() != null;
+                        JSONObject jsonResponse2 = new JSONObject(response2.body().string());
+                        JSONObject data = jsonResponse2.getJSONObject("data");
+                        JSONArray array2 = data.getJSONArray("data");
+                        for (int j = 0; j < 10; j++) {
+                            JSONObject hotels = (JSONObject) array2.get(j);
+                            ids.add(hotels.getString("id"));
+                            String title = hotels.getString("title");
+                            if (title.charAt(0) == '1' | title.charAt(0) == '2' |
+                                    title.charAt(0) == '3' | title.charAt(0) == '4' |
+                                    title.charAt(0) == '5' | title.charAt(0) == '6' |
+                                    title.charAt(0) == '7' | title.charAt(0) == '8' |
+                                    title.charAt(0) == '9' | title.charAt(0) == '0' ) {
+                                title = title.substring(3);
+                            }
+                            if (title.length() > 20) {
+                                title = title.substring(0, 20) + "...";
+                            }
+                            titles.add(title);
+                            prices.add(hotels.getString("priceForDisplay"));
+                            JSONArray cardPhotos =  hotels.getJSONArray("cardPhotos");
+                            JSONObject firstPhoto = cardPhotos.getJSONObject(0).getJSONObject("sizes");
+                            String image = firstPhoto.getString("urlTemplate");
+                            JSONObject ratingStuff = hotels.getJSONObject("bubbleRating");
+                            ratings.add(ratingStuff.getString("rating"));
+                            ratingsCount.add(ratingStuff.getString("count"));
+                            image = image.replace("{width}", "500");
+                            image = image.replace("{height}", "500");
+                            try {
+                                InputStream in=new java.net.URL(image).openStream();
+                                imagesOfHotels.add(BitmapFactory.decodeStream(in));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private class AsyncTaskForHotelAmenities extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPostExecute (String result) {
+            TableLayout table = row.findViewById(R.id.features);
+            for (int i = 0; i < amenitiesScreen.size(); i++) {
+                TableRow feature = new TableRow(getContext());
+                TextView featureText = new TextView(getContext());
+                featureText.setText(amenitiesScreen.get(i));
+                featureText.setTextColor(Color.BLACK);
+                featureText.setTextSize(15);
+                feature.addView(featureText);
+                table.addView(feature);
+            }
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            OkHttpClient client = new OkHttpClient();
+            String appKey = "173f756567mshbc610ecc1c79d97p185285jsn76c9fdedd129";
+            String url = "https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=" + strings[0] + "&checkIn=2022-11-15&checkOut=2022-11-30";
+            Request request = new Request.Builder()
+                    .url(url)
+                    .get()
+                    .addHeader("X-RapidAPI-Key", appKey)
+                    .addHeader("X-RapidAPI-Host", "tripadvisor16.p.rapidapi.com")
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                assert response.body() != null;
+                JSONObject jsonResponse = new JSONObject(response.body().string());
+                JSONObject data1 = jsonResponse.getJSONObject("data");
+                JSONArray amenities = data1.getJSONArray("amenitiesScreen");
+                if (amenities.length() < 8) {
+                    for (int i = 0; i < amenities.length(); i++) {
+                        JSONObject item = amenities.getJSONObject(i);
+                        JSONArray content = item.getJSONArray("content");
+                        amenitiesScreen.add("\u2022 " + content.getString(0));
+                    }
+                } else {
+                    for (int i = 0; i < 8; i++) {
+                        JSONObject item = amenities.getJSONObject(i);
+                        JSONArray content = item.getJSONArray("content");
+                        amenitiesScreen.add("\u2022 " + content.getString(0));
+                    }
+                }
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
