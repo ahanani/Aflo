@@ -47,22 +47,22 @@ public class Login extends AppCompatActivity {
         }
 
         mAuth.signInWithEmailAndPassword(emailString, passwordString)
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.d("auth", "signInWithEmail:success");
-                        FirebaseUser user = mAuth.getCurrentUser();
+            .addOnCompleteListener(this, task -> {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("auth", "signInWithEmail:success");
+                    FirebaseUser user = mAuth.getCurrentUser();
 
-                        Intent loginAndRedirectToHome = new Intent(
-                                Login.this, MainMenu.class);
-                        startActivity(loginAndRedirectToHome);
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Log.w("auth", "signInWithEmail:failure", task.getException());
-                        Toast.makeText(Login.this, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show();
-                    }
-                });
+                    Intent loginAndRedirectToHome = new Intent(
+                            Login.this, MainMenu.class);
+                    startActivity(loginAndRedirectToHome);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("auth", "signInWithEmail:failure", task.getException());
+                    Toast.makeText(Login.this, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
     public boolean validate(String email, String password) {
