@@ -34,6 +34,11 @@ public class Login extends AppCompatActivity {
         loginBtn.setOnClickListener(view -> {
             sendLoginForm();
         });
+
+        Button forgotPasswordBtn = findViewById(R.id.forgotPassword);
+        forgotPasswordBtn.setOnClickListener(view -> {
+            sendResetPasswordEmail();
+        });
     }
 
     public void sendLoginForm() {
@@ -74,5 +79,17 @@ public class Login extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public void sendResetPasswordEmail() {
+        EditText email = findViewById(R.id.loginEmail);
+        String emailString = email.getText().toString().trim();
+
+        mAuth.sendPasswordResetEmail(emailString)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Log.d("auth", "Email sent.");
+                    }
+                });
     }
 }
