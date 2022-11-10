@@ -59,6 +59,7 @@
         android:background="@drawable/round_button_corner2"
         android:padding="2dp"
         android:src="@drawable/button3"
+        android:onClick="goToSettings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"

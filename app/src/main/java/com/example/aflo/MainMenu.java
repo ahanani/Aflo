@@ -20,4 +20,9 @@ public class MainMenu extends AppCompatActivity {
         Intent intent = new Intent(this, SelectionsPage.class);
         startActivity(intent);
     }
+
+    public void goToSettings(View view) {
+        Intent intent = new Intent(this, AccountSettings.class);
+        startActivity(intent);
+    }
 }
