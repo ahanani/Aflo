@@ -63,7 +63,7 @@
             android:id="@+id/detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
+            android:paddingStart="10dp"
             android:text="@string/rating_num"
             android:textColor="@color/black"
             android:textSize="15sp"
@@ -159,8 +159,9 @@
             android:id="@+id/rating"
             android:layout_width="45dp"
             android:layout_height="45dp"
+            android:max="5"
             android:numStars="@integer/material_motion_duration_long_1"
-            android:progress="90"
+            android:progress="3"
             android:progressTint="@color/aflo_orange"
             android:scaleX="0.3"
             android:scaleY="0.3"
@@ -172,17 +173,31 @@
             app:layout_constraintVertical_bias="0.593"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <TableLayout
-            android:id="@+id/features"
-            android:layout_width="wrap_content"
+        <ScrollView
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:scrollbars="horizontal|vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/seeDetails"
-            app:layout_constraintHorizontal_bias="0.448"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/card"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.0" >
+
+            <HorizontalScrollView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fadeScrollbars="false">
+
+                <TableLayout
+                    android:id="@+id/features"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_marginTop="10dp" />
+            </HorizontalScrollView>
+        </ScrollView>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
