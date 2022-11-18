@@ -15,7 +15,7 @@ public class SavedTripsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_saved_trips);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        setContentView(R.layout.fragment_saved_trips);
     }
 }
