@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainMenu extends AppCompatActivity {
 
     @Override
@@ -18,6 +21,17 @@ public class MainMenu extends AppCompatActivity {
 
     public void planTrip(View view) {
         Intent intent = new Intent(this, SelectionsPage.class);
+        startActivity(intent);
+    }
+
+    public void seeSavedTrips(View view) {
+        Intent intent;
+        if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous()) {
+            intent = new Intent(this, RequireLogin.class);
+        } else {
+            intent = new Intent(this, SavedTripsActivity.class);
+        }
+
         startActivity(intent);
     }
 
