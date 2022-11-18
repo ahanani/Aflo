@@ -90,9 +90,18 @@
             android:name=".Signup"
             android:exported="true">
             <intent-filter>
-                <action android:name="anroid.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="andorid.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AccountSettings"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
