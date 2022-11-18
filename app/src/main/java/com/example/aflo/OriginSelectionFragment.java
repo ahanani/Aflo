@@ -2,11 +2,16 @@ package com.example.aflo;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -61,4 +66,5 @@ public class OriginSelectionFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_origin_selection, container, false);
     }
+
 }

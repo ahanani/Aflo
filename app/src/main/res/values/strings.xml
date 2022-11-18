@@ -24,6 +24,7 @@
     <string name="hotel_price">$250/night</string>
     <string name="see_hotel_details">See Details</string>
     <string name="select">Select</string>
+    <string name="api_key">AIzaSyBuWPxGFk5OVjo5Cm1xWHuuPClgK7gnP1c</string>
 
     <string-array name="listOfHotels">
         <item>Hotel 1</item>
@@ -83,9 +84,6 @@
     </string-array>
 
 
-
-
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="aflo">Aflo</string>
@@ -100,7 +98,17 @@
     <string name="plan_your_trip">Plan your trip</string>
     <string name="recent_trips">Recent trips</string>
     <string name="account_settings">Account Settings</string>
-    <string name="where_is_your_vacation_origin">Where is your vacation origin?</string>
-    <string name="origin">Origin?</string>
+    <string name="where_is_your_vacation_origin">What is your departure city?</string>
+    <string name="origin">Departure?</string>
     <string name="visit_site">Visit Site</string>
+    <string name="title_activity_trip_complete">TripComplete</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="title_activity_trip_summary">TripSummary</string>
 </resources>

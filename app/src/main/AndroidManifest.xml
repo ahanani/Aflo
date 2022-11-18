@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:scrolling_image_view="http://schemas.android.com/apk/res-auto"
     package="com.example.aflo">
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +18,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Aflo"
         tools:targetApi="31">
+        <activity
+            android:name=".TripSummary"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyClk8JbtmIbDlAU7oq32GKL6n-hPAjsTM4" />
+
+        <activity
+            android:name=".TripComplete"
+            android:exported="false" />
         <activity
             android:name=".FlightTypeSelection"
             android:exported="true" />
@@ -27,6 +43,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -65,6 +82,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -73,6 +91,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="anroid.intent.action.VIEW" />
+
                 <category android:name="andorid.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -80,7 +99,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
 
 </manifest>

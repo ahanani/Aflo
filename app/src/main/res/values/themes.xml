@@ -13,6 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="Theme.AfloButton" parent="Theme.Aflo">
         <item name="android:fontFamily">@font/nunito_bold</item>
         <item name="textAllCaps">true</item>
@@ -24,12 +25,24 @@
         <item name="strokeColor">#FFFFFF</item>
         <item name="strokeWidth">2dp</item>
     </style>
+
     <style name="DatePickerTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
         <item name="colorAccent">@color/aflo_orange</item>
-        <item name="android:buttonBarButtonStyle">@style/DatePickerTheme.ButtonBarNegativeButtonStyle</item>
+        <item name="android:buttonBarButtonStyle">
+            @style/DatePickerTheme.ButtonBarNegativeButtonStyle
+        </item>
     </style>
 
     <style name="DatePickerTheme.ButtonBarNegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">@color/aflo_orange</item>
     </style>
+
+    <style name="Theme.Aflo.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Aflo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Aflo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

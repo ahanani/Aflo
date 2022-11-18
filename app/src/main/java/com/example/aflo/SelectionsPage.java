@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -21,11 +20,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import com.google.android.material.textfield.TextInputEditText;
-
 import java.text.DateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class SelectionsPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -48,7 +46,6 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
         fragmentTransaction.commit();
         ImageView forward = findViewById(R.id.forwardButton);
         bundle = new Bundle();
-
 
         forward.setOnClickListener(view -> {
                 switch(num_clicked) {

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TripComplete"
+    android:background="@drawable/background_no_arrow2"
+    android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="58dp"
+        android:layout_height="57dp"
+        android:src="@drawable/ic_baseline_arrow_back_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.016"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
+    <TextView
+        android:id="@+id/originSelectionPrompt"
+        android:layout_width="342dp"
+        android:layout_height="67dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Trip is complete!"
+        android:textColor="#FFFFFF"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.188" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="270dp"
+        android:layout_height="4dp"
+        android:background="@color/aflo_orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.241"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.246" />
+
+    <Button
+        android:id="@+id/button7"
+        android:layout_width="345dp"
+        android:layout_height="69dp"
+        android:backgroundTint="#FFFFFF"
+        android:drawableRight="@drawable/ic_baseline_keyboard_return_24"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Return to transit preference"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.705" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="345dp"
+        android:layout_height="69dp"
+        android:backgroundTint="#FFFFFF"
+        android:drawableRight="@drawable/ic_baseline_keyboard_return_24"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Return to Hotel selection"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.459"
+        android:onClick="toHotel"/>
+
+    <Button
+        android:id="@+id/button6"
+        android:layout_width="345dp"
+        android:layout_height="69dp"
+        android:backgroundTint="#FFFFFF"
+        android:drawableRight="@drawable/ic_baseline_keyboard_return_24"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Return to food preference"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.58" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="345dp"
+        android:layout_height="69dp"
+        android:textSize="15dp"
+        android:backgroundTint="#FFFFFF"
+        android:textColor="@color/black"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Return to flight selection"
+        app:cornerRadius="30dp"
+        android:drawableRight="@drawable/ic_baseline_keyboard_return_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.339"
+        android:onClick="toFlight"/>
+
+    <Button
+        android:id="@+id/button8"
+        android:layout_width="345dp"
+        android:layout_height="69dp"
+        android:backgroundTint="#FFA900"
+        android:drawableRight="@drawable/ic_baseline_check_24"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Finalize"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        app:cornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.848" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1001727686768",
+    "firebase_url": "https://aflo-9e0f4-default-rtdb.firebaseio.com",
+    "project_id": "aflo-9e0f4",
+    "storage_bucket": "aflo-9e0f4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001727686768:android:aa8aad38b6baf38ec61cb5",
+        "android_client_info": {
+          "package_name": "com.example.aflo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001727686768-n5ijad3rb0qqk77guhupc6f5riil2m2b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB9xEJva27ZpAjnxeBDTUCI4xpRVuvdPU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001727686768-n5ijad3rb0qqk77guhupc6f5riil2m2b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
