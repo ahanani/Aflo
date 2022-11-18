@@ -104,4 +104,11 @@
     <string name="origin">Origin?</string>
     <string name="visit_site">Visit Site</string>
     <string name="logout">Logout</string>
+    <string name="placeholder_date">Dec xxth, 20xx</string>
+    <string name="dash">-</string>
+    <string name="originS">Origin:</string>
+    <string name="placeholder_text">placeholder</string>
+    <string name="destinationS">Destination:</string>
+    <string name="totalS">Total:</string>
+    <string name="view_summary_btn">View Summary</string>
 </resources>
