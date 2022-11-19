@@ -3,11 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.aflo.HotelInformation">
+    tools:context="com.example.aflo.HotelInformation"
+    android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rowView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <FrameLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:text="@string/loading"
+            android:fontFamily="@font/nunito"
+            android:textSize="40sp"
+            android:gravity="center"/>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rowView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
 
 </LinearLayout>

@@ -1,17 +1,21 @@
 package com.example.aflo;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -43,6 +47,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     ArrayList<String> ratings = new ArrayList<>();
     ArrayList<String> ratingsCount = new ArrayList<>();
     ArrayList<String> amenitiesScreen = new ArrayList<>();
+    ArrayList<String> geoPoint = new ArrayList<>();
     RecyclerView recyclerView;
     ViewGroup container;
     LayoutInflater inflater;
@@ -108,10 +113,12 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         TextView select = row.findViewById(R.id.select);
         TextView visit = row.findViewById(R.id.visit);
         TableLayout table = row.findViewById(R.id.features);
+        visit.setOnClickListener(null);
         table.removeAllViews();
         select.setVisibility(View.INVISIBLE);
         visit.setVisibility(View.INVISIBLE);
         amenitiesScreen.clear();
+        geoPoint.clear();
         if (hotelTitle != null) {
             ViewGroup.LayoutParams hotelTitleParams = hotelTitle.getLayoutParams();
             hotelTitleParams.width = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -133,12 +140,21 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         select.setVisibility(View.VISIBLE);
         TextView visit = row.findViewById(R.id.visit);
         visit.setVisibility(View.VISIBLE);
+        visit.setOnClickListener(v -> {
+            String url1 = "geo:" + geoPoint.get(0) + "," + geoPoint.get(1) + "?q=(" +titles.get(position) + ")";
+            Uri gmmIntentUri = Uri.parse(url1);
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            startActivity(mapIntent);
+
+        });
         AsyncTaskForHotelAmenities runner2 = new AsyncTaskForHotelAmenities();
         runner2.execute(String.valueOf(ids.get(position)));
         hotelTitle = previouslyOpenRow.findViewById(R.id.hotel);
         ViewGroup.LayoutParams hotelTitleParams = hotelTitle.getLayoutParams();
         hotelTitleParams.width = 380;
         hotelTitle.setLayoutParams(hotelTitleParams);
+
     }
 
     private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
@@ -150,6 +166,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
             rowRecyclerView.setClickListener(itemClickListener);
             recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
             recyclerView.setAdapter(rowRecyclerView);
+            view.findViewById(R.id.loading).setVisibility(View.INVISIBLE);
         }
 
         @Override
@@ -259,6 +276,10 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                 JSONObject jsonResponse = new JSONObject(response.body().string());
                 JSONObject data1 = jsonResponse.getJSONObject("data");
                 JSONArray amenities = data1.getJSONArray("amenitiesScreen");
+                JSONObject geoP = data1.getJSONObject("geoPoint");
+                System.out.println("Locations: " + geoP.getString("latitude") + " " + geoP.getString("longitude"));
+                geoPoint.add(geoP.getString("latitude"));
+                geoPoint.add(geoP.getString("longitude"));
                 if (amenities.length() < 8) {
                     for (int i = 0; i < amenities.length(); i++) {
                         JSONObject item = amenities.getJSONObject(i);
