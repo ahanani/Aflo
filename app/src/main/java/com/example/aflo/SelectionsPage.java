@@ -133,6 +133,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                             Toast.makeText(this, "Please enter departing and returning date", Toast.LENGTH_LONG).show();
                         } else {
                             Intent intent = new Intent(this, FlightTypeSelection.class);
+                            Log.d("SelectionsPage", "Bundle complete: " + bundle);
                             startActivity(intent, bundle);
                         }
                         break;
