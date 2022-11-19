@@ -141,7 +141,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         TextView visit = row.findViewById(R.id.visit);
         visit.setVisibility(View.VISIBLE);
         visit.setOnClickListener(v -> {
-            String url1 = "geo:" + geoPoint.get(0) + "," + geoPoint.get(1) + "?q=(" +titles.get(position) + ")";
+            String url1 = "geo:" + geoPoint.get(0) + "," + geoPoint.get(1) + "?q=" + titles.get(position);
             Uri gmmIntentUri = Uri.parse(url1);
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
