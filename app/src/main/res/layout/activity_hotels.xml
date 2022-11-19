@@ -9,15 +9,32 @@
     <FrameLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent">
-        <TextView
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/loading"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="@color/white"
-            android:text="@string/loading"
-            android:fontFamily="@font/nunito"
-            android:textSize="40sp"
-            android:gravity="center"/>
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+
+            <pl.droidsonroids.gif.GifImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:src="@drawable/loading_image"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@color/white"
+                android:text="@string/loading"
+                android:fontFamily="@font/nunito"
+                android:textSize="30sp"
+                android:layout_gravity="center"
+                android:gravity="center"/>
+        </LinearLayout>
 
 
         <androidx.recyclerview.widget.RecyclerView
