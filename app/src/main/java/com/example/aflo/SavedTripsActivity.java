@@ -19,12 +19,9 @@ public class SavedTripsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_trips);
         user = FirebaseAuth.getInstance().getCurrentUser();
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (true) {
+        //TODO: Change guard condition to "if User has no trips saved"
+        if (false) {
             TextView title = findViewById(R.id.savedTrips);
             title.setText("No saved trips");
         }

@@ -1,5 +1,6 @@
 package com.example.aflo;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class SavedTripsRecycler extends RecyclerView.Adapter<SavedTripsRecycler.
     public SavedTripsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View tripView = inflater.inflate(R.layout.fragment_saved_trip, parent, false);
-        return new SavedTripsHolder(tripView);
+        return new SavedTripsHolder((tripView));
     }
 
     @Override
@@ -34,6 +35,11 @@ public class SavedTripsRecycler extends RecyclerView.Adapter<SavedTripsRecycler.
         //TODO: Change trip type Object to type Trip class
         Object trip = savedTrips.get(position);
 
+        holder.fromDate.setText("Jan XX, 20XX");
+        holder.toDate.setText("Mar XX, 20XX");
+        holder.origin.setText("City, CO");
+        holder.destination.setText("City, CO");
+        holder.total.setText("$0000.00");
 
     }
 
