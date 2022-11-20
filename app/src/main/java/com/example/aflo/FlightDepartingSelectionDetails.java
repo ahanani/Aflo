@@ -1,5 +1,6 @@
 package com.example.aflo;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     ViewGroup container;
     LayoutInflater inflater;
     Bundle bundle;
+    Bundle bundle_flight_departing;
 
     ArrayList<Integer> images = new ArrayList<>();
     //    String[] flights, prices, stops;
@@ -82,7 +84,6 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         AsyncTaskRunner runner = new AsyncTaskRunner();
         String flightURL = "https://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/" + country + "/" + currency + "/" + locale + "/" + originPlace + "/" + destinationPlace +"/" + outboundPartialDate +"/" + inboundPartialDate + "?apikey=prtl6749387986743898559646983194";
         runner.execute(flightURL);
-
 
 
     }
@@ -170,6 +171,15 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         flightTypeText.setTextSize(18);
         flightType.addView(flightTypeText);
         table.addView(flightType);
+
+//        TextView dateArrive = row.findViewById(R.id.flight);
+//        bundle_flight_departing.putString("dateArrive", dateArrive.toString());
+//        Intent intent = getActivity().getIntent();
+
+        Intent intent1 = new Intent(view.getContext(), flight_returning_selection.class);
+        intent1.putExtra("bundle", bundle);
+        startActivity(intent1);
+
     }
 
     private class AsyncTaskRunner extends AsyncTask<String, Void, String> {

@@ -28,6 +28,7 @@ public class FlightTypeSelection extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_type_selection);
+        System.out.println("bundle info below" + savedInstanceState);
     }
 
 
@@ -36,28 +37,35 @@ public class FlightTypeSelection extends AppCompatActivity {
 
     public void saveFlightTypeToBundle(View view) {
 
-        Bundle bundle_flight = new Bundle();
-        Intent intent1 = new Intent(this, FlightDepartingSelection.class);
+//        Bundle bundle_flight = new Bundle();
+//        Intent intent1 = new Intent(this, FlightDepartingSelection.class);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
 
 
         Button b = (Button) view;
         String text = b.getText().toString();
 
+        Intent intent1 = new Intent(view.getContext(), flight_departing_selection.class);
+
         if (text.equals("Economy                    $")) {
-            bundle_flight.putString("flightType", "Economy");
-            Log.d("flightType in bundle", bundle_flight.getString("flightType"));
+            bundle.putString("flightType", "Economy");
+            intent1.putExtra("bundle", bundle);
+            Log.d("flightType in bundle", bundle.getString("flightType"));
             startActivity(intent1);
         }
 
         if (text.equals("Business                  $$")) {
-            bundle_flight.putString("flightType", "Business");
-            Log.d("flightType in bundle", bundle_flight.getString("flightType"));
+            bundle.putString("flightType", "Business");
+            intent1.putExtra("bundle", bundle);
+            Log.d("flightType in bundle", bundle.getString("flightType"));
             startActivity(intent1);
         }
 
         if (text.equals("First Class           $$$")) {
-            bundle_flight.putString("flightType", "Business");
-            Log.d("flightType in bundle", bundle_flight.getString("flightType"));
+            bundle.putString("flightType", "Business");
+            intent1.putExtra("bundle", bundle);
+            Log.d("flightType in bundle", bundle.getString("flightType"));
             startActivity(intent1);
         }
     }
