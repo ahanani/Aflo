@@ -1,7 +1,9 @@
 package com.example.aflo;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,5 +106,25 @@ public class FlightReturningSelectionDetails extends Fragment implements ItemCli
         flightTypeText.setTextSize(18);
         flightType.addView(flightTypeText);
         table.addView(flightType);
+
+        Intent intent = getActivity().getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
+
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle received: " + bundle);
+        Log.d("FlightDepartingSelectionDetails", "Bundle budget: " + bundle.getInt("budget"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle destination: " + bundle.getString("destination"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromYear: " + bundle.getInt("fromYear"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromMonth: " + bundle.getInt("fromMonth"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromDay: " + bundle.getInt("fromDay"));
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle origin: " + bundle.getString("origin"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toYear: " + bundle.getInt("toYear"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toMonth: " + bundle.getInt("toMonth"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toDay: " + bundle.getInt("toDay"));
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle minFlightPrice: " + bundle.getInt("minFlightPrice"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
+
     }
 }

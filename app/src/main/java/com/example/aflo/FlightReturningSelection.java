@@ -24,7 +24,11 @@ public class FlightReturningSelection extends AppCompatActivity {
     }
 
     public void goToHotelSelection(View view) {
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
         Intent goToHotels = new Intent(this, HotelInformation.class);
+        goToHotels.putExtra("bundle", bundle);
         startActivity(goToHotels);
     }
 }

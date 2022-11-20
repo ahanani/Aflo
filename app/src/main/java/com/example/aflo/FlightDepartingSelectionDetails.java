@@ -42,8 +42,8 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     ItemClickListener itemClickListener;
     ViewGroup container;
     LayoutInflater inflater;
-    Bundle bundle;
-    Bundle bundle_flight_departing;
+//    Bundle bundle;
+
 
     ArrayList<Integer> images = new ArrayList<>();
     //    String[] flights, prices, stops;
@@ -92,7 +92,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.inflater = inflater;
         this.container = container;
-        this.bundle = savedInstanceState;
+//        this.bundle = savedInstanceState;
 
         itemClickListener = this;
 
@@ -176,9 +176,30 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 //        bundle_flight_departing.putString("dateArrive", dateArrive.toString());
 //        Intent intent = getActivity().getIntent();
 
-        Intent intent1 = new Intent(view.getContext(), flight_returning_selection.class);
-        intent1.putExtra("bundle", bundle);
-        startActivity(intent1);
+
+
+        Intent intent = getActivity().getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
+
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle received: " + bundle);
+        Log.d("FlightDepartingSelectionDetails", "Bundle budget: " + bundle.getInt("budget"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle destination: " + bundle.getString("destination"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromYear: " + bundle.getInt("fromYear"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromMonth: " + bundle.getInt("fromMonth"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromDay: " + bundle.getInt("fromDay"));
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle origin: " + bundle.getString("origin"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toYear: " + bundle.getInt("toYear"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toMonth: " + bundle.getInt("toMonth"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toDay: " + bundle.getInt("toDay"));
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle minFlightPrice: " + bundle.getInt("minFlightPrice"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
+//
+//        Intent intent1 = new Intent(view.getContext(), FlightReturningSelection.class);
+//
+//        startActivity(intent1);
 
     }
 
@@ -214,12 +235,12 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                             String parsedInboundLeg = jsonobject.getString("InboundLeg");
                             String parsedQuoteDateTime = jsonobject.getString("QuoteDateTime");
 
-                            Log.d("QuoteID from parsing JSONArray", parsedQuoteId);
-                            Log.d("MinPrice from parsing JSONArray", parsedMinPrice);
-                            Log.d("Direct from parsing JSONArray", parsedDirect);
-                            Log.d("OutboundLeg from parsing JSONArray", parsedOutboundLeg);
-                            Log.d("InboundLeg from parsing JSONArray", parsedInboundLeg);
-                            Log.d("QuoteDateTime from parsing JSONArray", parsedQuoteDateTime);
+//                            Log.d("QuoteID from parsing JSONArray", parsedQuoteId);
+//                            Log.d("MinPrice from parsing JSONArray", parsedMinPrice);
+//                            Log.d("Direct from parsing JSONArray", parsedDirect);
+//                            Log.d("OutboundLeg from parsing JSONArray", parsedOutboundLeg);
+//                            Log.d("InboundLeg from parsing JSONArray", parsedInboundLeg);
+//                            Log.d("QuoteDateTime from parsing JSONArray", parsedQuoteDateTime);
 
 
                             FlightQuote currentFlightQuote = new FlightQuote();
@@ -236,9 +257,9 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                             Log.d("CARRIERS", jsonarray2.toString());
                             for (int j = 0; j < jsonarray2.length(); j++) {
                                 JSONObject jsonobject2 = jsonarray2.getJSONObject(j);
-                                Log.d("jsonobject2", jsonobject2.toString());
-                                Log.d("CarrierID", jsonobject2.getString("CarrierId"));
-                                Log.d("Carrier Name", jsonobject2.getString("Name"));
+//                                Log.d("jsonobject2", jsonobject2.toString());
+//                                Log.d("CarrierID", jsonobject2.getString("CarrierId"));
+//                                Log.d("Carrier Name", jsonobject2.getString("Name"));
                                 carriers.put(jsonobject2.getString("CarrierId"), jsonobject2.getString("Name"));
                             }
                             String x  = jsonobject.getString("OutboundLeg");
@@ -246,7 +267,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                             try {
                                 JSONObject jObject = new JSONObject(x);
                                 JSONArray y = jObject.getJSONArray("CarrierIds");
-                                Log.d("yCarrier", y.get(0).toString());
+//                                Log.d("yCarrier", y.get(0).toString());
                                 String currentCarrierID = y.get(0).toString();
 //                                currentFlightQuote.setCarrier(currentCarrierID);
                                 String currentCarrierName = carriers.get(currentCarrierID);
@@ -272,12 +293,12 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 }
 
                 public ArrayList<FlightQuote> printFlightQuotes() {
-                    Log.d("List of flight quotes size", Integer.toString(listOfFlightQuotes.size()));
+//                    Log.d("List of flight quotes size", Integer.toString(listOfFlightQuotes.size()));
                     for (int i =0; i < listOfFlightQuotes.size(); i++) {
                         images.add(R.drawable.ic_baseline_airplanemode_active_24);
-                        Log.d("printFlightQuotes index", Integer.toString(i));
-                        Log.d("printFlightQuotes FlightQuote Object", listOfFlightQuotes.get(i).toString());
-                        Log.d("outbound leg to string", listOfFlightQuotes.get(i).getOutboundLeg());
+//                        Log.d("printFlightQuotes index", Integer.toString(i));
+//                        Log.d("printFlightQuotes FlightQuote Object", listOfFlightQuotes.get(i).toString());
+//                        Log.d("outbound leg to string", listOfFlightQuotes.get(i).getOutboundLeg());
                         String x  = listOfFlightQuotes.get(i).getOutboundLeg();
                         String currentCarrierName = listOfFlightQuotes.get(i).getCarrier();
                         carriersList.add(currentCarrierName);
@@ -291,12 +312,12 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                         }
 
                         flights.add(y);
-                        Log.d("flight outbound leg", listOfFlightQuotes.get(i).OutboundLeg);
+//                        Log.d("flight outbound leg", listOfFlightQuotes.get(i).OutboundLeg);
                         prices.add("$" + listOfFlightQuotes.get(i).MinPrice);
-                        Log.d("flight min price", listOfFlightQuotes.get(i).MinPrice);
+//                        Log.d("flight min price", listOfFlightQuotes.get(i).MinPrice);
 
 
-                        Log.d("flight direct", listOfFlightQuotes.get(i).Direct);
+//                        Log.d("flight direct", listOfFlightQuotes.get(i).Direct);
                         if (listOfFlightQuotes.get(i).Direct.equals("true")) {
                             stops.add("Direct");
                         }
