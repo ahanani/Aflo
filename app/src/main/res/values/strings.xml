@@ -84,6 +84,9 @@
     </string-array>
 
 
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="aflo">Aflo</string>
@@ -113,4 +116,11 @@
     <string name="title_activity_trip_summary">TripSummary</string>
     <string name="logout">Logout</string>
     <string name="loading">Loading...</string>
+    <string name="placeholder_date">Dec xxth, 20xx</string>
+    <string name="dash">-</string>
+    <string name="originS">Origin:</string>
+    <string name="placeholder_text">placeholder</string>
+    <string name="destinationS">Destination:</string>
+    <string name="totalS">Total:</string>
+    <string name="view_summary_btn">View Summary</string>
 </resources>
