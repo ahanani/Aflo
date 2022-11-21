@@ -5,25 +5,53 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SelectionsPage extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -31,6 +59,12 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
     private boolean fromClicked = false;
     private boolean toClicked = false;
     private Bundle bundle;
+    String country = "";
+    ArrayList<String> states = new ArrayList<String>();
+    JSONObject json = new JSONObject();
+    ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
+    Map<String, String> mapFinal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +80,12 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
         fragmentTransaction.commit();
         ImageView forward = findViewById(R.id.forwardButton);
         bundle = new Bundle();
+        ArrayList<String> countries = new ArrayList<String>();
+        ArrayList<JSONObject> statesObjs = new ArrayList<JSONObject>();
+        String iso2 = "";
+        AsyncTaskRunner runner = new AsyncTaskRunner();
+        runner.execute("https://raw.githubusercontent.com/mwgg/Airports/master/airports.json");
+
 
         forward.setOnClickListener(view -> {
                 switch(num_clicked) {
@@ -61,32 +101,256 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                             fragmentTransaction1.commit();
                             num_clicked++;
                             bundle.putInt("budget", Integer.parseInt(budgetNum));
+
+
+                            fragmentManager.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+                                @Override
+                                public void onFragmentResumed(FragmentManager fm, Fragment f) {
+                                    super.onFragmentResumed(fm, f);
+                                    Map<String, String> countryMap = new HashMap<>();
+                                    for (String iso : Locale.getISOCountries()) {
+                                        Locale l = new Locale("", iso);
+                                        countries.add(l.getDisplayCountry());
+                                        countryMap.put(l.getDisplayCountry(), iso);
+                                    }
+                                    mapFinal = countryMap;
+
+                                    Collections.sort(countries);
+                                    ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(SelectionsPage.this,
+                                            android.R.layout.simple_spinner_item, countries);
+
+                                    countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    AutoCompleteTextView spinner = findViewById(R.id.spinner);
+                                    if (spinner != null) {
+                                        spinner.setAdapter(countryAdapter);
+                                        spinner.setThreshold(1);
+                                        spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+                                                country = spinner.getText().toString();
+                                                AutoCompleteTextView spinner21 = findViewById(R.id.spinner2);
+                                                spinner21.setText("");
+                                                AutoCompleteTextView spinner22 = findViewById(R.id.spinner3);
+                                                spinner22.setText("");
+                                                String code = countryMap.get(country);
+                                                states = new ArrayList<String>();
+
+                                                try {
+                                                    Iterator<String> jsonArray = json.keys();
+                                                    Log.d("paste", "herre");
+                                                    while (jsonArray.hasNext()) {
+                                                        JSONObject jsonTemp = (JSONObject) json.get(jsonArray.next());
+                                                        Log.d("country", jsonTemp.getString("country"));
+                                                        if (jsonTemp.getString("country").matches(code)) {
+                                                            jsonList.add(jsonTemp);
+                                                            if (!states.contains(jsonTemp.getString("state"))) {
+                                                                states.add(jsonTemp.getString("state"));
+                                                                Log.d("state", jsonTemp.getString("state"));
+                                                            }
+                                                        }
+                                                    }
+
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                                Collections.sort(states);
+                                                ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(SelectionsPage.this,
+                                                        android.R.layout.simple_spinner_item, states);
+
+                                                countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                AutoCompleteTextView spinner = findViewById(R.id.spinner2);
+                                                spinner.setAdapter(countryAdapter);
+                                                spinner.setThreshold(1);
+                                                spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                                    @Override
+                                                    public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+                                                        String state = spinner.getText().toString();
+                                                        ArrayList<String> cities = new ArrayList<String>();
+                                                        Log.d("number", "" + jsonList.size());
+                                                        AutoCompleteTextView spinner52 = findViewById(R.id.spinner3);
+                                                        spinner52.setText("");
+                                                        for (int g = 0; g < jsonList.size(); g++) {
+                                                            try {
+                                                                Log.d("state1", jsonList.get(g).getString("state"));
+                                                                Log.d("state1", state);
+                                                                if (jsonList.get(g).getString("state").matches(state) && !cities.contains(jsonList.get(g).getString("city"))) {
+                                                                    Log.d("here", jsonList.get(g).getString("city"));
+                                                                    cities.add(jsonList.get(g).getString("city"));
+                                                                }
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+                                                        Collections.sort(cities);
+                                                        ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(SelectionsPage.this,
+                                                                android.R.layout.simple_spinner_item, cities);
+
+                                                        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                        AutoCompleteTextView spinner = findViewById(R.id.spinner3);
+                                                        spinner.setThreshold(1);//will start working from first character
+                                                        spinner.setAdapter(countryAdapter);
+
+                                                    }
+                                                });
+                                            }
+
+                                        });
+                                    }
+                                }
+                            }, true);
+
+
                         }
                         break;
                     case 1:
-                        EditText origin = (EditText) findViewById(R.id.originSelectionInput);
-                        String originString = origin.getText().toString();
-                        if (originString.matches("")) {
-                            Toast.makeText(this, "Please enter an origin city", Toast.LENGTH_LONG).show();
-                        }else {
+                        AutoCompleteTextView country = findViewById(R.id.spinner);
+                        AutoCompleteTextView state = findViewById(R.id.spinner2);
+                        AutoCompleteTextView city = findViewById(R.id.spinner3);
+
+                        String cityString = city.getText().toString();
+                        String stateString = state.getText().toString();
+                        String countryString = country.getText().toString();
+
+                        if (cityString.matches("") || countryString.matches("") || stateString.matches("")) {
+                            Toast.makeText(this, "Please enter an departure location", Toast.LENGTH_LONG).show();
+                        } else {
                             FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
                             fragmentTransaction1.replace(R.id.selectionsContainer, destinationSelection);
                             fragmentTransaction1.commit();
                             num_clicked++;
-                            bundle.putString("origin", originString);
+                            bundle.putString("OriginCity", cityString);
+                            bundle.putString("OriginState", stateString);
+                            bundle.putString("OriginCountry", countryString);
+                            bundle.putString("OriginCode", mapFinal.get(countryString));
+                            ArrayList<String> countries2 = new ArrayList<String>();
+
+                            fragmentManager.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
+                                @Override
+                                public void onFragmentResumed(FragmentManager fm, Fragment f) {
+                                    super.onFragmentResumed(fm, f);
+                                    Map<String, String> countryMap = new HashMap<>();
+                                    for (String iso : Locale.getISOCountries()) {
+                                        Locale l = new Locale("", iso);
+                                        countries2.add(l.getDisplayCountry());
+                                        countryMap.put(l.getDisplayCountry(), iso);
+                                    }
+                                    mapFinal = countryMap;
+
+
+                                            Collections.sort(countries2);
+                                    ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(SelectionsPage.this,
+                                            android.R.layout.simple_spinner_item, countries2);
+
+                                    countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                    AutoCompleteTextView spinner4 = findViewById(R.id.spinner4);
+                                    if (spinner4 != null) {
+                                        spinner4.setAdapter(countryAdapter);
+                                        spinner4.setThreshold(1);
+                                        spinner4.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                            @Override
+                                            public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+                                                String country = spinner4.getText().toString();
+                                                String code = countryMap.get(country);
+                                                AutoCompleteTextView spinner41 = findViewById(R.id.spinner5);
+                                                spinner41.setText("");
+                                                AutoCompleteTextView spinner52 = findViewById(R.id.spinner6);
+                                                spinner52.setText("");
+                                                states = new ArrayList<String>();
+
+                                                try {
+                                                    Iterator<String> jsonArray = json.keys();
+                                                    Log.d("paste", "herre");
+                                                    while (jsonArray.hasNext()) {
+                                                        JSONObject jsonTemp = (JSONObject) json.get(jsonArray.next());
+                                                        Log.d("country", jsonTemp.getString("country"));
+                                                        if (jsonTemp.getString("country").matches(code)) {
+                                                            jsonList.add(jsonTemp);
+                                                            if (!states.contains(jsonTemp.getString("state"))) {
+                                                                states.add(jsonTemp.getString("state"));
+                                                                Log.d("state", jsonTemp.getString("state"));
+                                                            }
+                                                        }
+                                                    }
+
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                                Collections.sort(states);
+                                                ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(SelectionsPage.this,
+                                                        android.R.layout.simple_spinner_item, states);
+
+                                                countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                AutoCompleteTextView spinner = findViewById(R.id.spinner5);
+                                                spinner.setAdapter(countryAdapter);
+                                                spinner.setThreshold(1);
+                                                spinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                                                    @Override
+                                                    public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
+                                                        String state = spinner.getText().toString();
+                                                        ArrayList<String> cities = new ArrayList<String>();
+                                                        Log.d("number", "" + jsonList.size());
+                                                        AutoCompleteTextView spinner52 = findViewById(R.id.spinner6);
+                                                        spinner52.setText("");
+                                                        for (int g = 0; g < jsonList.size(); g++) {
+                                                            try {
+                                                                Log.d("state1", jsonList.get(g).getString("state"));
+                                                                Log.d("state1", state);
+                                                                if (jsonList.get(g).getString("state").matches(state) && !cities.contains(jsonList.get(g).getString("city"))) {
+                                                                    Log.d("here", jsonList.get(g).getString("city"));
+                                                                    cities.add(jsonList.get(g).getString("city"));
+                                                                }
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        }
+                                                        Collections.sort(cities);
+                                                        ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(SelectionsPage.this,
+                                                                android.R.layout.simple_spinner_item, cities);
+
+                                                        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                        AutoCompleteTextView spinner = findViewById(R.id.spinner6);
+                                                        spinner.setThreshold(1);//will start working from first character
+                                                        spinner.setAdapter(countryAdapter);
+
+                                                    }
+                                                });
+                                            }
+
+                                        });
+                                    }
+                                }
+                            }, true);
+
                         }
                         break;
                     case 2:
-                        EditText destination = (EditText) findViewById(R.id.destinationSelectionInput);
-                        String destinationString = destination.getText().toString();
-                        if (destinationString.matches("")) {
-                            Toast.makeText(this, "Please enter an destination city", Toast.LENGTH_LONG).show();
+
+                        AutoCompleteTextView country2 = findViewById(R.id.spinner4);
+                        AutoCompleteTextView state2 = findViewById(R.id.spinner5);
+                        AutoCompleteTextView city2 = findViewById(R.id.spinner6);
+
+                        String cityString2 = city2.getText().toString();
+                        String stateString2 = state2.getText().toString();
+                        String countryString2 = country2.getText().toString();
+
+                        if (cityString2.matches("") || countryString2.matches("") || stateString2.matches("")) {
+                            Toast.makeText(this, "Please enter an departure location", Toast.LENGTH_LONG).show();
                         } else {
                             FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
                             fragmentTransaction1.replace(R.id.selectionsContainer, dateSelection);
                             fragmentTransaction1.commit();
                             num_clicked++;
-                            bundle.putString("destination", destinationString);
+                            bundle.putString("DestinationCity", cityString2);
+                            bundle.putString("DestinationState", stateString2);
+                            bundle.putString("DestinationCountry", countryString2);
+                            bundle.putString("DestinationCode", mapFinal.get(countryString2));
+
                             fragmentManager.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
                                 @Override
                                 public void onFragmentResumed(FragmentManager fm, Fragment f) {
@@ -116,20 +380,22 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                         }
                         break;
                     case 3:
-                        EditText to = (EditText) findViewById(R.id.toSelectionInput);
-                        String toDate = to.getText().toString();
-                        EditText from = (EditText) findViewById(R.id.fromSelectionInput);
-                        String fromDate = from.getText().toString();
                         Log.d("budget", ""+bundle.getInt("budget"));
-                        Log.d("origin", ""+bundle.getString("origin"));
-                        Log.d("destination", ""+bundle.getString("destination"));
                         Log.d("toDay", ""+bundle.getInt("toDay"));
                         Log.d("toMonth", ""+bundle.getInt("toMonth"));
                         Log.d("toYear", ""+bundle.getInt("toYear"));
                         Log.d("fromDay", ""+bundle.getInt("fromDay"));
                         Log.d("fromMonth", ""+bundle.getInt("fromMonth"));
                         Log.d("fromYear", ""+bundle.getInt("fromYear"));
-                        if ((toDate.matches("") && fromDate.matches(""))) {
+                        Log.d("city", ""+bundle.getString("OriginCity"));
+                        Log.d("state", ""+bundle.getString("OriginState"));
+                        Log.d("country", ""+bundle.getString("OriginCountry"));
+                        Log.d("code", ""+bundle.getString("OriginCode"));
+                        Log.d("city2", ""+bundle.getString("DestinationCity"));
+                        Log.d("state2", ""+bundle.getString("DestinationState"));
+                        Log.d("country2", ""+bundle.getString("DestinationCountry"));
+                        Log.d("code2", ""+bundle.getString("DestinationCode"));
+                        if (bundle.getInt("toDay") == 0 || bundle.getInt("toMonth") == 0 || bundle.getInt("toYear") == 0 || bundle.getInt("fromDay") == 0 || bundle.getInt("fromMonth") == 0 || bundle.getInt("fromYear") == 0) {
                             Toast.makeText(this, "Please enter departing and returning date", Toast.LENGTH_LONG).show();
                         } else {
                             Intent intent = new Intent(this, FlightTypeSelection.class);
@@ -140,6 +406,30 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                 }
         });
     }
+
+    private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            Log.d("here", "thisthat");
+            RequestQueue queue = Volley.newRequestQueue(SelectionsPage.this);
+            JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, strings[0], null, new com.android.volley.Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                        json = response;
+                }
+            }, new com.android.volley.Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("msg", error.toString());
+                    Toast.makeText(SelectionsPage.this, error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            queue.add(request);
+            return null;
+        }
+    }
+
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
