@@ -13,7 +13,7 @@
         android:layout_width="360dp"
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
-        android:progress="70"
+        android:progress="10"
         android:progressDrawable="@drawable/progress_round_corner"
         android:scaleY="1"
         tools:layout_editor_absoluteX="177dp"
@@ -28,6 +28,6 @@
         android:textSize="20sp"
         android:fontFamily="@font/nunito"
         android:layout_height="wrap_content"
-        android:textColor="#DCFFFFFF"
+        android:textColor="#FF0000"
         android:text="$2500 remaining" />
 </FrameLayout>

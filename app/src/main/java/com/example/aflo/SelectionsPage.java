@@ -46,6 +46,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
         fragmentTransaction.commit();
         ImageView forward = findViewById(R.id.forwardButton);
         bundle = new Bundle();
+        bundle.putInt("spentBudget", 0);
 
         forward.setOnClickListener(view -> {
                 switch(num_clicked) {
