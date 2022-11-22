@@ -37,6 +37,10 @@
         <item name="android:textColor">@color/aflo_orange</item>
     </style>
 
+    <style name="Spinner">
+        <item name="fontFamily">@font/nunito_bold</item>
+    </style>
+
     <style name="Theme.Aflo.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
