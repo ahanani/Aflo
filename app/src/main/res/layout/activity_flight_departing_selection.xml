@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/background_flight_selection"
     android:columnCount="1"
-    android:rowCount="3">
+    android:rowCount="4">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
@@ -24,10 +24,26 @@
         android:textColor="@color/white"
         android:layout_height="wrap_content"
         android:fontFamily="@font/nunito"
-        android:text="Select your departing flight"
+        android:text="Select your flights"
+        android:textStyle="bold"
         android:textSize="34sp"
         android:layout_column="0"
         android:layout_row="1"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:id="@+id/dates"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito"
+        android:text="MMM DD, YYYY - MMM DD, YYYY\n"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:layout_column="0"
+        android:layout_row="2"
         android:layout_marginStart="10dp"/>
 
     <androidx.fragment.app.FragmentContainerView
@@ -35,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_row="2"
+        android:layout_row="3"
         android:name="com.example.aflo.HotelsFragment"
         tools:layout="@layout/activity_hotels"
         android:layout_marginBottom="80dp">

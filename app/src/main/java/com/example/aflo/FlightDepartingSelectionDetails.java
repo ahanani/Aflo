@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -69,21 +70,49 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 //        prices = getResources().getStringArray(R.array.listOfDepartingFlightPrices);
 //        stops = getResources().getStringArray(R.array.listOfDepartingFlightStops);
 
+        Intent intent = getActivity().getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
+
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle received: " + bundle);
+        Log.d("FlightDepartingSelectionDetails", "Bundle budget: " + bundle.getInt("budget"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle destination: " + bundle.getString("destination"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromYear: " + bundle.getInt("fromYear"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromMonth: " + bundle.getInt("fromMonth"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromDay: " + bundle.getInt("fromDay"));
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle origin: " + bundle.getString("origin"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toYear: " + bundle.getInt("toYear"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toMonth: " + bundle.getInt("toMonth"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toDay: " + bundle.getInt("toDay"));
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle minFlightPrice: " + bundle.getInt("minFlightPrice"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
+
+
+
+
+
+
         String country = "CA";
         String currency = "CAD";
         String locale = "en-GB";
         String originPlace = "YVR";
 //        String destinationPlace = "MIA";
-        String destinationPlace = "LAX";
-        String outboundPartialDate = "anytime";
-//        String outboundPartialDate = "2023-03-28";
+        String destinationPlace = "YYZ";
+        String outboundPartialDate = Integer.toString(bundle.getInt("fromYear")) + "-" + Integer.toString(bundle.getInt("fromMonth")) + "-" + Integer.toString(bundle.getInt("fromDay"));
+//        String outboundPartialDate = "anytime";
+//        String outboundPartialDate = "2022-12-16";
 //        String outboundPartialDate = "2023-01-23";
-        String inboundPartialDate = "anytime";
-//        String inboundPartialDate = "2023-04-04";
+        String inboundPartialDate = Integer.toString(bundle.getInt("toYear")) + "-" + Integer.toString(bundle.getInt("toMonth")) + "-" + Integer.toString(bundle.getInt("toDay"));
+//        String inboundPartialDate = "anytime";
+//        String inboundPartialDate = "2022-12-23";
 //        String inboundPartialDate = "2023-01-29";
         AsyncTaskRunner runner = new AsyncTaskRunner();
         String flightURL = "https://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/" + country + "/" + currency + "/" + locale + "/" + originPlace + "/" + destinationPlace +"/" + outboundPartialDate +"/" + inboundPartialDate + "?apikey=prtl6749387986743898559646983194";
         runner.execute(flightURL);
+
+
 
 
     }
@@ -178,24 +207,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
 
 
-        Intent intent = getActivity().getIntent();
-        Bundle bundle = intent.getBundleExtra("bundle");
 
-
-        Log.d("FlightDepartingSelectionDetails", "Bundle received: " + bundle);
-        Log.d("FlightDepartingSelectionDetails", "Bundle budget: " + bundle.getInt("budget"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle destination: " + bundle.getString("destination"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle fromYear: " + bundle.getInt("fromYear"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle fromMonth: " + bundle.getInt("fromMonth"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle fromDay: " + bundle.getInt("fromDay"));
-
-        Log.d("FlightDepartingSelectionDetails", "Bundle origin: " + bundle.getString("origin"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle toYear: " + bundle.getInt("toYear"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle toMonth: " + bundle.getInt("toMonth"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle toDay: " + bundle.getInt("toDay"));
-
-        Log.d("FlightDepartingSelectionDetails", "Bundle minFlightPrice: " + bundle.getInt("minFlightPrice"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
 //
 //        Intent intent1 = new Intent(view.getContext(), FlightReturningSelection.class);
 //
@@ -300,18 +312,23 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 //                        Log.d("printFlightQuotes FlightQuote Object", listOfFlightQuotes.get(i).toString());
 //                        Log.d("outbound leg to string", listOfFlightQuotes.get(i).getOutboundLeg());
                         String x  = listOfFlightQuotes.get(i).getOutboundLeg();
+                        String z  = listOfFlightQuotes.get(i).getInboundLeg();
                         String currentCarrierName = listOfFlightQuotes.get(i).getCarrier();
                         carriersList.add(currentCarrierName);
 
-                        String y = "01/01/2023";
+                        String y = "";
+                        String z1 = "";
                         try {
                             JSONObject jObject = new JSONObject(x);
                             y = jObject.getString("DepartureDate").split("T")[0];
+                            JSONObject jObjectIn = new JSONObject(z);
+                            z1 = jObject.getString("DepartureDate").split("T")[0];
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                         flights.add(y);
+                        flights.add(z1);
 //                        Log.d("flight outbound leg", listOfFlightQuotes.get(i).OutboundLeg);
                         prices.add("$" + listOfFlightQuotes.get(i).MinPrice);
 //                        Log.d("flight min price", listOfFlightQuotes.get(i).MinPrice);

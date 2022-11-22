@@ -42,6 +42,7 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
     @Override
     public void onBindViewHolder(@NonNull RowViewHolder holder, int position) {
         holder.flight.setText(dates.get(position));
+//        holder.flight.setText(dates.get(position) + " - " + dates.get(position+1));
         holder.prices.setText(prices.get(position));
         holder.image.setImageResource(images.get(position));
         holder.stops.setText(stops.get(position));
