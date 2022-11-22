@@ -80,6 +80,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
         fragmentTransaction.commit();
         ImageView forward = findViewById(R.id.forwardButton);
         bundle = new Bundle();
+        bundle.putInt("spentBudget", 0);
         ArrayList<String> countries = new ArrayList<String>();
         ArrayList<JSONObject> statesObjs = new ArrayList<JSONObject>();
         String iso2 = "";

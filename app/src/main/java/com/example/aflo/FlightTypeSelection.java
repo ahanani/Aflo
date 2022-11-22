@@ -1,6 +1,7 @@
 package com.example.aflo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentContainerView;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FlightTypeSelection extends AppCompatActivity {
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,8 @@ public class FlightTypeSelection extends AppCompatActivity {
         setContentView(R.layout.activity_flight_type_selection);
 
         System.out.println("bundle info below 10:24\n" + savedInstanceState);
+        Intent intent = getIntent();
+        bundle = intent.getBundleExtra("bundle");
     }
 
 
@@ -40,8 +44,6 @@ public class FlightTypeSelection extends AppCompatActivity {
 
 //        Bundle bundle_flight = new Bundle();
 //        Intent intent1 = new Intent(this, FlightDepartingSelection.class);
-        Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("bundle");
         Log.d("FlightTypeSelection", "Bundle received: " + bundle);
         Log.d("FlightTypeSelection", "Bundle budget: " + bundle.getInt("budget"));
         Log.d("FlightTypeSelection", "Bundle destination: " + bundle.getString("destination"));

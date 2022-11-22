@@ -28,6 +28,7 @@ public class FlightReturningSelection extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
         Intent goToHotels = new Intent(this, HotelInformation.class);
+        bundle.putInt("spentBudget", 2000);
         goToHotels.putExtra("bundle", bundle);
         startActivity(goToHotels);
     }
