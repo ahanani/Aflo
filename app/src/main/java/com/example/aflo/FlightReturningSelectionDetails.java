@@ -37,6 +37,27 @@ public class FlightReturningSelectionDetails extends Fragment implements ItemCli
         flights = getResources().getStringArray(R.array.listOfDepartingFlightTimes);
         prices = getResources().getStringArray(R.array.listOfDepartingFlightPrices);
         stops = getResources().getStringArray(R.array.listOfDepartingFlightStops);
+
+
+        Intent intent = getActivity().getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
+        Log.d("FlightReturningSelectionDetails", "Bundle received: " + bundle);
+        Log.d("FlightReturningSelectionDetails", "Bundle budget: " + bundle.getInt("budget"));
+        Log.d("FlightReturningSelectionDetails", "Bundle destination: " + bundle.getString("destination"));
+        Log.d("FlightReturningSelectionDetails", "Bundle fromYear: " + bundle.getInt("fromYear"));
+        Log.d("FlightReturningSelectionDetails", "Bundle fromMonth: " + bundle.getInt("fromMonth"));
+        Log.d("FlightReturningSelectionDetails", "Bundle fromDay: " + bundle.getInt("fromDay"));
+
+        Log.d("FlightReturningSelectionDetails", "Bundle origin: " + bundle.getString("origin"));
+        Log.d("FlightReturningSelectionDetails", "Bundle toYear: " + bundle.getInt("toYear"));
+        Log.d("FlightReturningSelectionDetails", "Bundle toMonth: " + bundle.getInt("toMonth"));
+        Log.d("FlightReturningSelectionDetails", "Bundle toDay: " + bundle.getInt("toDay"));
+
+        Log.d("FlightReturningSelectionDetails", "Bundle minFlightPrice: " + bundle.getInt("minFlightPrice"));
+        Log.d("FlightReturningSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
+        Log.d("FlightReturningSelectionDetails", "Bundle flight price: " + bundle.getString("flightPrice"));
+
+
     }
 
     @Override

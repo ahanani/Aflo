@@ -63,6 +63,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     ArrayList<FlightQuote> listOfFlightQuotes = new ArrayList<>();
     HashMap<String, String> carriers = new HashMap<>();
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,8 +73,6 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
-
-
         Log.d("FlightDepartingSelectionDetails", "Bundle received: " + bundle);
         Log.d("FlightDepartingSelectionDetails", "Bundle budget: " + bundle.getInt("budget"));
         Log.d("FlightDepartingSelectionDetails", "Bundle destination: " + bundle.getString("destination"));
@@ -192,6 +191,14 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         TableRow flightType = new TableRow(getContext());
         TextView flightTypeText = new TextView(getContext());
 //        flightTypeText.setText("Air Canada - Economy");
+
+        TextView priceToSendToBundle = row.findViewById(R.id.price);
+        Log.d("price to send to bundle", priceToSendToBundle.getText().toString().substring(1));
+
+        Intent intent = getActivity().getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
+        bundle.putString("flightPrice", priceToSendToBundle.getText().toString().substring(1));
+
 
         flightTypeText.setText(carriersList.get(position));
 
