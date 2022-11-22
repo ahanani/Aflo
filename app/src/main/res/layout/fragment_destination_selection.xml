@@ -21,20 +21,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.378" />
 
-    <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/destinationSelectionInput"
-            android:layout_width="337dp"
-            android:layout_height="54dp"
-            android:background="@drawable/round_corner_edittext"
-            android:fontFamily="@font/nunito_bold"
-            android:hint="@string/destination"
-            android:paddingLeft="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.53" />
-
         <View
             android:id="@+id/view"
             android:layout_width="340dp"
@@ -46,6 +32,52 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.466" />
+
+    <AutoCompleteTextView
+        android:id="@+id/spinner4"
+        android:layout_width="332dp"
+        android:layout_height="55dp"
+        android:paddingLeft="10dp"
+        android:hint="Country"
+        android:fontFamily="@font/nunito_bold"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/round_corner_edittext"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.523" />
+
+    <AutoCompleteTextView
+        android:id="@+id/spinner5"
+        android:layout_width="332dp"
+        android:layout_height="55dp"
+        android:background="@drawable/round_corner_edittext"
+        android:paddingLeft="10dp"
+        android:fontFamily="@font/nunito_bold"
+        android:hint="State/Province"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.615" />
+
+    <AutoCompleteTextView
+        android:id="@+id/spinner6"
+        android:layout_width="332dp"
+        android:layout_height="55dp"
+        android:background="@drawable/round_corner_edittext"
+        android:paddingLeft="10dp"
+        android:hint="City"
+        android:fontFamily="@font/nunito_bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.707" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
