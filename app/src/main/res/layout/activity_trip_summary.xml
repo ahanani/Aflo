@@ -7,4 +7,61 @@
     tools:context=".TripSummary"
     android:background="@drawable/background_no_arrow2">
 
+    <app.futured.donut.DonutProgressView
+        android:id="@+id/donut_view"
+        android:layout_width="279dp"
+        android:layout_height="278dp"
+        app:donut_bgLineColor="@color/aflo_blue"
+        app:donut_gapAngle="270"
+        app:donut_gapWidth="20"
+        app:donut_strokeWidth="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.432" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="337dp"
+        android:layout_height="79dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Trip Summary"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.378"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.151" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="210dp"
+        android:layout_height="4dp"
+        android:background="@color/aflo_orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.198" />
+
+    <TextView
+        android:id="@+id/total"
+        android:layout_width="162dp"
+        android:layout_height="130dp"
+        android:fontFamily="@font/nunito_bold"
+        android:text="Total Spent 2410$"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.474" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
