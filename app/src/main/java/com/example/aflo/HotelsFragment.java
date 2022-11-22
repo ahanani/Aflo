@@ -138,6 +138,10 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         seeDetails.setVisibility(View.INVISIBLE);
         TextView select = row.findViewById(R.id.select);
         select.setVisibility(View.VISIBLE);
+        select.setOnClickListener(v -> {
+            Bundle bundle = requireActivity().getIntent().getExtras().getBundle("bundle");
+            bundle.putString("id", ids.get(position));
+        });
         TextView visit = row.findViewById(R.id.visit);
         visit.setVisibility(View.VISIBLE);
         visit.setOnClickListener(v -> {
@@ -146,7 +150,6 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
             Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
             mapIntent.setPackage("com.google.android.apps.maps");
             startActivity(mapIntent);
-
         });
         AsyncTaskForHotelAmenities runner2 = new AsyncTaskForHotelAmenities();
         runner2.execute(String.valueOf(ids.get(position)));
@@ -171,7 +174,6 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
 
         @Override
         protected String doInBackground(String... strings) {
-            System.out.println("The url: " + strings[0]);
             OkHttpClient client = new OkHttpClient();
             String appKey = "173f756567mshbc610ecc1c79d97p185285jsn76c9fdedd129";
             Request request = new Request.Builder()
@@ -190,7 +192,6 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                     JSONObject item = (JSONObject) array.get(i);
                     if (item.get("secondaryText").equals("British Columbia, Canada")) {
                         int geoId = item.getInt("geoId");
-                        System.out.println("geo id: " + geoId);
                         OkHttpClient client2 = new OkHttpClient();
                         Request request2 = new Request.Builder()
                                 .url("https://tripadvisor16.p.rapidapi.com/api/v1/hotels/" +
@@ -203,7 +204,6 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                         Response response2 = client2.newCall(request2).execute();
                         assert response2.body() != null;
                         JSONObject jsonResponse2 = new JSONObject(response2.body().string());
-                        System.out.println(jsonResponse2);
                         JSONObject data = jsonResponse2.getJSONObject("data");
                         JSONArray array2 = data.getJSONArray("data");
                         for (int j = 0; j < 10; j++) {
@@ -281,7 +281,6 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                 JSONObject data1 = jsonResponse.getJSONObject("data");
                 JSONArray amenities = data1.getJSONArray("amenitiesScreen");
                 JSONObject geoP = data1.getJSONObject("geoPoint");
-                System.out.println("Locations: " + geoP.getString("latitude") + " " + geoP.getString("longitude"));
                 geoPoint.add(geoP.getString("latitude"));
                 geoPoint.add(geoP.getString("longitude"));
                 if (amenities.length() < 8) {
