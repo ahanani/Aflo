@@ -53,6 +53,8 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     View view;
     ItemClickListener itemClickListener;
     TextView hotelTitle;
+    String checkIn;
+    String checkOut;
 
     ConstraintLayout row;
     boolean open = false;
@@ -61,18 +63,25 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = requireActivity().getIntent().getExtras().getBundle("bundle");
-        String destination = bundle.getString("destination");
+        bundle = requireActivity().getIntent().getExtras().getBundle("bundle");
+        int toDay = bundle.getInt("toDay");
+        int toMonth = bundle.getInt("toMonth");
+        int toYear = bundle.getInt("toYear");
+        int fromDay = bundle.getInt("fromDay");
+        int fromMonth = bundle.getInt("fromMonth");
+        int fromYear = bundle.getInt("fromYear");
+        checkIn = fromYear + "-" + fromMonth + "-" + fromDay;
+        checkOut = toYear + "-" + toMonth + "-" + toDay;
+        String city = bundle.getString("DestinationCity");
         AsyncTaskRunner runner = new AsyncTaskRunner();
         String urlForLocations = "https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=";
-        runner.execute(urlForLocations + destination);
+        runner.execute(urlForLocations + city);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.inflater = inflater;
         this.container = container;
-        this.bundle = savedInstanceState;
 
         itemClickListener = this;
 
@@ -138,6 +147,13 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         seeDetails.setVisibility(View.INVISIBLE);
         TextView select = row.findViewById(R.id.select);
         select.setVisibility(View.VISIBLE);
+        select.setOnClickListener(v -> {
+            bundle.putString("id", ids.get(position));
+            Intent intent = new Intent(getContext(), TripSummary.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+        });
         TextView visit = row.findViewById(R.id.visit);
         visit.setVisibility(View.VISIBLE);
         visit.setOnClickListener(v -> {
@@ -188,14 +204,18 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                 JSONArray array = jsonResponse.getJSONArray("data");
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject item = (JSONObject) array.get(i);
-                    if (item.get("secondaryText").equals("British Columbia, Canada")) {
+                    String city = bundle.getString("DestinationCity");
+                    String state = bundle.getString("DestinationState");
+                    String country = bundle.getString("DestinationCountry");
+                    if (item.get("secondaryText").equals(state + ", " + country) ||
+                            item.get("secondaryText").equals(city + ", " + state + ", " + country)) {
                         int geoId = item.getInt("geoId");
                         System.out.println("geo id: " + geoId);
                         OkHttpClient client2 = new OkHttpClient();
                         Request request2 = new Request.Builder()
                                 .url("https://tripadvisor16.p.rapidapi.com/api/v1/hotels/" +
-                                        "searchHotels?geoId=" + geoId + "&checkIn=2022-11-15&checkOut" +
-                                        "=2022-11-30&pageNumber=1&currencyCode=USD")
+                                        "searchHotels?geoId=" + geoId + "&checkIn=" + checkIn + "&checkOut" +
+                                        "=" + checkOut + "&pageNumber=1&currencyCode=USD")
                                 .get()
                                 .addHeader("X-RapidAPI-Key", appKey)
                                 .addHeader("X-RapidAPI-Host", "tripadvisor16.p.rapidapi.com")
@@ -266,7 +286,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         protected String doInBackground(String... strings) {
             OkHttpClient client = new OkHttpClient();
             String appKey = "173f756567mshbc610ecc1c79d97p185285jsn76c9fdedd129";
-            String url = "https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=" + strings[0] + "&checkIn=2022-11-15&checkOut=2022-11-30";
+            String url = "https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=" + strings[0] + "&checkIn=" + checkIn + "&checkOut=" + checkOut;
             Request request = new Request.Builder()
                     .url(url)
                     .get()
