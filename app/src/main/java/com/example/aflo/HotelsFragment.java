@@ -10,12 +10,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -29,11 +27,11 @@ import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+
 
 import okhttp3.OkHttpClient;
 
@@ -63,9 +61,11 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = requireActivity().getIntent().getExtras().getBundle("bundle");
+        String destination = bundle.getString("destination");
         AsyncTaskRunner runner = new AsyncTaskRunner();
         String urlForLocations = "https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=";
-        runner.execute(urlForLocations + "Richmond");
+        runner.execute(urlForLocations + destination);
     }
 
     @Override
@@ -171,10 +171,11 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
 
         @Override
         protected String doInBackground(String... strings) {
+            System.out.println("The url: " + strings[0]);
             OkHttpClient client = new OkHttpClient();
             String appKey = "173f756567mshbc610ecc1c79d97p185285jsn76c9fdedd129";
             Request request = new Request.Builder()
-                    .url("https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=Richmond")
+                    .url(strings[0])
                     .get()
                     .addHeader("X-RapidAPI-Key", appKey)
                     .addHeader("X-RapidAPI-Host", "tripadvisor16.p.rapidapi.com")
@@ -188,10 +189,12 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject item = (JSONObject) array.get(i);
                     if (item.get("secondaryText").equals("British Columbia, Canada")) {
+                        int geoId = item.getInt("geoId");
+                        System.out.println("geo id: " + geoId);
                         OkHttpClient client2 = new OkHttpClient();
                         Request request2 = new Request.Builder()
                                 .url("https://tripadvisor16.p.rapidapi.com/api/v1/hotels/" +
-                                        "searchHotels?geoId=181716&checkIn=2022-11-15&checkOut" +
+                                        "searchHotels?geoId=" + geoId + "&checkIn=2022-11-15&checkOut" +
                                         "=2022-11-30&pageNumber=1&currencyCode=USD")
                                 .get()
                                 .addHeader("X-RapidAPI-Key", appKey)
@@ -200,6 +203,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                         Response response2 = client2.newCall(request2).execute();
                         assert response2.body() != null;
                         JSONObject jsonResponse2 = new JSONObject(response2.body().string());
+                        System.out.println(jsonResponse2);
                         JSONObject data = jsonResponse2.getJSONObject("data");
                         JSONArray array2 = data.getJSONArray("data");
                         for (int j = 0; j < 10; j++) {

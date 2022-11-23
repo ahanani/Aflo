@@ -12,8 +12,9 @@ public class HotelInformation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_information);
-
         HotelsFragment hotelsFragment = new HotelsFragment();
+        Bundle bundle = getIntent().getExtras().getBundle("bundle");
+        hotelsFragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.mainFragment, hotelsFragment).commit();

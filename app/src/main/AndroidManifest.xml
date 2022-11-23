@@ -57,7 +57,7 @@
             android:exported="false" />
         <activity
             android:name=".SelectionsPage"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MainMenu"
             android:exported="true">

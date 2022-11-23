@@ -24,7 +24,7 @@ public class DateSelection extends AppCompatActivity {
         bundle.putString("FromDateSelection", fromInput.getText().toString());
         bundle.putString("ToDateSelection", toInput.getText().toString());
         Log.d("Bundle", " " + bundle.getInt("BudgetSelection") + ", " + bundle.getString("OriginSelection") + ", " + bundle.getString("DestinationSelection") + ", " + bundle.getString("FromDateSelection") + ", " + bundle.getString("ToDateSelection"));
-        Intent intent = new Intent(this, FlightTypeSelection.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, FlightTypeSelection.class);
+//        startActivity(intent);
     }
 }

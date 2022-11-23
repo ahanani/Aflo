@@ -80,6 +80,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
         fragmentTransaction.commit();
         ImageView forward = findViewById(R.id.forwardButton);
         bundle = new Bundle();
+        bundle.putInt("spentBudget", 0);
         ArrayList<String> countries = new ArrayList<String>();
         ArrayList<JSONObject> statesObjs = new ArrayList<JSONObject>();
         String iso2 = "";
@@ -400,6 +401,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                         } else {
                             Intent intent = new Intent(this, FlightTypeSelection.class);
                             Log.d("SelectionsPage", "Bundle complete: " + bundle);
+                            intent.putExtra("bundle", bundle);
                             startActivity(intent, bundle);
                         }
                         break;
