@@ -36,9 +36,16 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -84,8 +91,6 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
         ArrayList<String> countries = new ArrayList<String>();
         ArrayList<JSONObject> statesObjs = new ArrayList<JSONObject>();
         String iso2 = "";
-        AsyncTaskRunner runner = new AsyncTaskRunner();
-        runner.execute("https://raw.githubusercontent.com/mwgg/Airports/master/airports.json");
 
 
         forward.setOnClickListener(view -> {
@@ -137,24 +142,27 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                 String code = countryMap.get(country);
                                                 states = new ArrayList<String>();
 
+                                                ArrayList<JSONObject> statesJsons = new ArrayList<JSONObject>();
                                                 try {
-                                                    Iterator<String> jsonArray = json.keys();
-                                                    Log.d("paste", "herre");
-                                                    while (jsonArray.hasNext()) {
-                                                        JSONObject jsonTemp = (JSONObject) json.get(jsonArray.next());
-                                                        Log.d("country", jsonTemp.getString("country"));
-                                                        if (jsonTemp.getString("country").matches(code)) {
-                                                            jsonList.add(jsonTemp);
-                                                            if (!states.contains(jsonTemp.getString("state"))) {
-                                                                states.add(jsonTemp.getString("state"));
-                                                                Log.d("state", jsonTemp.getString("state"));
-                                                            }
-                                                        }
-                                                    }
-
+                                                    statesJsons = load(code);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
                                                 }
+                                                for (JSONObject x: statesJsons){
+                                                    try {
+                                                        jsonList.add(x);
+                                                        if (!states.contains(x.getString("state"))) {
+                                                            states.add(x.getString("state"));
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+
 
                                                 Collections.sort(states);
                                                 ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(SelectionsPage.this,
@@ -170,15 +178,11 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                     public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                                                         String state = spinner.getText().toString();
                                                         ArrayList<String> cities = new ArrayList<String>();
-                                                        Log.d("number", "" + jsonList.size());
                                                         AutoCompleteTextView spinner52 = findViewById(R.id.spinner3);
                                                         spinner52.setText("");
                                                         for (int g = 0; g < jsonList.size(); g++) {
                                                             try {
-                                                                Log.d("state1", jsonList.get(g).getString("state"));
-                                                                Log.d("state1", state);
                                                                 if (jsonList.get(g).getString("state").matches(state) && !cities.contains(jsonList.get(g).getString("city"))) {
-                                                                    Log.d("here", jsonList.get(g).getString("city"));
                                                                     cities.add(jsonList.get(g).getString("city"));
                                                                 }
                                                             } catch (JSONException e) {
@@ -262,23 +266,25 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                 spinner52.setText("");
                                                 states = new ArrayList<String>();
 
+                                                ArrayList<JSONObject> statesJsons = new ArrayList<JSONObject>();
                                                 try {
-                                                    Iterator<String> jsonArray = json.keys();
-                                                    Log.d("paste", "herre");
-                                                    while (jsonArray.hasNext()) {
-                                                        JSONObject jsonTemp = (JSONObject) json.get(jsonArray.next());
-                                                        Log.d("country", jsonTemp.getString("country"));
-                                                        if (jsonTemp.getString("country").matches(code)) {
-                                                            jsonList.add(jsonTemp);
-                                                            if (!states.contains(jsonTemp.getString("state"))) {
-                                                                states.add(jsonTemp.getString("state"));
-                                                                Log.d("state", jsonTemp.getString("state"));
-                                                            }
-                                                        }
-                                                    }
-
+                                                    statesJsons = load(code);
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
                                                 } catch (JSONException e) {
                                                     e.printStackTrace();
+                                                }
+                                                for (JSONObject x: statesJsons){
+                                                    try {
+                                                        jsonList.add(x);
+                                                        if (!states.contains(x.getString("state"))) {
+                                                            states.add(x.getString("state"));
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
                                                 }
 
                                                 Collections.sort(states);
@@ -295,15 +301,11 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                     public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                                                         String state = spinner.getText().toString();
                                                         ArrayList<String> cities = new ArrayList<String>();
-                                                        Log.d("number", "" + jsonList.size());
                                                         AutoCompleteTextView spinner52 = findViewById(R.id.spinner6);
                                                         spinner52.setText("");
                                                         for (int g = 0; g < jsonList.size(); g++) {
                                                             try {
-                                                                Log.d("state1", jsonList.get(g).getString("state"));
-                                                                Log.d("state1", state);
                                                                 if (jsonList.get(g).getString("state").matches(state) && !cities.contains(jsonList.get(g).getString("city"))) {
-                                                                    Log.d("here", jsonList.get(g).getString("city"));
                                                                     cities.add(jsonList.get(g).getString("city"));
                                                                 }
                                                             } catch (JSONException e) {
@@ -400,7 +402,6 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                             Toast.makeText(this, "Please enter departing and returning date", Toast.LENGTH_LONG).show();
                         } else {
                             Intent intent = new Intent(this, FlightTypeSelection.class);
-                            Log.d("SelectionsPage", "Bundle complete: " + bundle);
                             intent.putExtra("bundle", bundle);
                             startActivity(intent, bundle);
                         }
@@ -409,27 +410,49 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
         });
     }
 
-    private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
+    public ArrayList<JSONObject> load(String country) throws IOException, ParseException, JSONException {
+        InputStream is = this.getAssets().open("airports.json");
+        BufferedReader input = new BufferedReader(new InputStreamReader(is));
+        ArrayList<JSONObject> places = new ArrayList<JSONObject>();
+        if (true) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+            JSONParser parser = new JSONParser();
+            String firstLine = reader.readLine();
+            String newLine = "";
+            while(newLine != null){
+                boolean isNull = false;
+                newLine = reader.readLine();
+                newLine = "{";
+                for (int i = 0; i < 11; i++){
+                    String line = reader.readLine();
+                    if (line != null) {
+                        newLine += line;
+                    } else {
+                        isNull = true;
+                    }
+                }
+                if (isNull){
+                    break;
+                }
+                if (newLine.charAt(newLine.length()-1) == ','){
+                    newLine = newLine.substring(0,newLine.lastIndexOf(","));
+                }
+                JSONObject obj = new JSONObject(newLine);
+                Iterator<String> key = obj.keys();
+                String theKey = key.next();
 
-        @Override
-        protected String doInBackground(String... strings) {
-            Log.d("here", "thisthat");
-            RequestQueue queue = Volley.newRequestQueue(SelectionsPage.this);
-            JsonObjectRequest request = new JsonObjectRequest(com.android.volley.Request.Method.GET, strings[0], null, new com.android.volley.Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                        json = response;
+                if (obj.getString("country").equals(country)) {
+                    places.add(obj);
                 }
-            }, new com.android.volley.Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("msg", error.toString());
-                    Toast.makeText(SelectionsPage.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            queue.add(request);
-            return null;
+            }
         }
+        return places;
+    }
+
+    public void home(View view){
+        Intent intent = new Intent(this, MainMenu.class);
+        intent.putExtra("bundle", bundle);
+        startActivity(intent, bundle);
     }
 
 

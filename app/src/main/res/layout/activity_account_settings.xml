@@ -1,49 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alwaysDrawnWithCache="false"
     android:orientation="vertical"
-    android:paddingHorizontal="30dp"
-    android:background="@drawable/background_clouds_under">
+    android:background="@drawable/background_no_arrow2">
+
 
     <TextView
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="20dp"
         android:id="@+id/account_settings_heading"
-        android:layout_gravity="start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="20dp"
         android:background="@color/aflo_blue"
-        android:fontFamily="@font/nunito"
+        android:fontFamily="@font/nunito_bold"
         android:text="@string/account_settings"
         android:textColor="@color/white"
-        android:textSize="36sp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.056"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-        <Button
-            android:onClick="logout"
-            android:id="@+id/logout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="@color/aflo_orange"
-            android:fontFamily="@font/nunito_light"
-            android:text="@string/logout"
-            android:textAllCaps="false"
-            android:textSize="30sp"
-            app:cornerRadius="10dp" />
-    </LinearLayout>
+    <View
+        android:id="@+id/view"
+        android:layout_width="280dp"
+        android:layout_height="4dp"
+        android:layout_row="1"
+        android:layout_column="0"
+        android:background="@color/aflo_orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.206" />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="58dp"
+        android:layout_height="57dp"
+        android:onClick="home"
+        android:src="@drawable/ic_baseline_home_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.019"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.02" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="368dp"
+        android:layout_height="58dp"
+        android:backgroundTint="@color/aflo_orange"
+        android:fontFamily="@font/nunito_light"
+        android:onClick="logout"
+        android:text="@string/logout"
+        android:textAllCaps="false"
+        android:textSize="30sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.372"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.301" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

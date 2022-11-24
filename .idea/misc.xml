@@ -21,12 +21,15 @@
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/font/nunito.xml" value="0.284375" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/font/nunito_bold.xml" value="0.284375" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/font/nunito_light.xml" value="0.284375" />
+        <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_account_settings.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_budget_selection.xml" value="0.12183383991894631" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_date_selection.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_destination_selection.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_details.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_flight_departing_selection.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_flight_returning_selection.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_flight_type_selection.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_flights.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_hotel_details.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_hotel_information.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_hotels.xml" value="0.25416666666666665" />
@@ -36,7 +39,8 @@
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_mainmenu.xml" value="0.264" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_origin_selection.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_row.xml" value="0.11302083333333333" />
-        <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_selections_page.xml" value="0.152" />
+        <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_saved_trips.xml" value="0.264" />
+        <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_selections_page.xml" value="0.264" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_signup.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_trip_complete.xml" value="0.264" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/activity_trip_summary.xml" value="0.264" />
@@ -44,6 +48,8 @@
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/fragment_date_selection.xml" value="0.2" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/fragment_destination_selection.xml" value="0.264" />
         <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/fragment_origin_selection.xml" value="0.264" />
+        <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/fragment_progress_bar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mitch/AndroidStudioProjects/Aflo/app/src/main/res/layout/fragment_require_login.xml" value="0.22509057971014493" />
         <entry key="app/src/main/res/layout/activity_flight_departing_selection.xml" value="0.21822916666666667" />
       </map>
     </option>

@@ -32,7 +32,7 @@ public class TripSummary extends AppCompatActivity {
         List<DonutSection> list = new ArrayList<DonutSection>();
         list.add(section1);
         list.add(section2);
-        list.add(section3);
+        list.add(section3); 
         donut_view.submitData(list);
 
     }
