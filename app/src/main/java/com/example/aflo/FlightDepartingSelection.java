@@ -16,11 +16,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class FlightDepartingSelection extends AppCompatActivity {
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_departing_selection);
+        Intent intent = getIntent();
+        bundle = intent.getBundleExtra("bundle");
 
         FlightDepartingSelectionDetails flightDepartingFragment = new FlightDepartingSelectionDetails();
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -77,10 +80,10 @@ public class FlightDepartingSelection extends AppCompatActivity {
 
 
     public void goToReturningFlightSelection(View view) {
-        Intent intent = getIntent();
-        Bundle bundle = intent.getBundleExtra("bundle");
+
 
         Intent goToReturningFlights = new Intent(this, FlightReturningSelection.class);
+        bundle.putInt("spentBudget", 1000);
         goToReturningFlights.putExtra("bundle", bundle);
         startActivity(goToReturningFlights);
 
