@@ -149,7 +149,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         select.setVisibility(View.VISIBLE);
         select.setOnClickListener(v -> {
             bundle.putString("id", ids.get(position));
-            Intent intent = new Intent(getContext(), TripSummary.class);
+            Intent intent = new Intent(getContext(), TripComplete.class);
             intent.putExtras(bundle);
             startActivity(intent);
 

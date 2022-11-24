@@ -8,10 +8,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.List;
 
 import app.futured.donut.DonutProgressView;
@@ -30,23 +32,25 @@ public class TripSummary extends AppCompatActivity {
         int fromDay = bundle.getInt("fromDay");
         int fromMonth = bundle.getInt("fromMonth");
         int fromYear = bundle.getInt("fromYear");
+        String originCity = bundle.getString("OriginCity");
+        String destCity = bundle.getString("DestinationCity");
+//        String airportCode = bundle.getString("");
+        Formatter fmt = new Formatter();
+        String toM = fmt.format("%tb", Month.of(toMonth)).toString();
+        Formatter fmt1 = new Formatter();
+        String fromM = fmt1.format("%tb", Month.of(fromMonth)).toString();
 
-        String month = Month.of(toMonth).toString();
+        TextView title1Response = findViewById(R.id.title1Response);
+        title1Response.setText(originCity);
 
-        System.out.println("The date is: " + month);
+        TextView title2Response = findViewById(R.id.title2Response);
+        title2Response.setText(destCity);
 
-        ArrayList<String> titles = new ArrayList<>();
-        titles.add("Origin");
-        titles.add("Destination");
-        titles.add("Destination");
-        ArrayList<String> content = new ArrayList<>();
-        content.add("Abdullah");
-
-//        RecyclerView recyclerView = findViewById(R.id.rowView);
-//        RecyclerViewSummary recyclerViewSummary = new RecyclerViewSummary(this,
-//                titles, content);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.setAdapter(recyclerViewSummary);
+        TextView title3Response = findViewById(R.id.title3Response);
+        StringBuilder title3ResponseText = new StringBuilder();
+        title3ResponseText.append(fromM).append(". ").append(fromDay).append(", ").append(fromYear)
+                .append(" - ").append(toM).append(". ").append(toDay).append(", ").append(toYear);
+        title3Response.setText(title3ResponseText);
 
         DonutSection section1 = new DonutSection("section_1", Color.parseColor("#FFA500"),1f);
 
