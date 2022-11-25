@@ -20,6 +20,11 @@ public class AccountSettings extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
+    public void home(View view){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+    }
+
     public void logout(View view) {
         mAuth.signOut();
         Intent leaveApp = new Intent(this, Landing.class);

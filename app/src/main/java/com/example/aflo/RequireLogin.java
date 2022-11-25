@@ -21,4 +21,9 @@ public class RequireLogin extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         startActivity(signUp);
     }
+
+    public void home(View view){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+    }
 }
