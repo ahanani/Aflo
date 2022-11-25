@@ -27,6 +27,6 @@
         android:textSize="20sp"
         android:fontFamily="@font/nunito"
         android:layout_height="wrap_content"
-        android:textColor="#FF0000"
+        android:textColor="@color/black"
         android:text="$2500 remaining" />
 </FrameLayout>

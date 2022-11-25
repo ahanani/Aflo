@@ -71,6 +71,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
     JSONObject json = new JSONObject();
     ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
     Map<String, String> mapFinal;
+    ArrayList<String> cities = new ArrayList<String>();
 
 
     @Override
@@ -141,6 +142,8 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                 spinner22.setText("");
                                                 String code = countryMap.get(country);
                                                 states = new ArrayList<String>();
+                                                cities = new ArrayList<String>();
+
 
                                                 ArrayList<JSONObject> statesJsons = new ArrayList<JSONObject>();
                                                 try {
@@ -158,10 +161,22 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                         if (!states.contains(x.getString("state"))) {
                                                             states.add(x.getString("state"));
                                                         }
+                                                        if (!cities.contains(x.getString("city"))) {
+                                                            cities.add(x.getString("city"));
+                                                        }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
                                                     }
                                                 }
+
+                                                Collections.sort(cities);
+                                                ArrayAdapter<String> countryAdapter2 = new ArrayAdapter<String>(SelectionsPage.this,
+                                                        android.R.layout.simple_spinner_item, cities);
+
+                                                countryAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                AutoCompleteTextView spinner2 = findViewById(R.id.spinner3);
+                                                spinner2.setThreshold(2);//will start working from first character
+                                                spinner2.setAdapter(countryAdapter2);
 
 
                                                 Collections.sort(states);
@@ -177,9 +192,9 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                     @Override
                                                     public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                                                         String state = spinner.getText().toString();
-                                                        ArrayList<String> cities = new ArrayList<String>();
                                                         AutoCompleteTextView spinner52 = findViewById(R.id.spinner3);
                                                         spinner52.setText("");
+                                                        cities = new ArrayList<String>();
                                                         for (int g = 0; g < jsonList.size(); g++) {
                                                             try {
                                                                 if (jsonList.get(g).getString("state").matches(state) && !cities.contains(jsonList.get(g).getString("city"))) {
@@ -219,7 +234,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                         String stateString = state.getText().toString();
                         String countryString = country.getText().toString();
 
-                        if (cityString.matches("") || countryString.matches("") || stateString.matches("")) {
+                        if (cityString.matches("") || countryString.matches("")) {
                             Toast.makeText(this, "Please enter an departure location", Toast.LENGTH_LONG).show();
                         } else {
                             FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
@@ -265,6 +280,8 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                 AutoCompleteTextView spinner52 = findViewById(R.id.spinner6);
                                                 spinner52.setText("");
                                                 states = new ArrayList<String>();
+                                                cities = new ArrayList<String>();
+
 
                                                 ArrayList<JSONObject> statesJsons = new ArrayList<JSONObject>();
                                                 try {
@@ -282,10 +299,22 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                         if (!states.contains(x.getString("state"))) {
                                                             states.add(x.getString("state"));
                                                         }
+                                                        if (!cities.contains(x.getString("city"))) {
+                                                            cities.add(x.getString("city"));
+                                                        }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
                                                     }
                                                 }
+
+                                                Collections.sort(cities);
+                                                ArrayAdapter<String> countryAdapter2 = new ArrayAdapter<String>(SelectionsPage.this,
+                                                        android.R.layout.simple_spinner_item, cities);
+
+                                                countryAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                                AutoCompleteTextView spinner2 = findViewById(R.id.spinner6);
+                                                spinner2.setThreshold(2);//will start working from first character
+                                                spinner2.setAdapter(countryAdapter2);
 
                                                 Collections.sort(states);
                                                 ArrayAdapter<String> countryAdapter = new ArrayAdapter<String>(SelectionsPage.this,
@@ -300,9 +329,9 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                     @Override
                                                     public void onItemClick(AdapterView<?> parent, View arg1, int pos, long id) {
                                                         String state = spinner.getText().toString();
-                                                        ArrayList<String> cities = new ArrayList<String>();
                                                         AutoCompleteTextView spinner52 = findViewById(R.id.spinner6);
                                                         spinner52.setText("");
+                                                        cities = new ArrayList<String>();
                                                         for (int g = 0; g < jsonList.size(); g++) {
                                                             try {
                                                                 if (jsonList.get(g).getString("state").matches(state) && !cities.contains(jsonList.get(g).getString("city"))) {
@@ -342,7 +371,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                         String stateString2 = state2.getText().toString();
                         String countryString2 = country2.getText().toString();
 
-                        if (cityString2.matches("") || countryString2.matches("") || stateString2.matches("")) {
+                        if (cityString2.matches("") || countryString2.matches("")) {
                             Toast.makeText(this, "Please enter an departure location", Toast.LENGTH_LONG).show();
                         } else {
                             FragmentTransaction fragmentTransaction1 = fragmentManager.beginTransaction();
