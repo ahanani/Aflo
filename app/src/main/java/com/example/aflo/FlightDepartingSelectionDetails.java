@@ -1,7 +1,6 @@
 package com.example.aflo;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +27,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.BiConsumer;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -279,9 +279,9 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
     }
 
-    private class StartPollSessionTask extends AsyncTask<HashMap<String, String>, Void, String> {
+    private class StartPollSessionTask extends AsyncTask<HashMap<String, String>, Void, JSONObject> {
         @Override
-        protected String doInBackground(HashMap<String, String>... hashMaps) {
+        protected JSONObject doInBackground(HashMap<String, String>... hashMaps) {
             try {
                 String url = hashMaps[0].remove("url");
 
@@ -299,14 +299,77 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 try {
                     Response response = client.newCall(request).execute();
                     JSONObject responseJSON = new JSONObject(response.body().string());
+                    String pollSessionURL = response.header("location");
                     Log.d("OK", responseJSON.toString());
-                    Log.d("OK", "Header: " + response.header("location"));
+                    Log.d("OK", "Header: " + pollSessionURL);
+
+                    JSONObject result = new JSONObject();
+                    result.put("url", pollSessionURL);
+                    result.put("apikey", hashMaps[0].get("apikey"));
+                    result.put("response", responseJSON);
+                    return result;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                String url = jsonObject.getString("url");
+                String apikey = jsonObject.getString("apikey");
+
+                HashMap<String, String> request = new HashMap<>();
+                request.put("url", url);
+                request.put("apikey", apikey);
+                request.put("sortType", "price");
+                request.put("pageIndex", "0");
+                request.put("pageSize", "5");
+
+                PollSessionTask pollSession = new PollSessionTask();
+                pollSession.execute(request);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class PollSessionTask extends AsyncTask<HashMap<String, String>, Void, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(HashMap<String, String>... hashMaps) {
+            HashMap<String, String> req = hashMaps[0];
+            String url = req.remove("url");
+
+            final ArrayList<String> reqParamsURL = new ArrayList<>();
+            req.forEach((k, v) -> reqParamsURL.add(k + "=" + v));
+            url += "?" + String.join("&", reqParamsURL);
+            Log.d("PollSession", "URL: " + url);
+
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .get()
+                    .build();
+
+            try {
+                Response response = client.newCall(request).execute();
+                JSONObject responseJSON = new JSONObject(response.body().string());
+                Log.d("PollSession", "Res: " + responseJSON.toString(4));
+
+                JSONObject shortenedJSON = new JSONObject();
+                shortenedJSON.put("SessionKey", responseJSON.getString("SessionKey"));
+                shortenedJSON.put("Query", responseJSON.getJSONObject("Query"));
+                shortenedJSON.put("Itineraries", responseJSON.getJSONArray("Itineraries"));
+                Log.d("PollSession", "toPostExec: " + shortenedJSON.toString(4));
+                return shortenedJSON;
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
             return null;
         }
     }
