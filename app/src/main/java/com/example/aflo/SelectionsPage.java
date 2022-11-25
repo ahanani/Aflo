@@ -85,7 +85,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
         ArrayList<JSONObject> statesObjs = new ArrayList<JSONObject>();
         String iso2 = "";
         AsyncTaskRunner runner = new AsyncTaskRunner();
-        runner.execute("https://raw.githubusercontent.com/mwgg/Airports/master/airports.json");
+//        runner.execute("https://raw.githubusercontent.com/mwgg/Airports/master/airports.json");
 
 
         forward.setOnClickListener(view -> {

@@ -173,20 +173,64 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         TableLayout table = row.findViewById(R.id.features_departing_flight);
         table.removeAllViews();
         select.setVisibility(View.INVISIBLE);
+
+
+        TableLayout departing = row.findViewById(R.id.departing_table_layout);
+        TableLayout returning = row.findViewById(R.id.returning_table_layout);
+        departing.setVisibility(View.INVISIBLE);
+        returning.setVisibility(View.INVISIBLE);
+        TextView date = row.findViewById(R.id.flight);
+//        date.setVisibility(View.VISIBLE);
+        date.setVisibility(View.INVISIBLE);
+        TextView visitSite = row.findViewById(R.id.visit_site_button);
+        visitSite.setVisibility(View.INVISIBLE);
+
+
+        // show again the info from the shrunk view
+        TableLayout departingShrunk = row.findViewById(R.id.departing_shortened_summary_tablelayout);
+        TableLayout returningShrunk = row.findViewById(R.id.returning_shortened_summary_tablelayout);
+        departingShrunk.setVisibility(View.VISIBLE);
+        returningShrunk.setVisibility(View.VISIBLE);
+
+
     }
 
     public void expandRow(ConstraintLayout row, ViewGroup.LayoutParams params, int position) {
-        params.height = 1200;
+        params.height = 1000;
         row.setLayoutParams(params);
         ImageView image = row.findViewById(R.id.flight_logo);
         ViewGroup.LayoutParams imageParams = image.getLayoutParams();
-        imageParams.height = 500;
-        imageParams.width = 500;
+        imageParams.height = 150;
+        imageParams.width = 150;
         image.setLayoutParams(imageParams);
         TextView seeDetails = row.findViewById(R.id.seeDetails_departing_flight);
         seeDetails.setVisibility(View.INVISIBLE);
         TextView select = row.findViewById(R.id.select_departing_flight);
         select.setVisibility(View.VISIBLE);
+
+
+        TextView date = row.findViewById(R.id.flight);
+        date.setVisibility(View.INVISIBLE);
+
+
+        TextView visitSite = row.findViewById(R.id.visit_site_button);
+        visitSite.setVisibility(View.VISIBLE);
+
+
+        // making the TableViews containing the flight info visible
+        TableLayout departing = row.findViewById(R.id.departing_table_layout);
+        TableLayout returning = row.findViewById(R.id.returning_table_layout);
+        departing.setVisibility(View.VISIBLE);
+        returning.setVisibility(View.VISIBLE);
+
+        // hide the info from the shrunk view
+        TableLayout departingShrunk = row.findViewById(R.id.departing_shortened_summary_tablelayout);
+        TableLayout returningShrunk = row.findViewById(R.id.returning_shortened_summary_tablelayout);
+        departingShrunk.setVisibility(View.INVISIBLE);
+        returningShrunk.setVisibility(View.INVISIBLE);
+
+
+
         TableLayout table = row.findViewById(R.id.features_departing_flight);
         TableRow flightType = new TableRow(getContext());
         TextView flightTypeText = new TextView(getContext());
@@ -200,13 +244,13 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         bundle.putString("flightPrice", priceToSendToBundle.getText().toString().substring(1));
 
 
-        flightTypeText.setText(carriersList.get(position));
+//        flightTypeText.setText(carriersList.get(position));
 
 
-        flightTypeText.setTextColor(Color.BLACK);
-        flightTypeText.setTextSize(18);
-        flightType.addView(flightTypeText);
-        table.addView(flightType);
+//        flightTypeText.setTextColor(Color.BLACK);
+//        flightTypeText.setTextSize(18);
+//        flightType.addView(flightTypeText);
+//        table.addView(flightType);
 
 //        TextView dateArrive = row.findViewById(R.id.flight);
 //        bundle_flight_departing.putString("dateArrive", dateArrive.toString());

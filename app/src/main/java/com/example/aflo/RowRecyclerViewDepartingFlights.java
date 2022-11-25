@@ -66,7 +66,7 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
         public RowViewHolder(@NonNull View view) {
             super(view);
             flight = view.findViewById(R.id.flight);
-            stops = view.findViewById(R.id.departing_flight_stops);
+            stops = view.findViewById(R.id.departing_stops);
             prices = view.findViewById(R.id.price);
             image = view.findViewById(R.id.flight_logo);
 //            carrierName = view.findViewById()

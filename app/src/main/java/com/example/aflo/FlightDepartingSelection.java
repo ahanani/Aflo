@@ -31,7 +31,7 @@ public class FlightDepartingSelection extends AppCompatActivity {
         fragmentTransaction.replace(R.id.mainFragment, flightDepartingFragment).commit();
 
 
-        Intent intent = getIntent();
+//        Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
 
         Log.d("FlightDepartingSelection", "Bundle received: " + bundle);
