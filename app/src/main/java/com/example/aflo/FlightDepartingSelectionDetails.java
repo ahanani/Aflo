@@ -505,6 +505,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 Response response = client.newCall(request).execute();
                 JSONObject responseJSON = new JSONObject(response.body().string());
                 Log.d("PollBookingTask", responseJSON.toString(4));
+                return responseJSON;
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
