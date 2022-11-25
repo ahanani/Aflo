@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.function.BiConsumer;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -422,10 +421,54 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 for (HashMap<String, String> it: allItineraries) {
                     Log.d("PollSessionTaskRES", it.toString());
                 }
+                // Test getting details for ones
+                GetBookingDetailsTask getBookingDetails = new GetBookingDetailsTask();
+                HashMap<String, String> test = allItineraries.get(0);
+                test.put("apikey", "prtl6749387986743898559646983194");
+                getBookingDetails.execute(test);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private class GetBookingDetailsTask extends AsyncTask<HashMap<String, String>, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(HashMap<String, String>... hashMaps) {
+            HashMap<String, String> req = hashMaps[0];
+            String url = "https://partners.api.skyscanner.net";
+            String endpointUri = req.get("uri");
+            String apikey = req.get("apikey");
+
+            String fullUrl = url + endpointUri + "?apikey=" + apikey;
+
+            Log.d("GetBookingDetails", fullUrl);
+
+            HashMap<String, String> reqBody = new HashMap<>();
+            reqBody.put("OutboundLegId", req.get("outboundlegid"));
+            reqBody.put("InboundLegId", req.get("inboundlegid"));
+
+            FormBody.Builder reqBodyBuilder = new FormBody.Builder();
+            reqBody.forEach(reqBodyBuilder::add);
+
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(fullUrl)
+                    .put(reqBodyBuilder.build())
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                String location = response.header("location");
+
+                Log.d("GetBookingDetails", location);
+                return new JSONObject();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return new JSONObject();
         }
     }
 
