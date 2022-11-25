@@ -25,7 +25,7 @@ public class TripSummary extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_summary);
-        Bundle bundle = getIntent().getExtras();
+        Bundle bundle = getIntent().getBundleExtra("bundle");
         int toDay = bundle.getInt("toDay");
         int toMonth = bundle.getInt("toMonth");
         int toYear = bundle.getInt("toYear");

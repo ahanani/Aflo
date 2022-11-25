@@ -63,7 +63,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bundle = requireActivity().getIntent().getExtras().getBundle("bundle");
+        bundle = requireActivity().getIntent().getBundleExtra("bundle");
         int toDay = bundle.getInt("toDay");
         int toMonth = bundle.getInt("toMonth");
         int toYear = bundle.getInt("toYear");
@@ -150,7 +150,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         select.setOnClickListener(v -> {
             bundle.putString("id", ids.get(position));
             Intent intent = new Intent(getContext(), TripComplete.class);
-            intent.putExtras(bundle);
+            intent.putExtra("bundle", bundle);
             startActivity(intent);
 
         });
