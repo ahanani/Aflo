@@ -68,6 +68,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
     private Bundle bundle;
     String country = "";
     ArrayList<String> states = new ArrayList<String>();
+    ArrayList<String> citystates = new ArrayList<String>();
     JSONObject json = new JSONObject();
     ArrayList<JSONObject> jsonList = new ArrayList<JSONObject>();
     Map<String, String> mapFinal;
@@ -163,6 +164,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                         }
                                                         if (!cities.contains(x.getString("city"))) {
                                                             cities.add(x.getString("city"));
+                                                            citystates.add(x.getString("state"));
                                                         }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
@@ -241,11 +243,16 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                             fragmentTransaction1.replace(R.id.selectionsContainer, destinationSelection);
                             fragmentTransaction1.commit();
                             num_clicked++;
+                            Log.d("statestring", stateString);
+                            if (stateString.equals("")) {
+                                stateString = citystates.get(cities.indexOf(cityString));
+                            }
                             bundle.putString("OriginCity", cityString);
                             bundle.putString("OriginState", stateString);
                             bundle.putString("OriginCountry", countryString);
                             bundle.putString("OriginCode", mapFinal.get(countryString));
                             ArrayList<String> countries2 = new ArrayList<String>();
+                            citystates = new ArrayList<String>();
 
                             fragmentManager.registerFragmentLifecycleCallbacks(new FragmentManager.FragmentLifecycleCallbacks() {
                                 @Override
@@ -301,6 +308,7 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                                                         }
                                                         if (!cities.contains(x.getString("city"))) {
                                                             cities.add(x.getString("city"));
+                                                            citystates.add(x.getString("state"));
                                                         }
                                                     } catch (JSONException e) {
                                                         e.printStackTrace();
@@ -378,6 +386,9 @@ public class SelectionsPage extends AppCompatActivity implements DatePickerDialo
                             fragmentTransaction1.replace(R.id.selectionsContainer, dateSelection);
                             fragmentTransaction1.commit();
                             num_clicked++;
+                            if (stateString2.equals("")) {
+                                stateString2 = citystates.get(cities.indexOf(cityString2));
+                            }
                             bundle.putString("DestinationCity", cityString2);
                             bundle.putString("DestinationState", stateString2);
                             bundle.putString("DestinationCountry", countryString2);
