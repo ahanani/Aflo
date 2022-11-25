@@ -463,12 +463,53 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 String location = response.header("location");
 
                 Log.d("GetBookingDetails", location);
-                return new JSONObject();
-            } catch (IOException e) {
+                JSONObject returnObject = new JSONObject();
+                returnObject.put("url", location);
+                returnObject.put("apikey", apikey);
+
+                return returnObject;
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
             return new JSONObject();
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                HashMap<String, String> req = new HashMap<>();
+                req.put("url", jsonObject.getString("url"));
+                req.put("apikey", jsonObject.getString("apikey"));
+
+                PollBookingTask pollBookingTask = new PollBookingTask();
+                pollBookingTask.execute(req);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class PollBookingTask extends AsyncTask<HashMap<String, String>, Void, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(HashMap<String, String>... hashMaps) {
+            HashMap<String, String> req = hashMaps[0];
+            String fullUrl = req.get("url") + "?apikey=" + req.get("apikey");
+
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(fullUrl)
+                    .get()
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                JSONObject responseJSON = new JSONObject(response.body().string());
+                Log.d("PollBookingTask", responseJSON.toString(4));
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
         }
     }
 
