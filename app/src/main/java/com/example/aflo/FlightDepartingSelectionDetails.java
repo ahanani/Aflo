@@ -8,32 +8,31 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+//import com.android.volley.Request;
+//import com.android.volley.Response;
+//import com.android.volley.Response;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class FlightDepartingSelectionDetails extends Fragment implements ItemClickListener {
@@ -107,13 +106,27 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 //        String inboundPartialDate = "anytime";
 //        String inboundPartialDate = "2022-12-23";
 //        String inboundPartialDate = "2023-01-29";
-        AsyncTaskRunner runner = new AsyncTaskRunner();
-        String flightURL = "https://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/" + country + "/" + currency + "/" + locale + "/" + originPlace + "/" + destinationPlace +"/" + outboundPartialDate +"/" + inboundPartialDate + "?apikey=prtl6749387986743898559646983194";
-        runner.execute(flightURL);
+//        AsyncTaskRunner runner = new AsyncTaskRunner();
+//        String flightURL = "https://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/" + country + "/" + currency + "/" + locale + "/" + originPlace + "/" + destinationPlace +"/" + outboundPartialDate +"/" + inboundPartialDate + "?apikey=prtl6749387986743898559646983194";
+        String flightURL = "https://partners.api.skyscanner.net/apiservices/pricing/v1.0";
+        String API_KEY = "prtl6749387986743898559646983194";
+//        runner.execute(flightURL);
+        HashMap<String, String> reqDetails = new HashMap<>();
+        reqDetails.put("country", "CA");
+        reqDetails.put("currency", "CAD");
+        reqDetails.put("locale", "en-US");
+        reqDetails.put("locationSchema", "iata");
+        reqDetails.put("originplace", "YVR");
+        reqDetails.put("destinationplace", "YTO");
+        reqDetails.put("outbounddate", "2022-11-25");
+        reqDetails.put("inbounddate", "2022-11-28");
+        reqDetails.put("cabinclass", "Economy");
+        reqDetails.put("adults", "" + 1);
+        reqDetails.put("apikey", API_KEY);
+        reqDetails.put("url", flightURL);
 
-
-
-
+        StartPollSessionTask startSession = new StartPollSessionTask();
+        startSession.execute(reqDetails);
     }
 
     @Override
@@ -222,154 +235,36 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
     }
 
-    private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
-
+    private class StartPollSessionTask extends AsyncTask<HashMap<String, String>, Void, String> {
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-//            RowRecyclerViewDepartingFlights rowRecyclerView = new RowRecyclerViewDepartingFlights(getActivity(), flights, images, prices, stops);
-//            rowRecyclerView.setClickListener(itemClickListener);
-//            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//            recyclerView.setAdapter(rowRecyclerView);
+        protected String doInBackground(HashMap<String, String>... hashMaps) {
+            try {
+                String url = hashMaps[0].remove("url");
 
-        }
+                OkHttpClient client = new OkHttpClient();
+                FormBody.Builder bodyBuilder = new FormBody.Builder();
 
-        @Override
-        protected String doInBackground(String... strings) {
-            RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, strings[0], null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        Log.d("JSONObject response", response.toString());
+                hashMaps[0].forEach(bodyBuilder::add);
 
-                        JSONObject o1 = new JSONObject(response.toString());
-                        JSONArray jsonarray = o1.getJSONArray("Quotes");
-                        for (int i = 0; i < jsonarray.length(); i++) {
-                            JSONObject jsonobject = jsonarray.getJSONObject(i);
-                            String parsedQuoteId = jsonobject.getString("QuoteId");
-                            String parsedMinPrice = jsonobject.getString("MinPrice");
-                            String parsedDirect = jsonobject.getString("Direct");
-                            String parsedOutboundLeg = jsonobject.getString("OutboundLeg");
-                            String parsedInboundLeg = jsonobject.getString("InboundLeg");
-                            String parsedQuoteDateTime = jsonobject.getString("QuoteDateTime");
-
-//                            Log.d("QuoteID from parsing JSONArray", parsedQuoteId);
-//                            Log.d("MinPrice from parsing JSONArray", parsedMinPrice);
-//                            Log.d("Direct from parsing JSONArray", parsedDirect);
-//                            Log.d("OutboundLeg from parsing JSONArray", parsedOutboundLeg);
-//                            Log.d("InboundLeg from parsing JSONArray", parsedInboundLeg);
-//                            Log.d("QuoteDateTime from parsing JSONArray", parsedQuoteDateTime);
-
-
-                            FlightQuote currentFlightQuote = new FlightQuote();
-                            currentFlightQuote.setQuoteId(parsedQuoteId);
-                            currentFlightQuote.setMinPrice(parsedMinPrice);
-                            currentFlightQuote.setDirect(parsedDirect);
-                            currentFlightQuote.setOutboundLeg(parsedOutboundLeg);
-                            currentFlightQuote.setInboundLeg(parsedInboundLeg);
-                            currentFlightQuote.setQuoteDateTime(parsedQuoteDateTime);
-
-
-                            JSONObject o2 = new JSONObject(response.toString());
-                            JSONArray jsonarray2 = o2.getJSONArray("Carriers");
-                            Log.d("CARRIERS", jsonarray2.toString());
-                            for (int j = 0; j < jsonarray2.length(); j++) {
-                                JSONObject jsonobject2 = jsonarray2.getJSONObject(j);
-//                                Log.d("jsonobject2", jsonobject2.toString());
-//                                Log.d("CarrierID", jsonobject2.getString("CarrierId"));
-//                                Log.d("Carrier Name", jsonobject2.getString("Name"));
-                                carriers.put(jsonobject2.getString("CarrierId"), jsonobject2.getString("Name"));
-                            }
-                            String x  = jsonobject.getString("OutboundLeg");
-
-                            try {
-                                JSONObject jObject = new JSONObject(x);
-                                JSONArray y = jObject.getJSONArray("CarrierIds");
-//                                Log.d("yCarrier", y.get(0).toString());
-                                String currentCarrierID = y.get(0).toString();
-//                                currentFlightQuote.setCarrier(currentCarrierID);
-                                String currentCarrierName = carriers.get(currentCarrierID);
-                                currentFlightQuote.setCarrier(currentCarrierName);
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-
-                            listOfFlightQuotes.add(currentFlightQuote);
-                        }
-
-
-
-
-
-                        printFlightQuotes();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+//                Log.d("startPollingSession", body.toString());
+                assert url != null;
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(bodyBuilder.build())
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    JSONObject responseJSON = new JSONObject(response.body().string());
+                    Log.d("OK", responseJSON.toString());
+                    Log.d("OK", "Header: " + response.header("location"));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                public ArrayList<FlightQuote> printFlightQuotes() {
-//                    Log.d("List of flight quotes size", Integer.toString(listOfFlightQuotes.size()));
-                    for (int i =0; i < listOfFlightQuotes.size(); i++) {
-                        images.add(R.drawable.ic_baseline_airplanemode_active_24);
-//                        Log.d("printFlightQuotes index", Integer.toString(i));
-//                        Log.d("printFlightQuotes FlightQuote Object", listOfFlightQuotes.get(i).toString());
-//                        Log.d("outbound leg to string", listOfFlightQuotes.get(i).getOutboundLeg());
-                        String x  = listOfFlightQuotes.get(i).getOutboundLeg();
-                        String z  = listOfFlightQuotes.get(i).getInboundLeg();
-                        String currentCarrierName = listOfFlightQuotes.get(i).getCarrier();
-                        carriersList.add(currentCarrierName);
-
-                        String y = "";
-                        String z1 = "";
-                        try {
-                            JSONObject jObject = new JSONObject(x);
-                            y = jObject.getString("DepartureDate").split("T")[0];
-                            JSONObject jObjectIn = new JSONObject(z);
-                            z1 = jObject.getString("DepartureDate").split("T")[0];
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        flights.add(y);
-                        flights.add(z1);
-//                        Log.d("flight outbound leg", listOfFlightQuotes.get(i).OutboundLeg);
-                        prices.add("$" + listOfFlightQuotes.get(i).MinPrice);
-//                        Log.d("flight min price", listOfFlightQuotes.get(i).MinPrice);
-
-
-//                        Log.d("flight direct", listOfFlightQuotes.get(i).Direct);
-                        if (listOfFlightQuotes.get(i).Direct.equals("true")) {
-                            stops.add("Direct");
-                        }
-                        else {
-                            stops.add("Non-direct");
-                        }
-
-                    }
-                    Log.d("Carrier List", carriersList.toString());
-                    Log.d("Carrier List length", Integer.toString(carriersList.size()));
-                    RowRecyclerViewDepartingFlights rowRecyclerView = new RowRecyclerViewDepartingFlights(getActivity(), flights, images, prices, stops);
-                    rowRecyclerView.setClickListener(itemClickListener);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                    recyclerView.setAdapter(rowRecyclerView);
-
-                    return listOfFlightQuotes;
-                };
-
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-//                    Toast.makeText(FlightQuoteAPICall.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            queue.add(request);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }
-
 
 }
