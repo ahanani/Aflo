@@ -63,7 +63,13 @@ dependencies {
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     // define any required OkHttp artifacts without version
     implementation("com.squareup.okhttp3:okhttp")
-
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
     implementation("com.squareup.okhttp3:logging-interceptor")
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
+}
+
+configurations.all {
+    resolutionStrategy.dependencySubstitution {
+        substitute module('org.hamcrest:hamcrest-core:1.1') with module('junit:junit:4.10')
+    }
 }

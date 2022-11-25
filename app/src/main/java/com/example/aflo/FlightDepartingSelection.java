@@ -35,6 +35,11 @@ public class FlightDepartingSelection extends AppCompatActivity {
         startActivity(goToReturningFlights);
 
     }
+
+    public void home(View view){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+    }
 //    public void goToHotelSelection(View view) {
 //        Intent goToHotels = new Intent(this, HotelInformation.class);
 //        startActivity(goToHotels);

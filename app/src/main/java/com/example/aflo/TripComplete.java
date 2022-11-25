@@ -43,4 +43,9 @@ public class TripComplete extends AppCompatActivity {
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
+    public void home(View view){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+    }
 }

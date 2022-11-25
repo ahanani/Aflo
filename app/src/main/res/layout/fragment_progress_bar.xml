@@ -4,14 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
-    android:layout_marginTop="20dp"
     android:gravity="center_horizontal"
     android:orientation="vertical">
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="360dp"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:progress="10"
         android:progressDrawable="@drawable/progress_round_corner"
@@ -28,6 +27,6 @@
         android:textSize="20sp"
         android:fontFamily="@font/nunito"
         android:layout_height="wrap_content"
-        android:textColor="#FF0000"
+        android:textColor="@color/black"
         android:text="$2500 remaining" />
 </FrameLayout>
