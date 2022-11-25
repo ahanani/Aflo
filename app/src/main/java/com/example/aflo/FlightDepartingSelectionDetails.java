@@ -21,12 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 //import com.android.volley.Response;
 //import com.android.volley.Response;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 import okhttp3.FormBody;
@@ -369,8 +371,61 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
-
             return null;
+        }
+
+        public ArrayList<HashMap<String, String>> parseItinerary(JSONObject itinerary) {
+            try {
+                ArrayList<HashMap<String, String>> result = new ArrayList<>();
+
+                JSONObject bookingDetailsLinkInfo = itinerary.getJSONObject("BookingDetailsLink");
+                String uri = bookingDetailsLinkInfo.getString("Uri");
+                String body = bookingDetailsLinkInfo.getString("Body");
+                String outboundId = itinerary.getString("OutboundLegId");
+                String inboundId = itinerary.getString("InboundLegId");
+
+                JSONArray pricingOptions = itinerary.getJSONArray("PricingOptions");
+                int pricingOptionsLength = pricingOptions.length();
+                for (int i = 0; i < pricingOptionsLength; ++i) {
+                    JSONObject option = pricingOptions.getJSONObject(i);
+
+                    HashMap<String, String> booking = new HashMap<>();
+                    booking.put("uri", uri);
+                    booking.put("body", body);
+                    booking.put("price", option.getString("Price"));
+                    booking.put("deeplinkUrl", option.getString("DeeplinkUrl"));
+                    booking.put("outboundlegid", outboundId);
+                    booking.put("inboundlegid", inboundId);
+                    result.add(booking);
+                }
+                return result;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return new ArrayList<>();
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                JSONArray itineraries = jsonObject.getJSONArray("Itineraries");
+                int itinerariesLength = itineraries.length();
+
+                ArrayList<HashMap<String, String>> allItineraries = new ArrayList<>();
+                for (int i = 0; i < itinerariesLength; ++i) {
+                    JSONObject itinerary = itineraries.getJSONObject(i);
+                    Log.d("PollSessionTask", itinerary.toString(4));
+                    allItineraries.addAll(Objects.requireNonNull(parseItinerary(itinerary)));
+                }
+
+                // LOG RESULT FOR NOW
+                for (HashMap<String, String> it: allItineraries) {
+                    Log.d("PollSessionTaskRES", it.toString());
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
