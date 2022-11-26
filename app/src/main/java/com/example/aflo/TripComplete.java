@@ -23,4 +23,9 @@ public class TripComplete extends AppCompatActivity {
         Intent intent = new Intent(this, HotelInformation.class);
         startActivity(intent);
     }
+
+    public void home(View view){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+    }
 }

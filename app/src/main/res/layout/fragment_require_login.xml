@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:backgroundTint="@android:color/transparent"
@@ -43,7 +44,6 @@
 
         <Button
             android:id="@+id/requireAccount"
-            android:onClick="redirectToSignup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -51,6 +51,7 @@
             android:backgroundTint="@color/light_brown"
             android:fontFamily="@font/nunito_bold"
             android:letterSpacing="0.089"
+            android:onClick="redirectToSignup"
             android:outlineSpotShadowColor="#00FFFFFF"
             android:text="@string/signup"
             android:textAllCaps="true"
@@ -58,6 +59,25 @@
             app:cornerRadius="60dp"
             app:strokeColor="#FFFFFF"
             app:strokeWidth="2dp" />
+
+        <Button
+            android:id="@+id/goBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="@color/light_brown"
+            android:fontFamily="@font/nunito_bold"
+            android:letterSpacing="0.089"
+            android:onClick="home"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            android:text="Go back"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            app:cornerRadius="60dp"
+            app:strokeColor="#FFFFFF"
+            app:strokeWidth="2dp" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

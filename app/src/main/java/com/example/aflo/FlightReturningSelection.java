@@ -32,4 +32,9 @@ public class FlightReturningSelection extends AppCompatActivity {
         goToHotels.putExtra("bundle", bundle);
         startActivity(goToHotels);
     }
+
+    public void home(View view){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+    }
 }

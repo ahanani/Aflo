@@ -65,9 +65,9 @@ public class FlightTypeSelection extends AppCompatActivity {
         Intent intent1 = new Intent(view.getContext(), FlightDepartingSelection.class);
 
         if (text.equals("Economy                    $")) {
-//            bundle.putString("flightType", "Economy");
-            bundle.putInt("minFlightPrice", 0);
-            bundle.putInt("maxFlightPrice", 500);
+            bundle.putString("flightType", "Economy");
+//            bundle.putInt("minFlightPrice", 0);
+//            bundle.putInt("maxFlightPrice", 500);
             intent1.putExtra("bundle", bundle);
 //            Log.d("flightType in bundle", bundle.getString("flightType"));
 
@@ -75,9 +75,9 @@ public class FlightTypeSelection extends AppCompatActivity {
         }
 
         if (text.equals("Business                  $$")) {
-//            bundle.putString("flightType", "Business");
-            bundle.putInt("minFlightPrice", 500);
-            bundle.putInt("maxFlightPrice", 2000);
+            bundle.putString("flightType", "Business");
+//            bundle.putInt("minFlightPrice", 500);
+//            bundle.putInt("maxFlightPrice", 2000);
             intent1.putExtra("bundle", bundle);
 //            Log.d("flightType in bundle", bundle.getString("flightType"));
 
@@ -85,9 +85,9 @@ public class FlightTypeSelection extends AppCompatActivity {
         }
 
         if (text.equals("First Class           $$$")) {
-//            bundle.putString("flightType", "First Class");
-            bundle.putInt("minFlightPrice", 2000);
-            bundle.putInt("maxFlightPrice", 1000000);
+            bundle.putString("flightType", "First");
+//            bundle.putInt("minFlightPrice", 2000);
+//            bundle.putInt("maxFlightPrice", 1000000);
             intent1.putExtra("bundle", bundle);
 //            Log.d("flightType in bundle", bundle.getString("flightType"));
 
