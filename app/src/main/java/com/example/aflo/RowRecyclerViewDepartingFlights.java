@@ -37,8 +37,8 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
     public void onBindViewHolder(@NonNull RowViewHolder holder, int position) {
         FlightPackage flightPackage = flightPackages.get(position);
 
-        holder.departing_shortened_text.setText(flightPackage.getOutboundId());
-        holder.returning_shortened_text.setText(flightPackage.getInboundId());
+        holder.departing_shortened_text.setText(flightPackage.getOutboundDate());
+        holder.returning_shortened_text.setText(flightPackage.getInboundDate());
         holder.price.setText("" + flightPackage.getPrice());
     }
 

@@ -32,6 +32,20 @@ public class FlightPackage {
         this.outboundId = outboundId;
         this.inboundId = inboundId;
         this.deeplink = deeplink;
+
+        this.outboundDate = parseDateTimeFromId(outboundId);
+        this.inboundDate = parseDateTimeFromId(inboundId);
+    }
+
+    private String parseDateTimeFromId(String legId) {
+        String[] partition = legId.split("--");
+        // Start
+        String[] startPartition = partition[0].split("-");
+        String startDateTime = startPartition[startPartition.length - 1];
+        // End
+        String[] endPartition = partition[partition.length - 1].split("-");
+        String endDateTime = endPartition[endPartition.length - 1];
+        return startDateTime + " - " + endDateTime;
     }
 
     public String getUri() {
