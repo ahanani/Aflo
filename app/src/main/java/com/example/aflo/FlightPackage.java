@@ -1,5 +1,12 @@
 package com.example.aflo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class FlightPackage {
     private String uri;
     private String linkBody;
@@ -38,14 +45,29 @@ public class FlightPackage {
     }
 
     private String parseDateTimeFromId(String legId) {
+        String millenia = "20";
         String[] partition = legId.split("--");
+
         // Start
         String[] startPartition = partition[0].split("-");
-        String startDateTime = startPartition[startPartition.length - 1];
+        String startDateTimeStr = millenia + startPartition[startPartition.length - 1];
+
         // End
         String[] endPartition = partition[partition.length - 1].split("-");
-        String endDateTime = endPartition[endPartition.length - 1];
-        return startDateTime + " - " + endDateTime;
+        String endDateTimeStr = millenia + endPartition[endPartition.length - 1];
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm",
+                    new Locale("en-US"));
+
+            Date startDateTime = dateFormat.parse(startDateTimeStr);
+            Date endDateTime = dateFormat.parse(endDateTimeStr);
+            String startDateTimeParsed = startDateTime.toString();
+            String endDateTimeParsed = endDateTime.toString();
+            return "From: " + startDateTimeParsed + "\nTo: " + endDateTimeParsed;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return startDateTimeStr + " - " + endDateTimeStr;
     }
 
     public String getUri() {
