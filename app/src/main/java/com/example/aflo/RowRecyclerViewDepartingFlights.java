@@ -17,18 +17,12 @@ import java.util.ArrayList;
 public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRecyclerViewDepartingFlights.RowViewHolder> {
 
     Context context;
-//    String[] hotels, prices, stops;
-    ArrayList<String> dates, prices, stops;
-    ArrayList<Integer> images;
-//    int[] images;
+    ArrayList<FlightPackage> flightPackages;
     private ItemClickListener clickListener;
 
-    public RowRecyclerViewDepartingFlights(Context context, ArrayList<String> dates, ArrayList<Integer> images, ArrayList<String> prices, ArrayList<String> stops) {
+    public RowRecyclerViewDepartingFlights(Context context, ArrayList<FlightPackage> flightPackages) {
         this.context = context;
-        this.dates = dates;
-        this.images = images;
-        this.prices = prices;
-        this.stops = stops;
+        this.flightPackages = flightPackages;
     }
 
     @NonNull
@@ -41,17 +35,17 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
 
     @Override
     public void onBindViewHolder(@NonNull RowViewHolder holder, int position) {
-        holder.flight.setText(dates.get(position));
-//        holder.flight.setText(dates.get(position) + " - " + dates.get(position+1));
-        holder.prices.setText(prices.get(position));
-        holder.image.setImageResource(images.get(position));
-        holder.stops.setText(stops.get(position));
+        FlightPackage flightPackage = flightPackages.get(position);
+
+        holder.departing_shortened_text.setText(flightPackage.getOutboundId());
+        holder.returning_shortened_text.setText(flightPackage.getInboundId());
+        holder.price.setText("" + flightPackage.getPrice());
     }
 
     @Override
     public int getItemCount() {
 //        return images.length;
-        return images.size();
+        return flightPackages.size();
     }
 
     public void setClickListener(ItemClickListener clickListener) {
@@ -59,17 +53,14 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
     }
 
     public class RowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        TextView flight, stops, prices;
-        ImageView image;
+        TextView departing_shortened_text, returning_shortened_text, price;
 
         public RowViewHolder(@NonNull View view) {
             super(view);
-            flight = view.findViewById(R.id.flight);
-            stops = view.findViewById(R.id.departing_stops);
-            prices = view.findViewById(R.id.price);
-            image = view.findViewById(R.id.flight_logo);
-//            carrierName = view.findViewById()
+            departing_shortened_text = view.findViewById(R.id.departing_shortened_text);
+            returning_shortened_text = view.findViewById(R.id.returning_shortened_text);
+            price = view.findViewById(R.id.price);
+
             view.setOnClickListener(this);
         }
 

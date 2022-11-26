@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.android.volley.Request;
@@ -45,8 +46,6 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     LayoutInflater inflater;
 //    Bundle bundle;
 
-
-    ArrayList<Integer> images = new ArrayList<>();
     //    String[] flights, prices, stops;
 //    int[] images = {R.drawable.flight_logo_1, R.drawable.flight_logo_2, R.drawable.flight_logo_3, R.drawable.flight_logo_1,
 //            R.drawable.flight_logo_1, R.drawable.flight_logo_2, R.drawable.flight_logo_3, R.drawable.flight_logo_2,
@@ -56,12 +55,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     boolean open = false;
     ConstraintLayout previouslyOpenRow = null;
 
-    ArrayList<String> flights = new ArrayList<>();
-    ArrayList<String> prices = new ArrayList<>();
-    ArrayList<String> stops = new ArrayList<>();
-    ArrayList<String> carriersList = new ArrayList<>();
-    ArrayList<FlightQuote> listOfFlightQuotes = new ArrayList<>();
-    HashMap<String, String> carriers = new HashMap<>();
+    ArrayList<FlightPackage> flightPackages = new ArrayList<>();
 
 
     @Override
@@ -117,11 +111,13 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         reqDetails.put("currency", "CAD");
         reqDetails.put("locale", "en-US");
         reqDetails.put("locationSchema", "iata");
+        // customize these
         reqDetails.put("originplace", "YVR");
         reqDetails.put("destinationplace", "YTO");
         reqDetails.put("outbounddate", "2022-11-27");
         reqDetails.put("inbounddate", "2022-11-28");
         reqDetails.put("cabinclass", "Economy");
+        //
         reqDetails.put("adults", "" + 1);
         reqDetails.put("apikey", API_KEY);
         reqDetails.put("url", flightURL);
@@ -414,21 +410,27 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 JSONArray itineraries = jsonObject.getJSONArray("Itineraries");
                 int itinerariesLength = itineraries.length();
 
-                ArrayList<FlightPackage> allItineraries = new ArrayList<>();
+//                ArrayList<FlightPackage> allItineraries = new ArrayList<>();
                 for (int i = 0; i < itinerariesLength; ++i) {
                     JSONObject itinerary = itineraries.getJSONObject(i);
                     Log.d("PollSessionTask", itinerary.toString(4));
-                    allItineraries.addAll(parseItinerary(itinerary));
+                    flightPackages.addAll(parseItinerary(itinerary));
                 }
 
+                RowRecyclerViewDepartingFlights rowRecyclerView =
+                        new RowRecyclerViewDepartingFlights(getActivity(), flightPackages);
+                rowRecyclerView.setClickListener(itemClickListener);
+                recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                recyclerView.setAdapter(rowRecyclerView);
+
                 // LOG RESULT FOR NOW
-                for (FlightPackage it: allItineraries) {
+                for (FlightPackage it: flightPackages) {
                     Log.d("PollSessionTaskRES", it.toString());
                 }
                 // Test getting details for ones
-                GetBookingDetailsTask getBookingDetails = new GetBookingDetailsTask();
-                FlightPackage test = allItineraries.get(0);
-                getBookingDetails.execute(test);
+//                GetBookingDetailsTask getBookingDetails = new GetBookingDetailsTask();
+//                FlightPackage test = flightPackages.get(0);
+//                getBookingDetails.execute(test);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -517,6 +519,11 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
             }
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
         }
     }
 
