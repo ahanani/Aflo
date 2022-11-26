@@ -119,7 +119,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         reqDetails.put("locationSchema", "iata");
         reqDetails.put("originplace", "YVR");
         reqDetails.put("destinationplace", "YTO");
-        reqDetails.put("outbounddate", "2022-11-25");
+        reqDetails.put("outbounddate", "2022-11-27");
         reqDetails.put("inbounddate", "2022-11-28");
         reqDetails.put("cabinclass", "Economy");
         reqDetails.put("adults", "" + 1);
@@ -373,9 +373,9 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
             return null;
         }
 
-        public ArrayList<HashMap<String, String>> parseItinerary(JSONObject itinerary) {
+        public ArrayList<FlightPackage> parseItinerary(JSONObject itinerary) {
             try {
-                ArrayList<HashMap<String, String>> result = new ArrayList<>();
+                ArrayList<FlightPackage> result = new ArrayList<>();
 
                 JSONObject bookingDetailsLinkInfo = itinerary.getJSONObject("BookingDetailsLink");
                 String uri = bookingDetailsLinkInfo.getString("Uri");
@@ -388,14 +388,18 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 for (int i = 0; i < pricingOptionsLength; ++i) {
                     JSONObject option = pricingOptions.getJSONObject(i);
 
-                    HashMap<String, String> booking = new HashMap<>();
-                    booking.put("uri", uri);
-                    booking.put("body", body);
-                    booking.put("price", option.getString("Price"));
-                    booking.put("deeplinkUrl", option.getString("DeeplinkUrl"));
-                    booking.put("outboundlegid", outboundId);
-                    booking.put("inboundlegid", inboundId);
-                    result.add(booking);
+                    result.add(new FlightPackage(uri, body, option.getInt("Price"),
+                            outboundId, inboundId, option.getString("DeeplinkUrl")
+                    ));
+
+//                    HashMap<String, String> booking = new HashMap<>();
+//                    booking.put("uri", uri);
+//                    booking.put("body", body);
+//                    booking.put("price", option.getString("Price"));
+//                    booking.put("deeplinkUrl", option.getString("DeeplinkUrl"));
+//                    booking.put("outboundlegid", outboundId);
+//                    booking.put("inboundlegid", inboundId);
+//                    result.add(booking);
                 }
                 return result;
             } catch (JSONException e) {
@@ -410,21 +414,20 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 JSONArray itineraries = jsonObject.getJSONArray("Itineraries");
                 int itinerariesLength = itineraries.length();
 
-                ArrayList<HashMap<String, String>> allItineraries = new ArrayList<>();
+                ArrayList<FlightPackage> allItineraries = new ArrayList<>();
                 for (int i = 0; i < itinerariesLength; ++i) {
                     JSONObject itinerary = itineraries.getJSONObject(i);
                     Log.d("PollSessionTask", itinerary.toString(4));
-                    allItineraries.addAll(Objects.requireNonNull(parseItinerary(itinerary)));
+                    allItineraries.addAll(parseItinerary(itinerary));
                 }
 
                 // LOG RESULT FOR NOW
-                for (HashMap<String, String> it: allItineraries) {
+                for (FlightPackage it: allItineraries) {
                     Log.d("PollSessionTaskRES", it.toString());
                 }
                 // Test getting details for ones
                 GetBookingDetailsTask getBookingDetails = new GetBookingDetailsTask();
-                HashMap<String, String> test = allItineraries.get(0);
-                test.put("apikey", "prtl6749387986743898559646983194");
+                FlightPackage test = allItineraries.get(0);
                 getBookingDetails.execute(test);
 
             } catch (JSONException e) {
@@ -433,22 +436,25 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         }
     }
 
-    private class GetBookingDetailsTask extends AsyncTask<HashMap<String, String>, Void, JSONObject> {
+    private class GetBookingDetailsTask extends AsyncTask<FlightPackage, Void, JSONObject> {
 
         @Override
-        protected JSONObject doInBackground(HashMap<String, String>... hashMaps) {
-            HashMap<String, String> req = hashMaps[0];
+        protected JSONObject doInBackground(FlightPackage... flightPackages) {
+            FlightPackage req = flightPackages[0];
+            Log.d("GetBookingDetails", "req: " + req.toString());
+
             String url = "https://partners.api.skyscanner.net";
-            String endpointUri = req.get("uri");
-            String apikey = req.get("apikey");
+            String endpointUri = req.getUri();
+            String apikey = "prtl6749387986743898559646983194";
 
             String fullUrl = url + endpointUri + "?apikey=" + apikey;
 
             Log.d("GetBookingDetails", fullUrl);
 
             HashMap<String, String> reqBody = new HashMap<>();
-            reqBody.put("OutboundLegId", req.get("outboundlegid"));
-            reqBody.put("InboundLegId", req.get("inboundlegid"));
+            reqBody.put("OutboundLegId", req.getOutboundId());
+            reqBody.put("InboundLegId", req.getInboundId());
+            Log.d("GetBookingDetails", reqBody.toString());
 
             FormBody.Builder reqBodyBuilder = new FormBody.Builder();
             reqBody.forEach(reqBodyBuilder::add);
@@ -461,7 +467,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
             try {
                 Response response = client.newCall(request).execute();
                 String location = response.header("location");
-
+                Log.d("GetBookingDetails", response.body().string());
                 Log.d("GetBookingDetails", location);
                 JSONObject returnObject = new JSONObject();
                 returnObject.put("url", location);
