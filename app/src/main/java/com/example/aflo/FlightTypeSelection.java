@@ -23,6 +23,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class FlightTypeSelection extends AppCompatActivity {
     Bundle bundle;
 
@@ -37,6 +42,53 @@ public class FlightTypeSelection extends AppCompatActivity {
     }
 
 
+    public String airportFinder(String cityInput, String countryIDInput) {
+        String airportCode = ""; // what we will ultimately return
+
+        String json = null;
+        try {
+            InputStream is = this.getAssets().open("country_city_airport.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            JSONObject obj = new JSONObject(json);
+            JSONArray m_jArry = obj.getJSONArray("Continents");
+
+            for (int i = 0; i < m_jArry.length(); i++) {
+                JSONObject jo_inside = m_jArry.getJSONObject(i);
+                for (int j = 0; j < jo_inside.getJSONArray("Countries").length(); j++) {
+                    String countryID = jo_inside.getJSONArray("Countries").getJSONObject(j).getString("Id");
+                    if (countryID.equals(countryIDInput)) {
+                        for (int z = 0; z < jo_inside.getJSONArray("Countries").getJSONObject(j).getJSONArray("Cities").length(); z++){
+                            JSONObject canadianCities = jo_inside.getJSONArray("Countries").getJSONObject(j).getJSONArray("Cities").getJSONObject(z);
+                            if (canadianCities.getString("Name").equals(cityInput)) {
+                                airportCode = canadianCities.getString("IataCode");
+                            }
+
+                        }
+
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return airportCode;
+    }
+
+
+
+
+
+
+
 
 
 
@@ -46,17 +98,28 @@ public class FlightTypeSelection extends AppCompatActivity {
 //        Intent intent1 = new Intent(this, FlightDepartingSelection.class);
         Log.d("FlightTypeSelection", "Bundle received: " + bundle);
         Log.d("FlightTypeSelection", "Bundle budget: " + bundle.getInt("budget"));
-        Log.d("FlightTypeSelection", "Bundle destination: " + bundle.getString("destination"));
+
+        Log.d("FlightTypeSelection", "Bundle OriginCity: " + bundle.getString("OriginCity"));
+        Log.d("FlightTypeSelection", "Bundle OriginCode: " + bundle.getString("OriginCode"));
         Log.d("FlightTypeSelection", "Bundle fromYear: " + bundle.getInt("fromYear"));
         Log.d("FlightTypeSelection", "Bundle fromMonth: " + bundle.getInt("fromMonth"));
         Log.d("FlightTypeSelection", "Bundle fromDay: " + bundle.getInt("fromDay"));
 
-        Log.d("FlightTypeSelection", "Bundle origin: " + bundle.getString("origin"));
+        Log.d("FlightTypeSelection", "Bundle DestinationCity: " + bundle.getString("DestinationCity"));
+        Log.d("FlightTypeSelection", "Bundle DestinationCode: " + bundle.getString("DestinationCode"));
         Log.d("FlightTypeSelection", "Bundle toYear: " + bundle.getInt("toYear"));
         Log.d("FlightTypeSelection", "Bundle toMonth: " + bundle.getInt("toMonth"));
         Log.d("FlightTypeSelection", "Bundle toDay: " + bundle.getInt("toDay"));
 
 
+        String originAirportCode = airportFinder(bundle.getString("OriginCity"), bundle.getString("OriginCode"));
+        String destinationAirportCode = airportFinder(bundle.getString("DestinationCity"), bundle.getString("DestinationCode"));
+        System.out.println("printing the airport codes being passed to FlightDepartingSelection");
+        System.out.println(originAirportCode);
+        System.out.println(destinationAirportCode);
+
+        bundle.putString("originAirportCode", originAirportCode);
+        bundle.putString("destinationAirportCode", destinationAirportCode);
 
 
         Button b = (Button) view;
