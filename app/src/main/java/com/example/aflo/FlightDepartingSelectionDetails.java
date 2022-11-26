@@ -29,6 +29,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Objects;
 
 import okhttp3.FormBody;
@@ -106,6 +107,21 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         String flightURL = "https://partners.api.skyscanner.net/apiservices/pricing/v1.0";
         String API_KEY = "prtl6749387986743898559646983194";
 //        runner.execute(flightURL);
+        Locale localize = new Locale("en", "CA");
+        String fmtFromYear = String.format(localize, "%02d",
+                bundle.getInt("fromYear"));
+        String fmtFromMonth = String.format(localize, "%02d",
+                bundle.getInt("fromMonth"));
+        String fmtFromDay = String.format(localize, "%02d",
+                bundle.getInt("fromDay"));
+        String fmtToYear = String.format(localize, "%02d",
+                bundle.getInt("toYear"));
+        String fmtToMonth = String.format(localize, "%02d",
+                bundle.getInt("toMonth"));
+        String fmtToDay = String.format(localize, "%02d",
+                bundle.getInt("toDay"));
+
+
         HashMap<String, String> reqDetails = new HashMap<>();
         reqDetails.put("country", "CA");
         reqDetails.put("currency", "CAD");
@@ -114,13 +130,19 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         // customize these
         reqDetails.put("originplace", "YVR");
         reqDetails.put("destinationplace", "YTO");
-        reqDetails.put("outbounddate", "2022-11-27");
-        reqDetails.put("inbounddate", "2022-11-28");
+//        "2022-11-27"
+        reqDetails.put("outbounddate",
+                String.join("-", fmtFromYear, fmtFromMonth, fmtFromDay)
+        );
+        reqDetails.put("inbounddate",
+                String.join("-", fmtToYear, fmtToMonth, fmtToDay)
+        );
         reqDetails.put("cabinclass", "Economy");
         //
         reqDetails.put("adults", "" + 1);
         reqDetails.put("apikey", API_KEY);
         reqDetails.put("url", flightURL);
+        Log.d("TAGH", reqDetails.get("outbounddate") + " -- " + reqDetails.get("inbounddate"));
 
         StartPollSessionTask startSession = new StartPollSessionTask();
         startSession.execute(reqDetails);
