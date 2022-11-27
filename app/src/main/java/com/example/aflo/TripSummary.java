@@ -15,6 +15,11 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Month;
@@ -22,17 +27,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
+import java.util.Objects;
 
 import app.futured.donut.DonutProgressView;
 import app.futured.donut.DonutSection;
 
 public class TripSummary extends AppCompatActivity {
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_summary);
-        Bundle bundle = getIntent().getBundleExtra("bundle");
+        bundle = getIntent().getBundleExtra("bundle");
         int toDay = bundle.getInt("toDay");
         int toMonth = bundle.getInt("toMonth");
         int toYear = bundle.getInt("toYear");
@@ -130,5 +137,29 @@ public class TripSummary extends AppCompatActivity {
         list.add(section3);
         donut_view.submitData(list);
 
+    }
+
+    public void saveToDB(View view) {
+        FirebaseUser user = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser());
+        if (user.isAnonymous()) {
+            Intent requireAuth = new Intent(this, RequireLogin.class);
+            startActivity(requireAuth);
+        } else {
+            String uid = user.getUid();
+            TripSummaryRecord tripRecord = new TripSummaryRecord(bundle);
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference("Trips");
+
+            DatabaseReference userTrips = myRef.child(uid);
+            String id = userTrips.push().getKey();
+            assert id != null;
+            userTrips.child(id).setValue(tripRecord);
+        }
+    }
+
+    public void home(View view){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
     }
 }

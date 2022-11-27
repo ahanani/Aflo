@@ -497,7 +497,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
-                    android:id="@+id/button8"
+                    android:id="@+id/save"
                     android:layout_width="match_parent"
                     android:layout_height="69dp"
                     android:layout_gravity="center"
@@ -507,6 +507,7 @@
                     android:drawableEnd="@drawable/ic_baseline_check_24"
                     android:fontFamily="@font/nunito_bold"
                     android:text="Save"
+                    android:onClick="saveToDB"
                     android:textAlignment="viewStart"
                     android:textColor="@color/white"
                     android:textSize="18sp"
@@ -519,7 +520,7 @@
                     app:layout_constraintVertical_bias="0.848"
                     tools:ignore="RtlCompat" />
                 <Button
-                    android:id="@+id/button9"
+                    android:id="@+id/goToHomePage"
                     android:layout_width="match_parent"
                     android:layout_height="69dp"
                     android:layout_gravity="center"
@@ -530,6 +531,7 @@
                     android:drawableEnd="@drawable/ic_baseline_check_24"
                     android:fontFamily="@font/nunito_bold"
                     android:text="Go To Home Page"
+                    android:onClick="home"
                     android:textAlignment="viewStart"
                     android:textColor="@color/aflo_orange"
                     android:textSize="18sp"
