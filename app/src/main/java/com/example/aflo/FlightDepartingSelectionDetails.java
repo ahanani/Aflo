@@ -3,6 +3,7 @@ package com.example.aflo;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -82,10 +85,11 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
         Log.d("FlightDepartingSelectionDetails", "Bundle minFlightPrice: " + bundle.getInt("minFlightPrice"));
         Log.d("FlightDepartingSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
 
-
-
-
+        Log.d("FlightDepartingSelectionDetails", "Bundle originAirportCode: " + bundle.getString("originAirportCode"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle destinationAirportCode: " + bundle.getString("destinationAirportCode"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle flightType: " + bundle.getString("flightType"));
 
 
         String country = "CA";
@@ -128,21 +132,19 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         reqDetails.put("locale", "en-US");
         reqDetails.put("locationSchema", "iata");
         // customize these
-        reqDetails.put("originplace", "YVR");
-        reqDetails.put("destinationplace", "YTO");
-//        "2022-11-27"
+        reqDetails.put("originplace", bundle.getString("originAirportCode"));
+        reqDetails.put("destinationplace", bundle.getString("destinationAirportCode"));
         reqDetails.put("outbounddate",
                 String.join("-", fmtFromYear, fmtFromMonth, fmtFromDay)
         );
         reqDetails.put("inbounddate",
                 String.join("-", fmtToYear, fmtToMonth, fmtToDay)
         );
-        reqDetails.put("cabinclass", "Economy");
+        reqDetails.put("cabinclass", bundle.getString("flightType"));
         //
         reqDetails.put("adults", "" + 1);
         reqDetails.put("apikey", API_KEY);
         reqDetails.put("url", flightURL);
-        Log.d("TAGH", reqDetails.get("outbounddate") + " -- " + reqDetails.get("inbounddate"));
 
         StartPollSessionTask startSession = new StartPollSessionTask();
         startSession.execute(reqDetails);
@@ -270,7 +272,6 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
         TextView priceToSendToBundle = row.findViewById(R.id.price);
         Log.d("price to send to bundle", priceToSendToBundle.getText().toString().substring(1));
-
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
         bundle.putString("flightPrice", priceToSendToBundle.getText().toString().substring(1));
@@ -375,9 +376,17 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                     .build();
 
             try {
-                Response response = client.newCall(request).execute();
-                JSONObject responseJSON = new JSONObject(response.body().string());
-                Log.d("PollSession", "Res: " + responseJSON.toString(4));
+                boolean statusPending = true;
+                JSONObject responseJSON;
+                do {
+                    Response response = client.newCall(request).execute();
+                    String responseStr = response.body().string();
+                    Log.d("PollSession", "Raw: " + responseStr);
+                    responseJSON = new JSONObject(responseStr);
+                    Log.d("PollSession", "Res: " + responseJSON.toString(4));
+                    statusPending = !responseJSON.getString("Status").equals("UpdatesComplete");
+                    SystemClock.sleep(2000);
+                } while (statusPending);
 
                 JSONObject shortenedJSON = new JSONObject();
                 shortenedJSON.put("SessionKey", responseJSON.getString("SessionKey"));
