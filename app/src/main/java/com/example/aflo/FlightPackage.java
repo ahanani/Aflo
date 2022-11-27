@@ -15,8 +15,11 @@ public class FlightPackage {
 
     // Derived
     private String outboundDate;
+
     private String outboundTime;
+
     private String inboundDate;
+
     private String inboundTime;
 
     private int id;
@@ -44,6 +47,19 @@ public class FlightPackage {
         this.outboundDate = parseDateTimeFromId(outboundId);
         this.inboundDate = parseDateTimeFromId(inboundId);
         this.expanded = false;
+    }
+
+    public void update(String outboundCarrier, String outboundCity, String outboundAirportCode,
+                       int outboundSegments, String inboundCarrier, String inboundCity,
+                       String inboundAirportCode, int inboundSegments) {
+        setOutboundCarrier(outboundCarrier);
+        setOutboundCity(outboundCity);
+        setOutboundAirportCode(outboundAirportCode);
+        setOutboundSegments(outboundSegments);
+        setInboundCarrier(inboundCarrier);
+        setInboundCity(inboundCity);
+        setInboundAirportCode(inboundAirportCode);
+        setInboundSegments(inboundSegments);
     }
 
     private String parseDateTimeFromId(String legId) {

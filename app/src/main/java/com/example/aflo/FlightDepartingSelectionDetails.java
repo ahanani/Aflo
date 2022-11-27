@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,8 +31,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -548,6 +545,13 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             try {
+                HashMap<String, HashMap<String, String>> places =
+                        parseCodeArray(jsonObject.getJSONArray("Places"));
+                HashMap<String, HashMap<String, String>> carriers =
+                        parseCodeArray(jsonObject.getJSONArray("Carriers"));
+
+                JSONObject originalQuery = jsonObject.getJSONObject("Query");
+
                 int flightPackageId = jsonObject.getInt("flightPackageId");
                 RowRecyclerViewDepartingFlights recycler = (RowRecyclerViewDepartingFlights)
                         Objects.requireNonNull(recyclerView.getAdapter());
@@ -560,6 +564,21 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 e.printStackTrace();
             }
         }
+
+        HashMap<String, HashMap<String, String>> parseCodeArray(JSONArray jsonArr) throws JSONException {
+            int len = jsonArr.length();
+            HashMap<String, HashMap<String, String>> idToValsMap = new HashMap<>();
+            for (int i = 0; i < len; ++i) {
+                JSONObject idJSON = jsonArr.getJSONObject(i);
+                HashMap<String, String> codeAndNameMap = new HashMap<>();
+                codeAndNameMap.put("code", idJSON.getString("Code"));
+                codeAndNameMap.put("name", idJSON.getString("Name"));
+                idToValsMap.put(idJSON.getString("Id"), codeAndNameMap);
+            }
+            return idToValsMap;
+        }
+
+
     }
 
 }

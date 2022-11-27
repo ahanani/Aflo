@@ -44,12 +44,15 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
 
     public void updateView(@NonNull RowViewHolder holder, int position) {
         FlightPackage flightPackage = flightPackages.get(position);
+        flightPackage.setExpanded(true);
+
+        holder.departing_date.setText(flightPackage.getOutboundDate());
+        holder.returning_date.setText(flightPackage.getInboundDate());
         holder.returning_city_and_airport.setText("HELLO HABIBI");
     }
 
     @Override
     public int getItemCount() {
-//        return images.length;
         return flightPackages.size();
     }
 
@@ -59,14 +62,19 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
 
     public class RowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView departing_shortened_text, returning_shortened_text, price,
-                returning_city_and_airport;
+                departing_date,
+                returning_city_and_airport, returning_date;
 
         public RowViewHolder(@NonNull View view) {
             super(view);
             departing_shortened_text = view.findViewById(R.id.departing_shortened_text);
             returning_shortened_text = view.findViewById(R.id.returning_shortened_text);
             price = view.findViewById(R.id.price);
+
+            departing_date = view.findViewById(R.id.departing_date);
+
             returning_city_and_airport = view.findViewById(R.id.returning_city_and_airport);
+            returning_date = view.findViewById(R.id.returning_date);
             view.setOnClickListener(this);
         }
 
