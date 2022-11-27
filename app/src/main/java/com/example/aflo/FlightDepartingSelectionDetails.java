@@ -59,7 +59,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     boolean open = false;
     ConstraintLayout previouslyOpenRow = null;
 
-    ArrayList<FlightPackage> flightPackages = new ArrayList<>();
+//    ArrayList<FlightPackage> flightPackages = new ArrayList<>();
 
 
     @Override
@@ -263,39 +263,29 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         departingShrunk.setVisibility(View.INVISIBLE);
         returningShrunk.setVisibility(View.INVISIBLE);
 
-
-
-        TableLayout table = row.findViewById(R.id.features_departing_flight);
-        TableRow flightType = new TableRow(getContext());
-        TextView flightTypeText = new TextView(getContext());
-//        flightTypeText.setText("Air Canada - Economy");
-
         TextView priceToSendToBundle = row.findViewById(R.id.price);
         Log.d("price to send to bundle", priceToSendToBundle.getText().toString().substring(1));
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
         bundle.putString("flightPrice", priceToSendToBundle.getText().toString().substring(1));
 
+        Log.d("CLICKME", "CLICKED " + position);
 
-//        flightTypeText.setText(carriersList.get(position));
+        FlightPackage selectedFlightPackage = (
+                (RowRecyclerViewDepartingFlights) Objects.requireNonNull(recyclerView.getAdapter())
+        ).flightPackages.get(position);
+        Log.d("FlightDepartingSelectionDetails/ExpandRow", "CLICKED " + selectedFlightPackage.toString());
 
+        if (!selectedFlightPackage.isExpanded()) {
+            GetBookingDetailsTask getBookingDetailsTask = new GetBookingDetailsTask();
+            getBookingDetailsTask.execute(selectedFlightPackage);
+        }
 
-//        flightTypeText.setTextColor(Color.BLACK);
-//        flightTypeText.setTextSize(18);
-//        flightType.addView(flightTypeText);
-//        table.addView(flightType);
+//        R.id.select_departing_flight
+//        R.id.visit_site_button
+//        R.id.departing_table_layout
+//        R.id.returning_table_layout
 
-//        TextView dateArrive = row.findViewById(R.id.flight);
-//        bundle_flight_departing.putString("dateArrive", dateArrive.toString());
-//        Intent intent = getActivity().getIntent();
-
-
-
-
-//
-//        Intent intent1 = new Intent(view.getContext(), FlightReturningSelection.class);
-//
-//        startActivity(intent1);
 
     }
 
@@ -441,7 +431,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 JSONArray itineraries = jsonObject.getJSONArray("Itineraries");
                 int itinerariesLength = itineraries.length();
 
-//                ArrayList<FlightPackage> allItineraries = new ArrayList<>();
+                ArrayList<FlightPackage> flightPackages = new ArrayList<>();
                 for (int i = 0; i < itinerariesLength; ++i) {
                     JSONObject itinerary = itineraries.getJSONObject(i);
                     Log.d("PollSessionTask", itinerary.toString(4));
@@ -505,6 +495,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 JSONObject returnObject = new JSONObject();
                 returnObject.put("url", location);
                 returnObject.put("apikey", apikey);
+                returnObject.put("flightPackageId", req.getId());
 
                 return returnObject;
             } catch (IOException | JSONException e) {
@@ -520,6 +511,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 HashMap<String, String> req = new HashMap<>();
                 req.put("url", jsonObject.getString("url"));
                 req.put("apikey", jsonObject.getString("apikey"));
+                req.put("flightPackageId", jsonObject.getString("flightPackageId"));
 
                 PollBookingTask pollBookingTask = new PollBookingTask();
                 pollBookingTask.execute(req);
@@ -544,6 +536,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 Response response = client.newCall(request).execute();
                 JSONObject responseJSON = new JSONObject(response.body().string());
                 Log.d("PollBookingTask", responseJSON.toString(4));
+                responseJSON.put("flightPackageId", req.get("flightPackageId"));
                 return responseJSON;
             } catch (JSONException | IOException e) {
                 e.printStackTrace();
@@ -554,7 +547,18 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
-            super.onPostExecute(jsonObject);
+            try {
+                int flightPackageId = jsonObject.getInt("flightPackageId");
+                RowRecyclerViewDepartingFlights recycler = (RowRecyclerViewDepartingFlights)
+                        Objects.requireNonNull(recyclerView.getAdapter());
+                FlightPackage selectedPackage = recycler.flightPackages.get(flightPackageId);
+                Log.d("PollBookingTask", "FLIGHT: " + selectedPackage.toString());
+                recycler.updateView(selectedPackage.getHolder(), selectedPackage.getId());
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

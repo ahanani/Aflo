@@ -2,8 +2,6 @@ package com.example.aflo;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Month;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -21,6 +19,9 @@ public class FlightPackage {
     private String inboundDate;
     private String inboundTime;
 
+    private int id;
+    private RowRecyclerViewDepartingFlights.RowViewHolder holder;
+    private boolean expanded;
     // Expanded
     private String outboundCarrier;
     private String outboundCity;
@@ -42,6 +43,7 @@ public class FlightPackage {
 
         this.outboundDate = parseDateTimeFromId(outboundId);
         this.inboundDate = parseDateTimeFromId(inboundId);
+        this.expanded = false;
     }
 
     private String parseDateTimeFromId(String legId) {
@@ -198,6 +200,46 @@ public class FlightPackage {
         this.deeplink = deeplink;
     }
 
+    public boolean isExpanded() {
+        return expanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        this.expanded = expanded;
+    }
+
+    public int getOutboundSegments() {
+        return outboundSegments;
+    }
+
+    public void setOutboundSegments(int outboundSegments) {
+        this.outboundSegments = outboundSegments;
+    }
+
+    public int getInboundSegments() {
+        return inboundSegments;
+    }
+
+    public void setInboundSegments(int inboundSegments) {
+        this.inboundSegments = inboundSegments;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public RowRecyclerViewDepartingFlights.RowViewHolder getHolder() {
+        return holder;
+    }
+
+    public void setHolder(RowRecyclerViewDepartingFlights.RowViewHolder holder) {
+        this.holder = holder;
+    }
+
     @Override
     public String toString() {
         return "FlightPackage{" +
@@ -211,6 +253,9 @@ public class FlightPackage {
                 ", outboundTime='" + outboundTime + '\'' +
                 ", inboundDate='" + inboundDate + '\'' +
                 ", inboundTime='" + inboundTime + '\'' +
+                ", id=" + id +
+                ", holder=" + holder +
+                ", expanded=" + expanded +
                 ", outboundCarrier='" + outboundCarrier + '\'' +
                 ", outboundCity='" + outboundCity + '\'' +
                 ", outboundAirportCode='" + outboundAirportCode + '\'' +
@@ -222,6 +267,6 @@ public class FlightPackage {
                 '}';
     }
 
-    // Constructor Expanded
+// Constructor Expanded
     // toBundle
 }

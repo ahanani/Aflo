@@ -2,11 +2,9 @@ package com.example.aflo;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,7 +15,7 @@ import java.util.ArrayList;
 public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRecyclerViewDepartingFlights.RowViewHolder> {
 
     Context context;
-    ArrayList<FlightPackage> flightPackages;
+    public ArrayList<FlightPackage> flightPackages;
     private ItemClickListener clickListener;
 
     public RowRecyclerViewDepartingFlights(Context context, ArrayList<FlightPackage> flightPackages) {
@@ -36,10 +34,17 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
     @Override
     public void onBindViewHolder(@NonNull RowViewHolder holder, int position) {
         FlightPackage flightPackage = flightPackages.get(position);
+        flightPackage.setId(position);
+        flightPackage.setHolder(holder);
 
         holder.departing_shortened_text.setText(flightPackage.getOutboundDate());
         holder.returning_shortened_text.setText(flightPackage.getInboundDate());
         holder.price.setText("" + flightPackage.getPrice());
+    }
+
+    public void updateView(@NonNull RowViewHolder holder, int position) {
+        FlightPackage flightPackage = flightPackages.get(position);
+        holder.returning_city_and_airport.setText("HELLO HABIBI");
     }
 
     @Override
@@ -53,14 +58,15 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
     }
 
     public class RowViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView departing_shortened_text, returning_shortened_text, price;
+        TextView departing_shortened_text, returning_shortened_text, price,
+                returning_city_and_airport;
 
         public RowViewHolder(@NonNull View view) {
             super(view);
             departing_shortened_text = view.findViewById(R.id.departing_shortened_text);
             returning_shortened_text = view.findViewById(R.id.returning_shortened_text);
             price = view.findViewById(R.id.price);
-
+            returning_city_and_airport = view.findViewById(R.id.returning_city_and_airport);
             view.setOnClickListener(this);
         }
 
