@@ -54,7 +54,6 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainFragment"
         android:layout_marginTop="10dp"
-        android:name="com.example.aflo.HotelsFragment"
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:layout_row="2"
