@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 
 import okhttp3.OkHttpClient;
@@ -42,6 +48,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     ArrayList<String> prices = new ArrayList<>();
     ArrayList<String> ids = new ArrayList<>();
     ArrayList<Bitmap> imagesOfHotels = new ArrayList<>();
+    ArrayList<String> urlOfHotelsImage = new ArrayList<>();
     ArrayList<String> ratings = new ArrayList<>();
     ArrayList<String> ratingsCount = new ArrayList<>();
     ArrayList<String> amenitiesScreen = new ArrayList<>();
@@ -76,6 +83,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         AsyncTaskRunner runner = new AsyncTaskRunner();
         String urlForLocations = "https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=";
         runner.execute(urlForLocations + city);
+        Log.d("Bundle toString", bundle.toString());
     }
 
     @Override
@@ -148,9 +156,33 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         TextView select = row.findViewById(R.id.select);
         select.setVisibility(View.VISIBLE);
         select.setOnClickListener(v -> {
-            bundle.putString("id", ids.get(position));
+            bundle.putString("hotelImage", urlOfHotelsImage.get(position));
+            bundle.putString("hotelPrice", prices.get(position).substring(1));
+            bundle.putString("hotelName", titles.get(position));
+            bundle.putString("ratings", ratings.get(position));
+            int toDay = bundle.getInt("toDay");
+            int toMonth = bundle.getInt("toMonth");
+            int toYear = bundle.getInt("toYear");
+            int fromDay = bundle.getInt("fromDay");
+            int fromMonth = bundle.getInt("fromMonth");
+            int fromYear = bundle.getInt("fromYear");
+            try {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+                Date from = simpleDateFormat.parse(fromMonth+"/"+fromDay+"/"+fromYear);
+                Date to = simpleDateFormat.parse(toMonth+"/"+toDay+"/"+toYear);
+
+                assert to != null;
+                assert from != null;
+                long timeDiff = Math.abs(from.getTime() - to.getTime());
+                long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
+                bundle.putString("ratingsCount", ratingsCount.get(position));
+                bundle.putInt("spentBudget", (int) (bundle.getInt("spentBudget") + Integer.parseInt(bundle.getString("hotelPrice").substring(1)) * daysDiff));
+                bundle.putInt("numberDays", (int) daysDiff);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             Intent intent = new Intent(getContext(), TripComplete.class);
-            intent.putExtras(bundle);
+            intent.putExtra("bundle", bundle);
             startActivity(intent);
 
         });
@@ -246,6 +278,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                             ratingsCount.add(ratingStuff.getString("count"));
                             image = image.replace("{width}", "500");
                             image = image.replace("{height}", "500");
+                            urlOfHotelsImage.add(image);
                             try {
                                 InputStream in=new java.net.URL(image).openStream();
                                 imagesOfHotels.add(BitmapFactory.decodeStream(in));
