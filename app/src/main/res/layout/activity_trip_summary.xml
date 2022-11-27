@@ -197,11 +197,11 @@
                     android:textSize="30sp"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_marginTop="10dp"
                     android:id="@+id/departing_flight_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="110dp"
-                    android:layout_marginTop="5dp"
+                    android:minHeight="200dp"
                     android:layout_marginHorizontal="30dp"
                     android:background="@drawable/round_corner"
                     app:layout_constraintStart_toStartOf="parent"
@@ -247,27 +247,116 @@
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/price"
-                        app:layout_constraintHorizontal_bias="0.084"
-                        app:layout_constraintStart_toEndOf="@+id/departing_flight_card"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.22"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.158" />
+                        app:layout_constraintVertical_bias="0.108"
+                        android:visibility="invisible"/>
 
-                    <TextView
-                        android:id="@+id/departing_flight_stops"
+                    <TableLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/nunito"
-                        android:paddingHorizontal="10dp"
-                        android:text="Nonstop"
-                        android:textColor="@color/black"
-                        android:textSize="15sp"
+                        android:id="@+id/departing_shortened_summary_tablelayout"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.05"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/departing_flight_card"
-                        app:layout_constraintVertical_bias="0.629" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintVertical_bias="0.414"
+                        >
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <TextView
+                                android:id="@+id/departing_shortened_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito"
+                                android:paddingHorizontal="10dp"
+                                android:text="Departure"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent" />
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/departing_shortened_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito"
+                                android:paddingHorizontal="10dp"
+                                android:text="@string/placeholder_date"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                />
+                        </TableRow>
+                    </TableLayout>
+
+
+                    <TableLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/returning_shortened_summary_tablelayout"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintHorizontal_bias="0.05"
+                        app:layout_constraintVertical_bias="0.900"
+                        >
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/returning_shortened_label"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito"
+                                android:paddingHorizontal="10dp"
+                                android:text="Returning"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                />
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                            <TextView
+                                android:id="@+id/returning_shortened_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/nunito"
+                                android:paddingHorizontal="10dp"
+                                android:text="@string/placeholder_date"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                />
+                        </TableRow>
+                    </TableLayout>
+
+
+
+
+
+
+
+
 
                     <TextView
                         android:id="@+id/price"
@@ -275,64 +364,19 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nunito"
                         android:paddingHorizontal="10dp"
-                        android:text="@string/hotel_price"
+                        android:text="@string/placeholder_text"
                         android:textColor="@color/black"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toTopOf="@+id/select_departing_flight"
+                        android:textSize="18sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/seeDetails_departing_flight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/nunito"
-                        android:paddingHorizontal="10dp"
-                        android:text="@string/see_hotel_details"
-                        android:textColor="@color/aflo_orange"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.946"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintHorizontal_bias="0.9"
+                        app:layout_constraintStart_toEndOf="@+id/flight"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"
-                        tools:ignore="TextContrastCheck" />
-
-                    <Button
-                        android:id="@+id/select_departing_flight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/round_button_corner"
-                        android:backgroundTint="@color/aflo_orange"
-                        android:fontFamily="@font/nunito"
-                        android:paddingHorizontal="10dp"
-                        android:text="@string/select"
-                        android:textSize="12sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.949"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"
-                        tools:ignore="TextContrastCheck"
-                        android:visibility="invisible"/>
+                        app:layout_constraintVertical_bias="0.134" />
 
 
-                    <TableLayout
-                        android:id="@+id/features_departing_flight"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/seeDetails_departing_flight"
-                        app:layout_constraintHorizontal_bias="0.448"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/departing_flight_card"
-                        app:layout_constraintVertical_bias="0.0" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
 
                 <TextView
                     android:id="@+id/title5Response"
@@ -348,9 +392,9 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/hotel_row"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_height="96dp"
                     android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="5dp"
                     android:background="@drawable/round_corner"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -379,7 +423,7 @@
                             android:maxHeight="100dp"
                             android:scaleType="fitCenter"
                             app:srcCompat="@mipmap/ic_launcher"
-                            tools:ignore="ImageContrastCheck"/>
+                            tools:ignore="ImageContrastCheck" />
                     </androidx.cardview.widget.CardView>
 
                     <TextView
@@ -402,11 +446,11 @@
                         android:id="@+id/detail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito"
                         android:paddingStart="10dp"
                         android:text="@string/rating_num"
                         android:textColor="@color/black"
                         android:textSize="15sp"
-                        android:fontFamily="@font/nunito"
                         app:layout_constraintBottom_toBottomOf="@+id/card"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.003"
@@ -430,69 +474,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.555" />
 
-                    <TextView
-                        android:id="@+id/seeDetails"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:fontFamily="@font/nunito_bold"
-                        android:paddingHorizontal="10dp"
-                        android:text="@string/see_hotel_details"
-                        android:textColor="@color/aflo_orange"
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.961"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"
-                        tools:ignore="TextContrastCheck" />
 
-                    <Button
-                        android:id="@+id/select"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:backgroundTint="@color/aflo_orange"
-                        android:fontFamily="@font/nunito_bold"
-                        android:letterSpacing="0.089"
-                        android:outlineSpotShadowColor="#00FFFFFF"
-                        android:paddingHorizontal="10dp"
-                        android:text="@string/select"
-                        android:textSize="12sp"
-                        app:cornerRadius="60dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.961"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"
-                        tools:ignore="TextContrastCheck"
-                        android:visibility="invisible"/>
-
-                    <Button
-                        android:id="@+id/visit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginBottom="10dp"
-                        android:backgroundTint="@color/white"
-                        android:fontFamily="@font/nunito_bold"
-                        android:letterSpacing="0.089"
-                        android:paddingHorizontal="10dp"
-                        android:text="@string/visit_site"
-                        android:textColor="@color/aflo_orange"
-                        android:textSize="12sp"
-                        app:cornerRadius="60dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.039"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="1.0"
-                        app:strokeColor="@color/aflo_orange"
-                        app:strokeWidth="2dp"
-                        tools:ignore="TextContrastCheck"
-                        android:visibility="invisible" />
 
                     <RatingBar
                         android:id="@+id/rating"
@@ -512,31 +494,6 @@
                         app:layout_constraintVertical_bias="0.593"
                         tools:ignore="SpeakableTextPresentCheck" />
 
-                    <ScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:scrollbars="horizontal|vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.05"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/card"
-                        app:layout_constraintVertical_bias="0.0" >
-
-                        <HorizontalScrollView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fadeScrollbars="false">
-
-                            <TableLayout
-                                android:id="@+id/features"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginHorizontal="10dp"
-                                android:layout_marginTop="10dp" />
-                        </HorizontalScrollView>
-                    </ScrollView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
