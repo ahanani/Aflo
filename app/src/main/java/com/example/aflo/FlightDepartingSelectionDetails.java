@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -230,12 +231,11 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         Log.d("price to send to bundle", priceToSendToBundle.getText().toString().substring(1));
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
-        bundle.putInt("flightPrice", Integer.parseInt(priceToSendToBundle.getText().toString().substring(1)));
 
         FlightPackage selectedFlightPackage = (
                 (RowRecyclerViewDepartingFlights) Objects.requireNonNull(recyclerView.getAdapter())
         ).flightPackages.get(position);
-        Log.d("FlightDepartingSelectionDetails/ExpandRow", "CLICKED " + selectedFlightPackage.toString());
+        bundle.putAll(selectedFlightPackage.toBundle());
 
         if (!selectedFlightPackage.isExpanded()) {
             GetBookingDetailsTask getBookingDetailsTask = new GetBookingDetailsTask();
@@ -327,7 +327,6 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                     String responseStr = response.body().string();
                     Log.d("PollSession", "Raw: " + responseStr);
                     responseJSON = new JSONObject(responseStr);
-                    Log.d("PollSession", "Res: " + responseJSON.toString(4));
                     statusPending = !responseJSON.getString("Status").equals("UpdatesComplete");
                     SystemClock.sleep(2000);
                 } while (statusPending);
@@ -363,14 +362,6 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                             outboundId, inboundId, option.getString("DeeplinkUrl")
                     ));
 
-//                    HashMap<String, String> booking = new HashMap<>();
-//                    booking.put("uri", uri);
-//                    booking.put("body", body);
-//                    booking.put("price", option.getString("Price"));
-//                    booking.put("deeplinkUrl", option.getString("DeeplinkUrl"));
-//                    booking.put("outboundlegid", outboundId);
-//                    booking.put("inboundlegid", inboundId);
-//                    result.add(booking);
                 }
                 return result;
             } catch (JSONException e) {
@@ -392,20 +383,21 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                     flightPackages.addAll(parseItinerary(itinerary));
                 }
 
+                requireActivity().findViewById(R.id.loading).setVisibility(View.GONE);
+
+                FragmentContainerView fragmentContainerView = requireActivity().findViewById(R.id.mainFragment);
+                fragmentContainerView.setVisibility(View.VISIBLE);
+
                 RowRecyclerViewDepartingFlights rowRecyclerView =
                         new RowRecyclerViewDepartingFlights(getActivity(), flightPackages);
                 rowRecyclerView.setClickListener(itemClickListener);
                 recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
                 recyclerView.setAdapter(rowRecyclerView);
 
-                // LOG RESULT FOR NOW
+                // LOG RESULT
                 for (FlightPackage it: flightPackages) {
                     Log.d("PollSessionTaskRES", it.toString());
                 }
-                // Test getting details for ones
-//                GetBookingDetailsTask getBookingDetails = new GetBookingDetailsTask();
-//                FlightPackage test = flightPackages.get(0);
-//                getBookingDetails.execute(test);
 
             } catch (JSONException e) {
                 e.printStackTrace();

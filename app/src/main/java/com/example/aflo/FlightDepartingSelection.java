@@ -86,7 +86,7 @@ public class FlightDepartingSelection extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
 
-
+        Log.d("BUNDLE HERE", bundle.toString());
         Intent goToHotels = new Intent(this, HotelInformation.class);
         bundle.putInt("spentBudget", bundle.getInt("spentBudget") + bundle.getInt("flightPrice"));
         goToHotels.putExtra("bundle", bundle);

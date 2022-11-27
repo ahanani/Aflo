@@ -1,5 +1,7 @@
 package com.example.aflo;
 
+import android.os.Bundle;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,13 +16,12 @@ public class FlightPackage {
     private String deeplink;
 
     // Derived
-    private String outboundDate;
+    private String outboundStartDatetime;
+    private String outboundEndDatetime;
 
-    private String outboundTime;
+    private String inboundStartDatetime;
+    private String inboundEndDatetime;
 
-    private String inboundDate;
-
-    private String inboundTime;
 
     private int id;
     private RowRecyclerViewDepartingFlights.RowViewHolder holder;
@@ -45,8 +46,14 @@ public class FlightPackage {
         this.inboundId = inboundId;
         this.deeplink = deeplink;
 
-        this.outboundDate = parseDateTimeFromId(outboundId);
-        this.inboundDate = parseDateTimeFromId(inboundId);
+        String[] outboundDT = parseDateTimeFromId(outboundId);
+        this.outboundStartDatetime = outboundDT[0];
+        this.outboundEndDatetime = outboundDT[1];
+
+        String[] inboundDT = parseDateTimeFromId(inboundId);
+        this.inboundStartDatetime = inboundDT[0];
+        this.inboundEndDatetime = inboundDT[1];
+
         this.expanded = false;
     }
 
@@ -64,7 +71,7 @@ public class FlightPackage {
         setCabinClass(cabinClass);
     }
 
-    private String parseDateTimeFromId(String legId) {
+    private String[] parseDateTimeFromId(String legId) {
         String millenia = "20";
         String[] partition = legId.split("--");
 
@@ -83,11 +90,11 @@ public class FlightPackage {
             Date endDateTime = dateFormat.parse(endDateTimeStr);
             String startDateTimeParsed = startDateTime.toString();
             String endDateTimeParsed = endDateTime.toString();
-            return "From: " + startDateTimeParsed + "\nTo: " + endDateTimeParsed;
+            return new String[]{startDateTimeParsed, endDateTimeParsed};
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        return startDateTimeStr + " - " + endDateTimeStr;
+        return new String[]{startDateTimeStr, endDateTimeStr};
     }
 
     public String getUri() {
@@ -106,20 +113,12 @@ public class FlightPackage {
         return inboundId;
     }
 
-    public String getOutboundDate() {
-        return outboundDate;
+    public String getOutboundStartDatetime() {
+        return outboundStartDatetime;
     }
 
-    public String getOutboundTime() {
-        return outboundTime;
-    }
-
-    public String getInboundDate() {
-        return inboundDate;
-    }
-
-    public String getInboundTime() {
-        return inboundTime;
+    public String getInboundStartDatetime() {
+        return inboundStartDatetime;
     }
 
     public int getPrice() {
@@ -170,20 +169,12 @@ public class FlightPackage {
         this.inboundId = inboundId;
     }
 
-    public void setOutboundDate(String outboundDate) {
-        this.outboundDate = outboundDate;
+    public void setOutboundStartDatetime(String outboundStartDatetime) {
+        this.outboundStartDatetime = outboundStartDatetime;
     }
 
-    public void setOutboundTime(String outboundTime) {
-        this.outboundTime = outboundTime;
-    }
-
-    public void setInboundDate(String inboundDate) {
-        this.inboundDate = inboundDate;
-    }
-
-    public void setInboundTime(String inboundTime) {
-        this.inboundTime = inboundTime;
+    public void setInboundStartDatetime(String inboundStartDatetime) {
+        this.inboundStartDatetime = inboundStartDatetime;
     }
 
     public void setPrice(int price) {
@@ -266,6 +257,22 @@ public class FlightPackage {
         this.cabinClass = cabinClass;
     }
 
+    public String getOutboundEndDatetime() {
+        return outboundEndDatetime;
+    }
+
+    public void setOutboundEndDatetime(String outboundEndDatetime) {
+        this.outboundEndDatetime = outboundEndDatetime;
+    }
+
+    public String getInboundEndDatetime() {
+        return inboundEndDatetime;
+    }
+
+    public void setInboundEndDatetime(String inboundEndDatetime) {
+        this.inboundEndDatetime = inboundEndDatetime;
+    }
+
     @Override
     public String toString() {
         return "FlightPackage{" +
@@ -275,10 +282,10 @@ public class FlightPackage {
                 ", outboundId='" + outboundId + '\'' +
                 ", inboundId='" + inboundId + '\'' +
                 ", deeplink='" + deeplink + '\'' +
-                ", outboundDate='" + outboundDate + '\'' +
-                ", outboundTime='" + outboundTime + '\'' +
-                ", inboundDate='" + inboundDate + '\'' +
-                ", inboundTime='" + inboundTime + '\'' +
+                ", outboundStartDatetime='" + outboundStartDatetime + '\'' +
+                ", outboundEndDatetime='" + outboundEndDatetime + '\'' +
+                ", inboundStartDatetime='" + inboundStartDatetime + '\'' +
+                ", inboundEndDatetime='" + inboundEndDatetime + '\'' +
                 ", id=" + id +
                 ", holder=" + holder +
                 ", expanded=" + expanded +
@@ -290,9 +297,18 @@ public class FlightPackage {
                 ", inboundCity='" + inboundCity + '\'' +
                 ", inboundAirportCode='" + inboundAirportCode + '\'' +
                 ", inboundSegments=" + inboundSegments +
+                ", cabinClass='" + cabinClass + '\'' +
                 '}';
     }
 
-// Constructor Expanded
-    // toBundle
+    public Bundle toBundle() {
+        Bundle bundle = new Bundle();
+        bundle.putInt("flightPrice", price);
+        bundle.putString("flightOutboundStartDatetime", outboundStartDatetime);
+        bundle.putString("flightOutboundEndDatetime", outboundEndDatetime);
+        bundle.putString("flightInboundStartDatetime", inboundStartDatetime);
+        bundle.putString("flightInboundEndDatetime", inboundEndDatetime);
+        bundle.putString("flightLink", deeplink);
+        return bundle;
+    }
 }

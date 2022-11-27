@@ -44,9 +44,13 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
         flightPackage.setId(position);
         flightPackage.setHolder(holder);
         String fmtPrice = "$%d";
+        String fmtDatetimeStamp = "From: %s\nTo: %s";
 
-        holder.departing_shortened_text.setText(flightPackage.getOutboundDate());
-        holder.returning_shortened_text.setText(flightPackage.getInboundDate());
+        holder.departing_shortened_text.setText(String.format(locale, fmtDatetimeStamp,
+                flightPackage.getOutboundStartDatetime(), flightPackage.getOutboundEndDatetime()));
+        holder.returning_shortened_text.setText(String.format(locale, fmtDatetimeStamp,
+                flightPackage.getInboundStartDatetime(), flightPackage.getInboundEndDatetime()));
+
         holder.price.setText(String.format(locale, fmtPrice, flightPackage.getPrice()));
         holder.visit_site_button.setOnClickListener(view -> {
             Intent goToLink = new Intent(Intent.ACTION_VIEW, Uri.parse(flightPackage.getDeeplink()));
@@ -62,7 +66,7 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
         String fmtStops = "%d stops";
         String fmtAirlineInfo = "%s - %s";
 
-        holder.departing_date.setText(flightPackage.getOutboundDate());
+        holder.departing_date.setText(flightPackage.getOutboundStartDatetime());
         holder.departing_city_and_airport.setText(
                 String.format(fmtPlace, flightPackage.getOutboundCity(), flightPackage.getOutboundAirportCode())
         );
@@ -70,7 +74,7 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
         holder.departing_airline_and_class.setText(String.format(locale, fmtAirlineInfo,
                 flightPackage.getOutboundCarrier(), flightPackage.getCabinClass()));
 
-        holder.returning_date.setText(flightPackage.getInboundDate());
+        holder.returning_date.setText(flightPackage.getInboundStartDatetime());
         holder.returning_city_and_airport.setText(
                 String.format(locale, fmtPlace, flightPackage.getInboundCity(), flightPackage.getInboundAirportCode())
         );
