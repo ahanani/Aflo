@@ -1,18 +1,16 @@
 package com.example.aflo;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -20,19 +18,24 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+//import com.android.volley.Request;
+//import com.android.volley.Response;
+//import com.android.volley.Response;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Objects;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class FlightDepartingSelectionDetails extends Fragment implements ItemClickListener {
@@ -44,8 +47,6 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     LayoutInflater inflater;
 //    Bundle bundle;
 
-
-    ArrayList<Integer> images = new ArrayList<>();
     //    String[] flights, prices, stops;
 //    int[] images = {R.drawable.flight_logo_1, R.drawable.flight_logo_2, R.drawable.flight_logo_3, R.drawable.flight_logo_1,
 //            R.drawable.flight_logo_1, R.drawable.flight_logo_2, R.drawable.flight_logo_3, R.drawable.flight_logo_2,
@@ -55,12 +56,8 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     boolean open = false;
     ConstraintLayout previouslyOpenRow = null;
 
-    ArrayList<String> flights = new ArrayList<>();
-    ArrayList<String> prices = new ArrayList<>();
-    ArrayList<String> stops = new ArrayList<>();
-    ArrayList<String> carriersList = new ArrayList<>();
-    ArrayList<FlightQuote> listOfFlightQuotes = new ArrayList<>();
-    HashMap<String, String> carriers = new HashMap<>();
+//    ArrayList<FlightPackage> flightPackages = new ArrayList<>();
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,47 +66,81 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 //        prices = getResources().getStringArray(R.array.listOfDepartingFlightPrices);
 //        stops = getResources().getStringArray(R.array.listOfDepartingFlightStops);
 
-        String country = "CA";
-        String currency = "CAD";
-        String locale = "en-GB";
-        String originPlace = "YVR";
-//        String destinationPlace = "MIA";
-        String destinationPlace = "LAX";
-        String outboundPartialDate = "anytime";
-//        String outboundPartialDate = "2023-03-28";
-//        String outboundPartialDate = "2023-01-23";
-        String inboundPartialDate = "anytime";
-//        String inboundPartialDate = "2023-04-04";
-//        String inboundPartialDate = "2023-01-29";
-        AsyncTaskRunner runner = new AsyncTaskRunner();
-        String flightURL = "https://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/" + country + "/" + currency + "/" + locale + "/" + originPlace + "/" + destinationPlace +"/" + outboundPartialDate +"/" + inboundPartialDate + "?apikey=prtl6749387986743898559646983194";
-        runner.execute(flightURL);
+        Intent intent = getActivity().getIntent();
+        Bundle bundle = intent.getBundleExtra("bundle");
+        Log.d("FlightDepartingSelectionDetails", "Bundle received: " + bundle);
+        Log.d("FlightDepartingSelectionDetails", "Bundle budget: " + bundle.getInt("budget"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle destination: " + bundle.getString("destination"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromYear: " + bundle.getInt("fromYear"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromMonth: " + bundle.getInt("fromMonth"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle fromDay: " + bundle.getInt("fromDay"));
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle origin: " + bundle.getString("origin"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toYear: " + bundle.getInt("toYear"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toMonth: " + bundle.getInt("toMonth"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle toDay: " + bundle.getInt("toDay"));
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle minFlightPrice: " + bundle.getInt("minFlightPrice"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
+
+        Log.d("FlightDepartingSelectionDetails", "Bundle originAirportCode: " + bundle.getString("originAirportCode"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle destinationAirportCode: " + bundle.getString("destinationAirportCode"));
+        Log.d("FlightDepartingSelectionDetails", "Bundle flightType: " + bundle.getString("flightType"));
 
 
+        String flightURL = "https://partners.api.skyscanner.net/apiservices/pricing/v1.0";
+        String API_KEY = "prtl6749387986743898559646983194";
+        Locale localize = new Locale("en", "US");
+
+        String fmtFromYear = String.format(localize, "%02d",
+                bundle.getInt("fromYear"));
+        String fmtFromMonth = String.format(localize, "%02d",
+                bundle.getInt("fromMonth"));
+        String fmtFromDay = String.format(localize, "%02d",
+                bundle.getInt("fromDay"));
+        String fmtToYear = String.format(localize, "%02d",
+                bundle.getInt("toYear"));
+        String fmtToMonth = String.format(localize, "%02d",
+                bundle.getInt("toMonth"));
+        String fmtToDay = String.format(localize, "%02d",
+                bundle.getInt("toDay"));
+
+
+        HashMap<String, String> reqDetails = new HashMap<>();
+        reqDetails.put("country", "CA");
+        reqDetails.put("currency", "CAD");
+        reqDetails.put("locale", "en-US");
+        reqDetails.put("locationSchema", "iata");
+        // customize these
+        reqDetails.put("originplace", bundle.getString("originAirportCode"));
+        reqDetails.put("destinationplace", bundle.getString("destinationAirportCode"));
+        reqDetails.put("outbounddate",
+                String.join("-", fmtFromYear, fmtFromMonth, fmtFromDay)
+        );
+        reqDetails.put("inbounddate",
+                String.join("-", fmtToYear, fmtToMonth, fmtToDay)
+        );
+        reqDetails.put("cabinclass", bundle.getString("flightType"));
+        //
+        reqDetails.put("adults", "" + 1);
+        reqDetails.put("apikey", API_KEY);
+        reqDetails.put("url", flightURL);
+
+        StartPollSessionTask startSession = new StartPollSessionTask();
+        startSession.execute(reqDetails);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.inflater = inflater;
         this.container = container;
-//        this.bundle = savedInstanceState;
 
         itemClickListener = this;
 
         View view = inflater.inflate(R.layout.activity_flights, container, false);
         recyclerView = view.findViewById(R.id.rowViewFlight);
         this.view = view;
-
-
-
-
-//        flights = getResources().getStringArray(R.array.listOfDepartingFlightTimes);
-
-
-//        RowRecyclerViewDepartingFlights rowRecyclerView = new RowRecyclerViewDepartingFlights(getActivity(), flights, images, prices, stops);
-//        rowRecyclerView.setClickListener(this);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        recyclerView.setAdapter(rowRecyclerView);
         return view;
     }
 
@@ -145,207 +176,417 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         TableLayout table = row.findViewById(R.id.features_departing_flight);
         table.removeAllViews();
         select.setVisibility(View.INVISIBLE);
+
+        TableLayout departing = row.findViewById(R.id.departing_table_layout);
+        TableLayout returning = row.findViewById(R.id.returning_table_layout);
+        departing.setVisibility(View.INVISIBLE);
+        returning.setVisibility(View.INVISIBLE);
+        TextView date = row.findViewById(R.id.flight);
+        date.setVisibility(View.INVISIBLE);
+        TextView visitSite = row.findViewById(R.id.visit_site_button);
+        visitSite.setVisibility(View.INVISIBLE);
+
+        // show again the info from the shrunk view
+        TableLayout departingShrunk = row.findViewById(R.id.departing_shortened_summary_tablelayout);
+        TableLayout returningShrunk = row.findViewById(R.id.returning_shortened_summary_tablelayout);
+        departingShrunk.setVisibility(View.VISIBLE);
+        returningShrunk.setVisibility(View.VISIBLE);
+
+
     }
 
     public void expandRow(ConstraintLayout row, ViewGroup.LayoutParams params, int position) {
-        params.height = 1200;
+        params.height = 1000;
         row.setLayoutParams(params);
         ImageView image = row.findViewById(R.id.flight_logo);
         ViewGroup.LayoutParams imageParams = image.getLayoutParams();
-        imageParams.height = 500;
-        imageParams.width = 500;
+        imageParams.height = 150;
+        imageParams.width = 150;
         image.setLayoutParams(imageParams);
         TextView seeDetails = row.findViewById(R.id.seeDetails_departing_flight);
         seeDetails.setVisibility(View.INVISIBLE);
         TextView select = row.findViewById(R.id.select_departing_flight);
         select.setVisibility(View.VISIBLE);
-        TableLayout table = row.findViewById(R.id.features_departing_flight);
-        TableRow flightType = new TableRow(getContext());
-        TextView flightTypeText = new TextView(getContext());
-//        flightTypeText.setText("Air Canada - Economy");
 
-        flightTypeText.setText(carriersList.get(position));
+        TextView date = row.findViewById(R.id.flight);
+        date.setVisibility(View.INVISIBLE);
 
+        TextView visitSite = row.findViewById(R.id.visit_site_button);
+        visitSite.setVisibility(View.VISIBLE);
 
-        flightTypeText.setTextColor(Color.BLACK);
-        flightTypeText.setTextSize(18);
-        flightType.addView(flightTypeText);
-        table.addView(flightType);
+        // making the TableViews containing the flight info visible
+        TableLayout departing = row.findViewById(R.id.departing_table_layout);
+        TableLayout returning = row.findViewById(R.id.returning_table_layout);
+        departing.setVisibility(View.VISIBLE);
+        returning.setVisibility(View.VISIBLE);
 
-//        TextView dateArrive = row.findViewById(R.id.flight);
-//        bundle_flight_departing.putString("dateArrive", dateArrive.toString());
-//        Intent intent = getActivity().getIntent();
+        // hide the info from the shrunk view
+        TableLayout departingShrunk = row.findViewById(R.id.departing_shortened_summary_tablelayout);
+        TableLayout returningShrunk = row.findViewById(R.id.returning_shortened_summary_tablelayout);
+        departingShrunk.setVisibility(View.INVISIBLE);
+        returningShrunk.setVisibility(View.INVISIBLE);
 
-
-
+        TextView priceToSendToBundle = row.findViewById(R.id.price);
+        Log.d("price to send to bundle", priceToSendToBundle.getText().toString().substring(1));
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
+        bundle.putInt("flightPrice", Integer.parseInt(priceToSendToBundle.getText().toString().substring(1)));
 
+        FlightPackage selectedFlightPackage = (
+                (RowRecyclerViewDepartingFlights) Objects.requireNonNull(recyclerView.getAdapter())
+        ).flightPackages.get(position);
+        Log.d("FlightDepartingSelectionDetails/ExpandRow", "CLICKED " + selectedFlightPackage.toString());
 
-        Log.d("FlightDepartingSelectionDetails", "Bundle received: " + bundle);
-        Log.d("FlightDepartingSelectionDetails", "Bundle budget: " + bundle.getInt("budget"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle destination: " + bundle.getString("destination"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle fromYear: " + bundle.getInt("fromYear"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle fromMonth: " + bundle.getInt("fromMonth"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle fromDay: " + bundle.getInt("fromDay"));
-
-        Log.d("FlightDepartingSelectionDetails", "Bundle origin: " + bundle.getString("origin"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle toYear: " + bundle.getInt("toYear"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle toMonth: " + bundle.getInt("toMonth"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle toDay: " + bundle.getInt("toDay"));
-
-        Log.d("FlightDepartingSelectionDetails", "Bundle minFlightPrice: " + bundle.getInt("minFlightPrice"));
-        Log.d("FlightDepartingSelectionDetails", "Bundle maxFlightPrice: " + bundle.getInt("maxFlightPrice"));
-//
-//        Intent intent1 = new Intent(view.getContext(), FlightReturningSelection.class);
-//
-//        startActivity(intent1);
-
+        if (!selectedFlightPackage.isExpanded()) {
+            GetBookingDetailsTask getBookingDetailsTask = new GetBookingDetailsTask();
+            getBookingDetailsTask.execute(selectedFlightPackage);
+        }
     }
 
-    private class AsyncTaskRunner extends AsyncTask<String, Void, String> {
-
+    private class StartPollSessionTask extends AsyncTask<HashMap<String, String>, Void, JSONObject> {
         @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-//            RowRecyclerViewDepartingFlights rowRecyclerView = new RowRecyclerViewDepartingFlights(getActivity(), flights, images, prices, stops);
-//            rowRecyclerView.setClickListener(itemClickListener);
-//            recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//            recyclerView.setAdapter(rowRecyclerView);
+        protected JSONObject doInBackground(HashMap<String, String>... hashMaps) {
+            try {
+                String url = hashMaps[0].remove("url");
 
-        }
+                OkHttpClient client = new OkHttpClient();
+                FormBody.Builder bodyBuilder = new FormBody.Builder();
 
-        @Override
-        protected String doInBackground(String... strings) {
-            RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, strings[0], null, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        Log.d("JSONObject response", response.toString());
+                hashMaps[0].forEach(bodyBuilder::add);
 
-                        JSONObject o1 = new JSONObject(response.toString());
-                        JSONArray jsonarray = o1.getJSONArray("Quotes");
-                        for (int i = 0; i < jsonarray.length(); i++) {
-                            JSONObject jsonobject = jsonarray.getJSONObject(i);
-                            String parsedQuoteId = jsonobject.getString("QuoteId");
-                            String parsedMinPrice = jsonobject.getString("MinPrice");
-                            String parsedDirect = jsonobject.getString("Direct");
-                            String parsedOutboundLeg = jsonobject.getString("OutboundLeg");
-                            String parsedInboundLeg = jsonobject.getString("InboundLeg");
-                            String parsedQuoteDateTime = jsonobject.getString("QuoteDateTime");
+//                Log.d("startPollingSession", body.toString());
+                assert url != null;
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(bodyBuilder.build())
+                        .build();
+                try {
+                    Response response = client.newCall(request).execute();
+                    JSONObject responseJSON = new JSONObject(response.body().string());
+                    String pollSessionURL = response.header("location");
+                    Log.d("OK", responseJSON.toString());
+                    Log.d("OK", "Header: " + pollSessionURL);
 
-//                            Log.d("QuoteID from parsing JSONArray", parsedQuoteId);
-//                            Log.d("MinPrice from parsing JSONArray", parsedMinPrice);
-//                            Log.d("Direct from parsing JSONArray", parsedDirect);
-//                            Log.d("OutboundLeg from parsing JSONArray", parsedOutboundLeg);
-//                            Log.d("InboundLeg from parsing JSONArray", parsedInboundLeg);
-//                            Log.d("QuoteDateTime from parsing JSONArray", parsedQuoteDateTime);
-
-
-                            FlightQuote currentFlightQuote = new FlightQuote();
-                            currentFlightQuote.setQuoteId(parsedQuoteId);
-                            currentFlightQuote.setMinPrice(parsedMinPrice);
-                            currentFlightQuote.setDirect(parsedDirect);
-                            currentFlightQuote.setOutboundLeg(parsedOutboundLeg);
-                            currentFlightQuote.setInboundLeg(parsedInboundLeg);
-                            currentFlightQuote.setQuoteDateTime(parsedQuoteDateTime);
-
-
-                            JSONObject o2 = new JSONObject(response.toString());
-                            JSONArray jsonarray2 = o2.getJSONArray("Carriers");
-                            Log.d("CARRIERS", jsonarray2.toString());
-                            for (int j = 0; j < jsonarray2.length(); j++) {
-                                JSONObject jsonobject2 = jsonarray2.getJSONObject(j);
-//                                Log.d("jsonobject2", jsonobject2.toString());
-//                                Log.d("CarrierID", jsonobject2.getString("CarrierId"));
-//                                Log.d("Carrier Name", jsonobject2.getString("Name"));
-                                carriers.put(jsonobject2.getString("CarrierId"), jsonobject2.getString("Name"));
-                            }
-                            String x  = jsonobject.getString("OutboundLeg");
-
-                            try {
-                                JSONObject jObject = new JSONObject(x);
-                                JSONArray y = jObject.getJSONArray("CarrierIds");
-//                                Log.d("yCarrier", y.get(0).toString());
-                                String currentCarrierID = y.get(0).toString();
-//                                currentFlightQuote.setCarrier(currentCarrierID);
-                                String currentCarrierName = carriers.get(currentCarrierID);
-                                currentFlightQuote.setCarrier(currentCarrierName);
-
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-
-
-                            listOfFlightQuotes.add(currentFlightQuote);
-                        }
-
-
-
-
-
-                        printFlightQuotes();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    JSONObject result = new JSONObject();
+                    result.put("url", pollSessionURL);
+                    result.put("apikey", hashMaps[0].get("apikey"));
+                    result.put("response", responseJSON);
+                    return result;
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-                public ArrayList<FlightQuote> printFlightQuotes() {
-//                    Log.d("List of flight quotes size", Integer.toString(listOfFlightQuotes.size()));
-                    for (int i =0; i < listOfFlightQuotes.size(); i++) {
-                        images.add(R.drawable.ic_baseline_airplanemode_active_24);
-//                        Log.d("printFlightQuotes index", Integer.toString(i));
-//                        Log.d("printFlightQuotes FlightQuote Object", listOfFlightQuotes.get(i).toString());
-//                        Log.d("outbound leg to string", listOfFlightQuotes.get(i).getOutboundLeg());
-                        String x  = listOfFlightQuotes.get(i).getOutboundLeg();
-                        String currentCarrierName = listOfFlightQuotes.get(i).getCarrier();
-                        carriersList.add(currentCarrierName);
-
-                        String y = "01/01/2023";
-                        try {
-                            JSONObject jObject = new JSONObject(x);
-                            y = jObject.getString("DepartureDate").split("T")[0];
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        flights.add(y);
-//                        Log.d("flight outbound leg", listOfFlightQuotes.get(i).OutboundLeg);
-                        prices.add("$" + listOfFlightQuotes.get(i).MinPrice);
-//                        Log.d("flight min price", listOfFlightQuotes.get(i).MinPrice);
-
-
-//                        Log.d("flight direct", listOfFlightQuotes.get(i).Direct);
-                        if (listOfFlightQuotes.get(i).Direct.equals("true")) {
-                            stops.add("Direct");
-                        }
-                        else {
-                            stops.add("Non-direct");
-                        }
-
-                    }
-                    Log.d("Carrier List", carriersList.toString());
-                    Log.d("Carrier List length", Integer.toString(carriersList.size()));
-                    RowRecyclerViewDepartingFlights rowRecyclerView = new RowRecyclerViewDepartingFlights(getActivity(), flights, images, prices, stops);
-                    rowRecyclerView.setClickListener(itemClickListener);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-                    recyclerView.setAdapter(rowRecyclerView);
-
-                    return listOfFlightQuotes;
-                };
-
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-//                    Toast.makeText(FlightQuoteAPICall.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            queue.add(request);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                String url = jsonObject.getString("url");
+                String apikey = jsonObject.getString("apikey");
+
+                HashMap<String, String> request = new HashMap<>();
+                request.put("url", url);
+                request.put("apikey", apikey);
+                request.put("sortType", "price");
+                request.put("pageIndex", "0");
+                request.put("pageSize", "5");
+
+                PollSessionTask pollSession = new PollSessionTask();
+                pollSession.execute(request);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    private class PollSessionTask extends AsyncTask<HashMap<String, String>, Void, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(HashMap<String, String>... hashMaps) {
+            HashMap<String, String> req = hashMaps[0];
+            String url = req.remove("url");
+
+            final ArrayList<String> reqParamsURL = new ArrayList<>();
+            req.forEach((k, v) -> reqParamsURL.add(k + "=" + v));
+            url += "?" + String.join("&", reqParamsURL);
+            Log.d("PollSession", "URL: " + url);
+
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .get()
+                    .build();
+
+            try {
+                boolean statusPending = true;
+                JSONObject responseJSON;
+                do {
+                    Response response = client.newCall(request).execute();
+                    String responseStr = response.body().string();
+                    Log.d("PollSession", "Raw: " + responseStr);
+                    responseJSON = new JSONObject(responseStr);
+                    Log.d("PollSession", "Res: " + responseJSON.toString(4));
+                    statusPending = !responseJSON.getString("Status").equals("UpdatesComplete");
+                    SystemClock.sleep(2000);
+                } while (statusPending);
+
+                JSONObject shortenedJSON = new JSONObject();
+                shortenedJSON.put("SessionKey", responseJSON.getString("SessionKey"));
+                shortenedJSON.put("Query", responseJSON.getJSONObject("Query"));
+                shortenedJSON.put("Itineraries", responseJSON.getJSONArray("Itineraries"));
+                Log.d("PollSession", "toPostExec: " + shortenedJSON.toString(4));
+                return shortenedJSON;
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        public ArrayList<FlightPackage> parseItinerary(JSONObject itinerary) {
+            try {
+                ArrayList<FlightPackage> result = new ArrayList<>();
+
+                JSONObject bookingDetailsLinkInfo = itinerary.getJSONObject("BookingDetailsLink");
+                String uri = bookingDetailsLinkInfo.getString("Uri");
+                String body = bookingDetailsLinkInfo.getString("Body");
+                String outboundId = itinerary.getString("OutboundLegId");
+                String inboundId = itinerary.getString("InboundLegId");
+
+                JSONArray pricingOptions = itinerary.getJSONArray("PricingOptions");
+                int pricingOptionsLength = pricingOptions.length();
+                for (int i = 0; i < pricingOptionsLength; ++i) {
+                    JSONObject option = pricingOptions.getJSONObject(i);
+
+                    result.add(new FlightPackage(uri, body, option.getInt("Price"),
+                            outboundId, inboundId, option.getString("DeeplinkUrl")
+                    ));
+
+//                    HashMap<String, String> booking = new HashMap<>();
+//                    booking.put("uri", uri);
+//                    booking.put("body", body);
+//                    booking.put("price", option.getString("Price"));
+//                    booking.put("deeplinkUrl", option.getString("DeeplinkUrl"));
+//                    booking.put("outboundlegid", outboundId);
+//                    booking.put("inboundlegid", inboundId);
+//                    result.add(booking);
+                }
+                return result;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return new ArrayList<>();
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                JSONArray itineraries = jsonObject.getJSONArray("Itineraries");
+                int itinerariesLength = itineraries.length();
+
+                ArrayList<FlightPackage> flightPackages = new ArrayList<>();
+                for (int i = 0; i < itinerariesLength; ++i) {
+                    JSONObject itinerary = itineraries.getJSONObject(i);
+                    Log.d("PollSessionTask", itinerary.toString(4));
+                    flightPackages.addAll(parseItinerary(itinerary));
+                }
+
+                RowRecyclerViewDepartingFlights rowRecyclerView =
+                        new RowRecyclerViewDepartingFlights(getActivity(), flightPackages);
+                rowRecyclerView.setClickListener(itemClickListener);
+                recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+                recyclerView.setAdapter(rowRecyclerView);
+
+                // LOG RESULT FOR NOW
+                for (FlightPackage it: flightPackages) {
+                    Log.d("PollSessionTaskRES", it.toString());
+                }
+                // Test getting details for ones
+//                GetBookingDetailsTask getBookingDetails = new GetBookingDetailsTask();
+//                FlightPackage test = flightPackages.get(0);
+//                getBookingDetails.execute(test);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class GetBookingDetailsTask extends AsyncTask<FlightPackage, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(FlightPackage... flightPackages) {
+            FlightPackage req = flightPackages[0];
+            Log.d("GetBookingDetails", "req: " + req.toString());
+
+            String url = "https://partners.api.skyscanner.net";
+            String endpointUri = req.getUri();
+            String apikey = "prtl6749387986743898559646983194";
+
+            String fullUrl = url + endpointUri + "?apikey=" + apikey;
+
+            Log.d("GetBookingDetails", fullUrl);
+
+            HashMap<String, String> reqBody = new HashMap<>();
+            reqBody.put("OutboundLegId", req.getOutboundId());
+            reqBody.put("InboundLegId", req.getInboundId());
+            Log.d("GetBookingDetails", reqBody.toString());
+
+            FormBody.Builder reqBodyBuilder = new FormBody.Builder();
+            reqBody.forEach(reqBodyBuilder::add);
+
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(fullUrl)
+                    .put(reqBodyBuilder.build())
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                String location = response.header("location");
+                Log.d("GetBookingDetails", response.body().string());
+                Log.d("GetBookingDetails", location);
+                JSONObject returnObject = new JSONObject();
+                returnObject.put("url", location);
+                returnObject.put("apikey", apikey);
+                returnObject.put("flightPackageId", req.getId());
+
+                return returnObject;
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return new JSONObject();
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                HashMap<String, String> req = new HashMap<>();
+                req.put("url", jsonObject.getString("url"));
+                req.put("apikey", jsonObject.getString("apikey"));
+                req.put("flightPackageId", jsonObject.getString("flightPackageId"));
+
+                PollBookingTask pollBookingTask = new PollBookingTask();
+                pollBookingTask.execute(req);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class PollBookingTask extends AsyncTask<HashMap<String, String>, Void, JSONObject> {
+        @Override
+        protected JSONObject doInBackground(HashMap<String, String>... hashMaps) {
+            HashMap<String, String> req = hashMaps[0];
+            String fullUrl = req.get("url") + "?apikey=" + req.get("apikey");
+
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(fullUrl)
+                    .get()
+                    .build();
+            try {
+                Response response = client.newCall(request).execute();
+                JSONObject responseJSON = new JSONObject(response.body().string());
+                Log.d("PollBookingTask", responseJSON.toString(4));
+                responseJSON.put("flightPackageId", req.get("flightPackageId"));
+                return responseJSON;
+            } catch (JSONException | IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            try {
+                HashMap<String, HashMap<String, String>> places =
+                        parseCodeArray(jsonObject.getJSONArray("Places"));
+                HashMap<String, HashMap<String, String>> carriers =
+                        parseCodeArray(jsonObject.getJSONArray("Carriers"));
+                HashMap<String, String> parsedSegments = parseSegments(
+                        jsonObject.getJSONArray("Segments"), places, carriers);
+
+                JSONObject originalQuery = jsonObject.getJSONObject("Query");
+
+                HashMap<String, String> outboundPlace = Objects.requireNonNull(places.get(
+                        originalQuery.getString("OriginPlace")));
+                String outboundAirportCode = outboundPlace.get("Code");
+                String outboundPlaceName = outboundPlace.get("Name");
+
+                HashMap<String, String> inboundPlace = Objects.requireNonNull(places.get(
+                        originalQuery.getString("DestinationPlace")));
+                String inboundAirportCode = inboundPlace.get("Code");
+                String inboundPlaceName = inboundPlace.get("Name");
+                String cabinClass = originalQuery.getString("CabinClass");
+
+                int flightPackageId = jsonObject.getInt("flightPackageId");
+                RowRecyclerViewDepartingFlights recycler = (RowRecyclerViewDepartingFlights)
+                        Objects.requireNonNull(recyclerView.getAdapter());
+                FlightPackage selectedPackage = recycler.flightPackages.get(flightPackageId);
+                Log.d("PollBookingTask", "FLIGHT: " + selectedPackage.toString());
+
+                selectedPackage.update(parsedSegments.get("outboundCarrier"),
+                        outboundPlaceName, outboundAirportCode,
+                        Integer.parseInt(Objects.requireNonNull(parsedSegments.get("outboundNum"))),
+                        parsedSegments.get("inboundCarrier"), inboundPlaceName, inboundAirportCode,
+                        Integer.parseInt(Objects.requireNonNull(parsedSegments.get("inboundNum"))),
+                        cabinClass
+                        );
+
+                recycler.updateView(selectedPackage.getHolder(), selectedPackage.getId());
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        HashMap<String, HashMap<String, String>> parseCodeArray(JSONArray jsonArr) throws JSONException {
+            int len = jsonArr.length();
+            HashMap<String, HashMap<String, String>> idToValsMap = new HashMap<>();
+            for (int i = 0; i < len; ++i) {
+                JSONObject idJSON = jsonArr.getJSONObject(i);
+                HashMap<String, String> codeAndNameMap = new HashMap<>();
+                codeAndNameMap.put("Code", idJSON.getString("Code"));
+                codeAndNameMap.put("Name", idJSON.getString("Name"));
+                idToValsMap.put(idJSON.getString("Id"), codeAndNameMap);
+            }
+            return idToValsMap;
+        }
+
+        HashMap<String, String> parseSegments(JSONArray segments,
+                                              HashMap<String, HashMap<String, String>> places,
+                                              HashMap<String, HashMap<String, String>> carriers)
+                throws JSONException {
+            HashMap<String, String> parsed = new HashMap<>();
+            int len = segments.length();
+
+            int numOutbound = 0;
+            for (int i = 0; i < len; ++i) {
+                JSONObject segment = segments.getJSONObject(i);
+                if (segment.getString("Directionality").equalsIgnoreCase("Outbound")) {
+                    numOutbound++;
+                } else {
+                    break;
+                }
+            }
+            parsed.put("outboundNum", "" + numOutbound);
+            parsed.put("inboundNum", "" + (len - numOutbound));
+
+            JSONObject first = segments.getJSONObject(0);
+            parsed.put("outboundCarrier", Objects.requireNonNull(
+                    carriers.get(first.getString("Carrier"))).get("Name"));
+
+            JSONObject firstInbound = segments.getJSONObject(numOutbound);
+            parsed.put("inboundCarrier", Objects.requireNonNull(
+                    carriers.get(firstInbound.getString("Carrier"))).get("Name"));
+            return parsed;
+        }
+
+
+    }
 
 }
