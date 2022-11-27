@@ -108,7 +108,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         String flightURL = "https://partners.api.skyscanner.net/apiservices/pricing/v1.0";
         String API_KEY = "prtl6749387986743898559646983194";
 //        runner.execute(flightURL);
-        Locale localize = new Locale("en", "CA");
+        Locale localize = new Locale("en", "US");
         String fmtFromYear = String.format(localize, "%02d",
                 bundle.getInt("fromYear"));
         String fmtFromMonth = String.format(localize, "%02d",
@@ -549,14 +549,36 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                         parseCodeArray(jsonObject.getJSONArray("Places"));
                 HashMap<String, HashMap<String, String>> carriers =
                         parseCodeArray(jsonObject.getJSONArray("Carriers"));
+                HashMap<String, String> parsedSegments = parseSegments(
+                        jsonObject.getJSONArray("Segments"), places, carriers);
 
                 JSONObject originalQuery = jsonObject.getJSONObject("Query");
+
+                HashMap<String, String> outboundPlace = Objects.requireNonNull(places.get(
+                        originalQuery.getString("OriginPlace")));
+                String outboundAirportCode = outboundPlace.get("Code");
+                String outboundPlaceName = outboundPlace.get("Name");
+
+                HashMap<String, String> inboundPlace = Objects.requireNonNull(places.get(
+                        originalQuery.getString("DestinationPlace")));
+                String inboundAirportCode = inboundPlace.get("Code");
+                String inboundPlaceName = inboundPlace.get("Name");
+                String cabinClass = originalQuery.getString("CabinClass");
 
                 int flightPackageId = jsonObject.getInt("flightPackageId");
                 RowRecyclerViewDepartingFlights recycler = (RowRecyclerViewDepartingFlights)
                         Objects.requireNonNull(recyclerView.getAdapter());
                 FlightPackage selectedPackage = recycler.flightPackages.get(flightPackageId);
                 Log.d("PollBookingTask", "FLIGHT: " + selectedPackage.toString());
+
+                selectedPackage.update(parsedSegments.get("outboundCarrier"),
+                        outboundPlaceName, outboundAirportCode,
+                        Integer.parseInt(Objects.requireNonNull(parsedSegments.get("outboundNum"))),
+                        parsedSegments.get("inboundCarrier"), inboundPlaceName, inboundAirportCode,
+                        Integer.parseInt(Objects.requireNonNull(parsedSegments.get("inboundNum"))),
+                        cabinClass
+                        );
+
                 recycler.updateView(selectedPackage.getHolder(), selectedPackage.getId());
 
 
@@ -571,11 +593,40 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
             for (int i = 0; i < len; ++i) {
                 JSONObject idJSON = jsonArr.getJSONObject(i);
                 HashMap<String, String> codeAndNameMap = new HashMap<>();
-                codeAndNameMap.put("code", idJSON.getString("Code"));
-                codeAndNameMap.put("name", idJSON.getString("Name"));
+                codeAndNameMap.put("Code", idJSON.getString("Code"));
+                codeAndNameMap.put("Name", idJSON.getString("Name"));
                 idToValsMap.put(idJSON.getString("Id"), codeAndNameMap);
             }
             return idToValsMap;
+        }
+
+        HashMap<String, String> parseSegments(JSONArray segments,
+                                              HashMap<String, HashMap<String, String>> places,
+                                              HashMap<String, HashMap<String, String>> carriers)
+                throws JSONException {
+            HashMap<String, String> parsed = new HashMap<>();
+            int len = segments.length();
+
+            int numOutbound = 0;
+            for (int i = 0; i < len; ++i) {
+                JSONObject segment = segments.getJSONObject(i);
+                if (segment.getString("Directionality").equalsIgnoreCase("Outbound")) {
+                    numOutbound++;
+                } else {
+                    break;
+                }
+            }
+            parsed.put("outboundNum", "" + numOutbound);
+            parsed.put("inboundNum", "" + (len - numOutbound));
+
+            JSONObject first = segments.getJSONObject(0);
+            parsed.put("outboundCarrier", Objects.requireNonNull(
+                    carriers.get(first.getString("Carrier"))).get("Name"));
+
+            JSONObject firstInbound = segments.getJSONObject(numOutbound);
+            parsed.put("inboundCarrier", Objects.requireNonNull(
+                    carriers.get(firstInbound.getString("Carrier"))).get("Name"));
+            return parsed;
         }
 
 

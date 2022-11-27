@@ -34,6 +34,7 @@ public class FlightPackage {
     private String inboundCity;
     private String inboundAirportCode;
     private int inboundSegments;
+    private String cabinClass;
 
     public FlightPackage(String uri, String linkBody, int price,
                          String outboundId, String inboundId, String deeplink) {
@@ -51,7 +52,7 @@ public class FlightPackage {
 
     public void update(String outboundCarrier, String outboundCity, String outboundAirportCode,
                        int outboundSegments, String inboundCarrier, String inboundCity,
-                       String inboundAirportCode, int inboundSegments) {
+                       String inboundAirportCode, int inboundSegments, String cabinClass) {
         setOutboundCarrier(outboundCarrier);
         setOutboundCity(outboundCity);
         setOutboundAirportCode(outboundAirportCode);
@@ -60,6 +61,7 @@ public class FlightPackage {
         setInboundCity(inboundCity);
         setInboundAirportCode(inboundAirportCode);
         setInboundSegments(inboundSegments);
+        setCabinClass(cabinClass);
     }
 
     private String parseDateTimeFromId(String legId) {
@@ -254,6 +256,14 @@ public class FlightPackage {
 
     public void setHolder(RowRecyclerViewDepartingFlights.RowViewHolder holder) {
         this.holder = holder;
+    }
+
+    public String getCabinClass() {
+        return cabinClass;
+    }
+
+    public void setCabinClass(String cabinClass) {
+        this.cabinClass = cabinClass;
     }
 
     @Override
