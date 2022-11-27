@@ -3,15 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/background_flight_selection"
+    android:background="@drawable/background_no_arrow2"
     android:columnCount="1"
-    android:rowCount="4">
+    android:rowCount="5">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="58dp"
+        android:layout_height="57dp"
+        android:layout_row="0"
+        android:layout_column="0"
+        android:onClick="home"
+        android:src="@drawable/ic_baseline_home_24"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="13dp"
+        android:layout_marginStart="8dp"/>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/budgetProgressDF"
         android:layout_width="match_parent"
         android:layout_column="0"
-        android:layout_row="0"
+        android:layout_row="1"
         android:layout_height="wrap_content"
         android:name="com.example.aflo.BudgetProgress"
         tools:layout="@layout/fragment_progress_bar" />
@@ -28,7 +40,7 @@
         android:textStyle="bold"
         android:textSize="34sp"
         android:layout_column="0"
-        android:layout_row="1"
+        android:layout_row="2"
         android:layout_marginStart="10dp"/>
 
     <TextView
@@ -43,7 +55,7 @@
         android:textStyle="bold"
         android:textSize="24sp"
         android:layout_column="0"
-        android:layout_row="2"
+        android:layout_row="3"
         android:layout_marginStart="10dp"/>
 
     <LinearLayout
@@ -51,7 +63,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/loading"
         android:layout_gravity="center"
-        android:layout_row="3"
+        android:layout_row="4"
         android:orientation="vertical">
 
 
@@ -75,13 +87,11 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/mainFragment"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="456dp"
+        android:layout_row="4"
         android:layout_column="0"
-        android:layout_row="3"
+        android:layout_marginBottom="80dp"
         android:visibility="gone"
-        android:name="com.example.aflo.HotelsFragment"
-        tools:layout="@layout/activity_hotels"
-        android:layout_marginBottom="80dp">
-    </androidx.fragment.app.FragmentContainerView>
+        tools:layout="@layout/activity_row_flights_departing"/>
 
 </GridLayout>
