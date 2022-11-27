@@ -46,26 +46,18 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     ItemClickListener itemClickListener;
     ViewGroup container;
     LayoutInflater inflater;
-//    Bundle bundle;
-
-    //    String[] flights, prices, stops;
-//    int[] images = {R.drawable.flight_logo_1, R.drawable.flight_logo_2, R.drawable.flight_logo_3, R.drawable.flight_logo_1,
-//            R.drawable.flight_logo_1, R.drawable.flight_logo_2, R.drawable.flight_logo_3, R.drawable.flight_logo_2,
-//            R.drawable.flight_logo_2, R.drawable.flight_logo_1, R.drawable.flight_logo_1};
 
     ConstraintLayout row;
     boolean open = false;
     ConstraintLayout previouslyOpenRow = null;
-
-//    ArrayList<FlightPackage> flightPackages = new ArrayList<>();
-
+    StartPollSessionTask startSession;
+    PollSessionTask pollSession;
+    GetBookingDetailsTask getBookingDetailsTask;
+    PollBookingTask pollBookingTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        flights = getResources().getStringArray(R.array.listOfDepartingFlightTimes);
-//        prices = getResources().getStringArray(R.array.listOfDepartingFlightPrices);
-//        stops = getResources().getStringArray(R.array.listOfDepartingFlightStops);
 
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
@@ -128,7 +120,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         reqDetails.put("apikey", API_KEY);
         reqDetails.put("url", flightURL);
 
-        StartPollSessionTask startSession = new StartPollSessionTask();
+        startSession = new StartPollSessionTask();
         startSession.execute(reqDetails);
     }
 
@@ -238,7 +230,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         bundle.putAll(selectedFlightPackage.toBundle());
 
         if (!selectedFlightPackage.isExpanded()) {
-            GetBookingDetailsTask getBookingDetailsTask = new GetBookingDetailsTask();
+            getBookingDetailsTask = new GetBookingDetailsTask();
             getBookingDetailsTask.execute(selectedFlightPackage);
         }
     }
@@ -294,7 +286,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 request.put("pageIndex", "0");
                 request.put("pageSize", "5");
 
-                PollSessionTask pollSession = new PollSessionTask();
+                pollSession = new PollSessionTask();
                 pollSession.execute(request);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -459,7 +451,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
                 req.put("apikey", jsonObject.getString("apikey"));
                 req.put("flightPackageId", jsonObject.getString("flightPackageId"));
 
-                PollBookingTask pollBookingTask = new PollBookingTask();
+                pollBookingTask = new PollBookingTask();
                 pollBookingTask.execute(req);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -581,4 +573,24 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        if (startSession != null) {
+            startSession.cancel(true);
+        }
+
+        if (pollSession != null) {
+            pollSession.cancel(true);
+        }
+
+        if (getBookingDetailsTask != null) {
+            getBookingDetailsTask.cancel(true);
+        }
+
+        if (pollBookingTask != null) {
+            pollBookingTask.cancel(true);
+        }
+    }
 }
