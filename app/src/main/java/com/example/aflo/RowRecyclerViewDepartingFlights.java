@@ -21,10 +21,13 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
     Context context;
     public ArrayList<FlightPackage> flightPackages;
     private ItemClickListener clickListener;
+    Locale locale;
+
 
     public RowRecyclerViewDepartingFlights(Context context, ArrayList<FlightPackage> flightPackages) {
         this.context = context;
         this.flightPackages = flightPackages;
+        this.locale = new Locale("en", "US");
     }
 
     @NonNull
@@ -40,10 +43,11 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
         FlightPackage flightPackage = flightPackages.get(position);
         flightPackage.setId(position);
         flightPackage.setHolder(holder);
+        String fmtPrice = "$%d";
 
         holder.departing_shortened_text.setText(flightPackage.getOutboundDate());
         holder.returning_shortened_text.setText(flightPackage.getInboundDate());
-        holder.price.setText("" + flightPackage.getPrice());
+        holder.price.setText(String.format(locale, fmtPrice, flightPackage.getPrice()));
         holder.visit_site_button.setOnClickListener(view -> {
             Intent goToLink = new Intent(Intent.ACTION_VIEW, Uri.parse(flightPackage.getDeeplink()));
             context.startActivity(goToLink);
@@ -57,7 +61,6 @@ public class RowRecyclerViewDepartingFlights extends RecyclerView.Adapter<RowRec
         String fmtPlace = "%s (%s)";
         String fmtStops = "%d stops";
         String fmtAirlineInfo = "%s - %s";
-        Locale locale = new Locale("en", "US");
 
         holder.departing_date.setText(flightPackage.getOutboundDate());
         holder.departing_city_and_airport.setText(

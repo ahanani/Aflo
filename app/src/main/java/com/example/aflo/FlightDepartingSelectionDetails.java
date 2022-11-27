@@ -89,26 +89,10 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         Log.d("FlightDepartingSelectionDetails", "Bundle flightType: " + bundle.getString("flightType"));
 
 
-        String country = "CA";
-        String currency = "CAD";
-        String locale = "en-GB";
-        String originPlace = "YVR";
-//        String destinationPlace = "MIA";
-        String destinationPlace = "YYZ";
-        String outboundPartialDate = Integer.toString(bundle.getInt("fromYear")) + "-" + Integer.toString(bundle.getInt("fromMonth")) + "-" + Integer.toString(bundle.getInt("fromDay"));
-//        String outboundPartialDate = "anytime";
-//        String outboundPartialDate = "2022-12-16";
-//        String outboundPartialDate = "2023-01-23";
-        String inboundPartialDate = Integer.toString(bundle.getInt("toYear")) + "-" + Integer.toString(bundle.getInt("toMonth")) + "-" + Integer.toString(bundle.getInt("toDay"));
-//        String inboundPartialDate = "anytime";
-//        String inboundPartialDate = "2022-12-23";
-//        String inboundPartialDate = "2023-01-29";
-//        AsyncTaskRunner runner = new AsyncTaskRunner();
-//        String flightURL = "https://partners.api.skyscanner.net/apiservices/browsequotes/v1.0/" + country + "/" + currency + "/" + locale + "/" + originPlace + "/" + destinationPlace +"/" + outboundPartialDate +"/" + inboundPartialDate + "?apikey=prtl6749387986743898559646983194";
         String flightURL = "https://partners.api.skyscanner.net/apiservices/pricing/v1.0";
         String API_KEY = "prtl6749387986743898559646983194";
-//        runner.execute(flightURL);
         Locale localize = new Locale("en", "US");
+
         String fmtFromYear = String.format(localize, "%02d",
                 bundle.getInt("fromYear"));
         String fmtFromMonth = String.format(localize, "%02d",
@@ -151,24 +135,12 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.inflater = inflater;
         this.container = container;
-//        this.bundle = savedInstanceState;
 
         itemClickListener = this;
 
         View view = inflater.inflate(R.layout.activity_flights, container, false);
         recyclerView = view.findViewById(R.id.rowViewFlight);
         this.view = view;
-
-
-
-
-//        flights = getResources().getStringArray(R.array.listOfDepartingFlightTimes);
-
-
-//        RowRecyclerViewDepartingFlights rowRecyclerView = new RowRecyclerViewDepartingFlights(getActivity(), flights, images, prices, stops);
-//        rowRecyclerView.setClickListener(this);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-//        recyclerView.setAdapter(rowRecyclerView);
         return view;
     }
 
@@ -205,17 +177,14 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         table.removeAllViews();
         select.setVisibility(View.INVISIBLE);
 
-
         TableLayout departing = row.findViewById(R.id.departing_table_layout);
         TableLayout returning = row.findViewById(R.id.returning_table_layout);
         departing.setVisibility(View.INVISIBLE);
         returning.setVisibility(View.INVISIBLE);
         TextView date = row.findViewById(R.id.flight);
-//        date.setVisibility(View.VISIBLE);
         date.setVisibility(View.INVISIBLE);
         TextView visitSite = row.findViewById(R.id.visit_site_button);
         visitSite.setVisibility(View.INVISIBLE);
-
 
         // show again the info from the shrunk view
         TableLayout departingShrunk = row.findViewById(R.id.departing_shortened_summary_tablelayout);
@@ -239,14 +208,11 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         TextView select = row.findViewById(R.id.select_departing_flight);
         select.setVisibility(View.VISIBLE);
 
-
         TextView date = row.findViewById(R.id.flight);
         date.setVisibility(View.INVISIBLE);
 
-
         TextView visitSite = row.findViewById(R.id.visit_site_button);
         visitSite.setVisibility(View.VISIBLE);
-
 
         // making the TableViews containing the flight info visible
         TableLayout departing = row.findViewById(R.id.departing_table_layout);
@@ -264,9 +230,7 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
         Log.d("price to send to bundle", priceToSendToBundle.getText().toString().substring(1));
         Intent intent = getActivity().getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
-        bundle.putString("flightPrice", priceToSendToBundle.getText().toString().substring(1));
-
-        Log.d("CLICKME", "CLICKED " + position);
+        bundle.putInt("flightPrice", Integer.parseInt(priceToSendToBundle.getText().toString().substring(1)));
 
         FlightPackage selectedFlightPackage = (
                 (RowRecyclerViewDepartingFlights) Objects.requireNonNull(recyclerView.getAdapter())
@@ -277,13 +241,6 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
             GetBookingDetailsTask getBookingDetailsTask = new GetBookingDetailsTask();
             getBookingDetailsTask.execute(selectedFlightPackage);
         }
-
-//        R.id.select_departing_flight
-//        R.id.visit_site_button
-//        R.id.departing_table_layout
-//        R.id.returning_table_layout
-
-
     }
 
     private class StartPollSessionTask extends AsyncTask<HashMap<String, String>, Void, JSONObject> {

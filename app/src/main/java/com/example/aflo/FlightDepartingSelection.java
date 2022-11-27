@@ -84,7 +84,7 @@ public class FlightDepartingSelection extends AppCompatActivity {
 
 
         Intent goToReturningFlights = new Intent(this, FlightReturningSelection.class);
-        bundle.putInt("spentBudget", 1000);
+//        bundle.putInt("spentBudget", 1000);
         goToReturningFlights.putExtra("bundle", bundle);
         startActivity(goToReturningFlights);
 
@@ -96,11 +96,12 @@ public class FlightDepartingSelection extends AppCompatActivity {
     }
 
     public void goToHotelSelection(View view) {
-
         Intent intent = getIntent();
         Bundle bundle = intent.getBundleExtra("bundle");
+
+
         Intent goToHotels = new Intent(this, HotelInformation.class);
-        bundle.putInt("spentBudget", 2000);
+        bundle.putInt("spentBudget", bundle.getInt("spentBudget") + bundle.getInt("flightPrice"));
         goToHotels.putExtra("bundle", bundle);
         startActivity(goToHotels);
     }
