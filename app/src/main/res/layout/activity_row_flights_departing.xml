@@ -472,7 +472,6 @@
             android:fontFamily="@font/nunito"
             android:paddingHorizontal="10dp"
             android:text="Visit site"
-            android:onClick="goToSiteLink"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
