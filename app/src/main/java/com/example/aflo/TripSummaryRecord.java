@@ -41,6 +41,9 @@ public class TripSummaryRecord {
     private String ratings;
     private String ratingsCount;
 
+    public TripSummaryRecord() {
+    }
+
     public TripSummaryRecord(int budget, int spentBudget,
                              int fromYear, int fromMonth, int fromDay, int toYear, int toMonth, int toDay,
                              String originCountry, String originState, String originCity, String originCode, String originAirportCode,

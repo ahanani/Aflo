@@ -44,15 +44,15 @@ import okhttp3.OkHttpClient;
 
 public class HotelsFragment extends Fragment implements ItemClickListener {
 
-    ArrayList<String> titles = new ArrayList<>();
-    ArrayList<String> prices = new ArrayList<>();
-    ArrayList<String> ids = new ArrayList<>();
-    ArrayList<Bitmap> imagesOfHotels = new ArrayList<>();
-    ArrayList<String> urlOfHotelsImage = new ArrayList<>();
-    ArrayList<String> ratings = new ArrayList<>();
-    ArrayList<String> ratingsCount = new ArrayList<>();
-    ArrayList<String> amenitiesScreen = new ArrayList<>();
-    ArrayList<String> geoPoint = new ArrayList<>();
+    ArrayList<String> titles;
+    ArrayList<String> prices;
+    ArrayList<String> ids;
+    ArrayList<Bitmap> imagesOfHotels;
+    ArrayList<String> urlOfHotelsImage;
+    ArrayList<String> ratings;
+    ArrayList<String> ratingsCount;
+    ArrayList<String> amenitiesScreen;
+    ArrayList<String> geoPoint;
     RecyclerView recyclerView;
     ViewGroup container;
     LayoutInflater inflater;
@@ -70,6 +70,18 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        titles = new ArrayList<>();
+        prices = new ArrayList<>();
+        ids = new ArrayList<>();
+        imagesOfHotels = new ArrayList<>();
+        urlOfHotelsImage = new ArrayList<>();
+        ratings = new ArrayList<>();
+        ratingsCount = new ArrayList<>();
+        amenitiesScreen = new ArrayList<>();
+        geoPoint = new ArrayList<>();
+
+
         bundle = requireActivity().getIntent().getExtras().getBundle("bundle");
         int toDay = bundle.getInt("toDay");
         int toMonth = bundle.getInt("toMonth");
@@ -157,7 +169,9 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         select.setVisibility(View.VISIBLE);
         select.setOnClickListener(v -> {
             bundle.putString("hotelImage", urlOfHotelsImage.get(position));
-            bundle.putString("hotelPrice", prices.get(position).substring(1));
+//            bundle.putString("hotelPrice", prices.get(position).substring(1));
+            int hotelPrice = Integer.parseInt(prices.get(position).substring(1));
+            bundle.putInt("hotelPrice", hotelPrice);
             bundle.putString("hotelName", titles.get(position));
             bundle.putString("ratings", ratings.get(position));
             int toDay = bundle.getInt("toDay");
@@ -176,7 +190,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                 long timeDiff = Math.abs(from.getTime() - to.getTime());
                 long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
                 bundle.putString("ratingsCount", ratingsCount.get(position));
-                bundle.putInt("spentBudget", (int) (bundle.getInt("spentBudget") + Integer.parseInt(bundle.getString("hotelPrice").substring(1)) * daysDiff));
+                bundle.putInt("spentBudget", bundle.getInt("spentBudget") + (hotelPrice * (int) daysDiff));
                 bundle.putInt("numberDays", (int) daysDiff);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -231,12 +245,14 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                 Response response = client.newCall(request).execute();
                 assert response.body() != null;
                 JSONObject jsonResponse = new JSONObject(response.body().string());
+                Log.d("Hotel Res", jsonResponse.toString());
                 JSONArray array = jsonResponse.getJSONArray("data");
                 for (int i = 0; i < array.length(); i++) {
-                    JSONObject item = (JSONObject) array.get(i);
+                    JSONObject item = (JSONObject) array.getJSONObject(i);
                     String city = bundle.getString("DestinationCity");
                     String state = bundle.getString("DestinationState");
                     String country = bundle.getString("DestinationCountry");
+                    Log.d("Hotel Res 1.5", item.toString());
                     if (item.get("secondaryText").equals(state + ", " + country) ||
                             item.get("secondaryText").equals(city + ", " + state + ", " + country)) {
                         int geoId = item.getInt("geoId");
@@ -252,6 +268,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                         Response response2 = client2.newCall(request2).execute();
                         assert response2.body() != null;
                         JSONObject jsonResponse2 = new JSONObject(response2.body().string());
+                        Log.d("Hotel Res 2", jsonResponse2.toString());
                         JSONObject data = jsonResponse2.getJSONObject("data");
                         JSONArray array2 = data.getJSONArray("data");
                         for (int j = 0; j < 10; j++) {

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TripSummary"
-    android:background="@drawable/background_no_arrow2">
+    android:background="@drawable/background_flight_selection">
 
     <ScrollView
         android:layout_width="match_parent"

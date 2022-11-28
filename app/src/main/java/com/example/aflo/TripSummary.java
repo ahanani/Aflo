@@ -1,5 +1,6 @@
 package com.example.aflo;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +38,7 @@ import app.futured.donut.DonutSection;
 
 public class TripSummary extends AppCompatActivity {
     Bundle bundle;
+    boolean saved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,7 @@ public class TripSummary extends AppCompatActivity {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        String hotelPrice = bundle.getString("hotelPrice");
+        int hotelPrice = bundle.getInt("hotelPrice");
         String hotelName = bundle.getString("hotelName");
         String hotelRating = bundle.getString("ratings");
         String hotelRatingsCount = bundle.getString("ratingsCount");
@@ -137,6 +142,11 @@ public class TripSummary extends AppCompatActivity {
         list.add(section3);
         donut_view.submitData(list);
 
+        saved = false;
+        if ("nosaving".equalsIgnoreCase(getIntent().getStringExtra("mode"))) {
+            findViewById(R.id.save).setVisibility(View.GONE);
+        }
+
     }
 
     public void saveToDB(View view) {
@@ -144,6 +154,8 @@ public class TripSummary extends AppCompatActivity {
         if (user.isAnonymous()) {
             Intent requireAuth = new Intent(this, RequireLogin.class);
             startActivity(requireAuth);
+        } else if (saved) {
+            Toast.makeText(getApplicationContext(), "Already saved!", Toast.LENGTH_SHORT).show();
         } else {
             String uid = user.getUid();
             TripSummaryRecord tripRecord = new TripSummaryRecord(bundle);
@@ -154,7 +166,11 @@ public class TripSummary extends AppCompatActivity {
             DatabaseReference userTrips = myRef.child(uid);
             String id = userTrips.push().getKey();
             assert id != null;
-            userTrips.child(id).setValue(tripRecord);
+            userTrips.child(id).setValue(tripRecord).addOnSuccessListener(unused -> {
+                        Toast.makeText(getApplicationContext(), "Trip Saved!", Toast.LENGTH_LONG).show();
+                        saved = true;
+            }).addOnFailureListener(e ->
+                    Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_SHORT).show());
         }
     }
 
