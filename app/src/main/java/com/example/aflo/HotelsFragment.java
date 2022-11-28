@@ -63,6 +63,8 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     String checkIn;
     String checkOut;
 
+    Locale locale;
+
     ConstraintLayout row;
     boolean open = false;
     ConstraintLayout previouslyOpenRow = null;
@@ -70,6 +72,7 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        locale = new Locale("en", "US");
 
         titles = new ArrayList<>();
         prices = new ArrayList<>();
@@ -89,8 +92,12 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
         int fromDay = bundle.getInt("fromDay");
         int fromMonth = bundle.getInt("fromMonth");
         int fromYear = bundle.getInt("fromYear");
-        checkIn = fromYear + "-" + fromMonth + "-" + fromDay;
-        checkOut = toYear + "-" + toMonth + "-" + toDay;
+
+        String dateFmt = "%04d-%02d-%02d";
+        checkIn = String.format(locale, dateFmt, fromYear, fromMonth, fromDay);
+//        checkIn = fromYear + "-" + fromMonth + "-" + fromDay;
+//        checkOut = toYear + "-" + toMonth + "-" + toDay;
+        checkOut = String.format(locale, dateFmt, toYear, toMonth, toDay);
         String city = bundle.getString("DestinationCity");
         AsyncTaskRunner runner = new AsyncTaskRunner();
         String urlForLocations = "https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=";
