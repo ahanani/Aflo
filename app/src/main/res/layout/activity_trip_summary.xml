@@ -45,7 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginVertical="30dp">
+                    android:layout_marginTop="30dp">
                     <app.futured.donut.DonutProgressView
                         android:id="@+id/donut_view"
                         android:layout_width="279dp"
@@ -59,10 +59,11 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.432" />
+
                     <TextView
                         android:id="@+id/total"
-                        android:layout_width="162dp"
-                        android:layout_height="130dp"
+                        android:layout_width="169dp"
+                        android:layout_height="83dp"
                         android:fontFamily="@font/nunito_bold"
                         android:text="Total Spent 2410$"
                         android:textAlignment="center"
@@ -70,12 +71,33 @@
                         android:textSize="30sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.497"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintVertical_bias="0.474" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/legend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
+                    android:layout_marginStart="30dp"
+                    android:text=" Flight"
+                    android:drawableLeft="@drawable/ic_baseline_circle_24"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp"/>
+
+                <TextView
+                    android:id="@+id/legend2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/nunito_bold"
+                    android:layout_marginStart="30dp"
+                    android:text=" Hotel"
+                    android:drawableLeft="@drawable/ic_baseline_circle_242"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp"
+                    android:layout_marginBottom="10dp"/>
 
                 <TextView
                     android:id="@+id/title1"
