@@ -16,7 +16,7 @@ public class TripComplete extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trip_complete);
 
-        bundle = getIntent().getExtras();
+        bundle = getIntent().getBundleExtra("bundle");
 
         Button returnToFlightSelection = findViewById(R.id.button4);
         returnToFlightSelection.setOnClickListener(this::toFlight);
@@ -27,20 +27,22 @@ public class TripComplete extends AppCompatActivity {
         Button finalize = findViewById(R.id.button8);
         finalize.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), TripSummary.class);
-            intent.putExtras(bundle);
+            intent.putExtra("bundle", bundle);
             startActivity(intent);
         });
     }
 
     public void toFlight(View view){
         Intent intent = new Intent(this, FlightTypeSelection.class);
-        intent.putExtras(bundle);
+        bundle.putInt("spentBudget", bundle.getInt("spentBudget") - bundle.getInt("flightPrice"));
+        intent.putExtra("bundle", bundle);
         startActivity(intent);
     }
 
     public void toHotel(View view){
         Intent intent = new Intent(this, HotelInformation.class);
-        intent.putExtras(bundle);
+        bundle.putInt("spentBudget", bundle.getInt("spentBudget") - bundle.getInt("hotelPrice") * bundle.getInt("numberDays"));
+        intent.putExtra("bundle", bundle);
         startActivity(intent);
     }
 

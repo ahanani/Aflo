@@ -1,5 +1,6 @@
 package com.example.aflo;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,8 +19,8 @@ public class BudgetProgress extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onStart() {
+        super.onStart();
 
         Bundle bundle = requireActivity().getIntent().getBundleExtra("bundle");
 
@@ -39,7 +40,14 @@ public class BudgetProgress extends Fragment {
         progressBar.setMax(totalBudget);
         progressBar.setProgress(spentBudget, true);
 
-        remainingBudgetView.setText("$" + (totalBudget - spentBudget) + " remaining");
+        String message;
+        if (spentBudget > totalBudget) {
+            message = "$" + (spentBudget- totalBudget) + " over budget";
+        } else {
+            message = "$" + (totalBudget - spentBudget) + " remaining";
+        }
+
+        remainingBudgetView.setText(message);
         Log.d("BudgetBar", "Updated spentBudget to " + spentBudget);
     }
 }
