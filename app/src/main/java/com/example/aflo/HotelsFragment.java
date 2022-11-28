@@ -255,13 +255,13 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                 Log.d("Hotel Res", jsonResponse.toString());
                 JSONArray array = jsonResponse.getJSONArray("data");
                 for (int i = 0; i < array.length(); i++) {
-                    JSONObject item = (JSONObject) array.getJSONObject(i);
+                    JSONObject item = array.getJSONObject(i);
                     String city = bundle.getString("DestinationCity");
                     String state = bundle.getString("DestinationState");
                     String country = bundle.getString("DestinationCountry");
                     Log.d("Hotel Res 1.5", item.toString());
-                    if (item.get("secondaryText").equals(state + ", " + country) ||
-                            item.get("secondaryText").equals(city + ", " + state + ", " + country)) {
+                    if (item.getString("secondaryText").contains(state + ", " + country) ||
+                            item.getString("secondaryText").contains(city + ", " + state + ", " + country)) {
                         int geoId = item.getInt("geoId");
                         OkHttpClient client2 = new OkHttpClient();
                         Request request2 = new Request.Builder()
