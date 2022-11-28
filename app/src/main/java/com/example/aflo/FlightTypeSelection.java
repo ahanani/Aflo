@@ -84,7 +84,10 @@ public class FlightTypeSelection extends AppCompatActivity {
     }
 
 
-
+    public void home(View view){
+        Intent intent = new Intent(this, MainMenu.class);
+        startActivity(intent);
+    }
 
 
 

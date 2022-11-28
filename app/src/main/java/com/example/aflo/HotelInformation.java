@@ -39,7 +39,7 @@ public class HotelInformation extends AppCompatActivity {
             long daysDiff = TimeUnit.DAYS.convert(timeDiff, TimeUnit.MILLISECONDS);
 
             TextView title = findViewById(R.id.textView);
-            String titleText = "Select Your Hotel(" + daysDiff + " Nights)";
+            String titleText = "Select Your Hotel (" + daysDiff + " Nights)";
             title.setText(titleText);
             hotelsFragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
