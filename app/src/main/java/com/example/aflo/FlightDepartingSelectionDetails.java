@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -275,6 +276,11 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
+            if (jsonObject == null) {
+                Toast.makeText(requireActivity().getApplicationContext(), "An error occured. Try again later", Toast.LENGTH_LONG).show();
+                return;
+            }
+
             try {
                 String url = jsonObject.getString("url");
                 String apikey = jsonObject.getString("apikey");
@@ -364,6 +370,11 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
+            if (jsonObject == null) {
+                Toast.makeText(requireActivity().getApplicationContext(), "An error occured. Try again later", Toast.LENGTH_LONG).show();
+                return;
+            }
+
             try {
                 JSONArray itineraries = jsonObject.getJSONArray("Itineraries");
                 int itinerariesLength = itineraries.length();
@@ -445,6 +456,11 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
+            if (jsonObject == null) {
+                Toast.makeText(requireActivity().getApplicationContext(), "An error occured. Try again later", Toast.LENGTH_LONG).show();
+                return;
+            }
+
             try {
                 HashMap<String, String> req = new HashMap<>();
                 req.put("url", jsonObject.getString("url"));
@@ -485,6 +501,11 @@ public class FlightDepartingSelectionDetails extends Fragment implements ItemCli
 
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
+            if (jsonObject == null) {
+                Toast.makeText(requireActivity().getApplicationContext(), "An error occured. Try again later", Toast.LENGTH_LONG).show();
+                return;
+            }
+
             try {
                 HashMap<String, HashMap<String, String>> places =
                         parseCodeArray(jsonObject.getJSONArray("Places"));
