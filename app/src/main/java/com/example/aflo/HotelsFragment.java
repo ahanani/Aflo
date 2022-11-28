@@ -278,8 +278,14 @@ public class HotelsFragment extends Fragment implements ItemClickListener {
                         Log.d("Hotel Res 2", jsonResponse2.toString());
                         JSONObject data = jsonResponse2.getJSONObject("data");
                         JSONArray array2 = data.getJSONArray("data");
-                        for (int j = 0; j < 10; j++) {
+
+                        int limit = 10;
+                        for (int j = 0; j < array2.length() && limit > 0; j++) {
                             JSONObject hotels = (JSONObject) array2.get(j);
+                            if (hotels.getString("priceForDisplay").equals("null")) {
+                                continue;
+                            }
+                            limit--;
                             ids.add(hotels.getString("id"));
                             String title = hotels.getString("title");
                             if (title.charAt(0) == '1' | title.charAt(0) == '2' |
